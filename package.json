@@ -1,0 +1,34 @@
+{
+  "name": "fastify-discord-bot-demo",
+  "version": "1.0.0",
+  "description": "A Discord BOT built with Fastify!",
+  "main": "lib/bot.js",
+  "scripts": {
+    "start": "fastify start lib/bot.js",
+    "start:dev": "fastify start -w lib/bot.js",
+    "lint:fix": "standard --fix",
+    "test": "standard && tap test/**/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Eomm/fastify-discord-bot-demo.git"
+  },
+  "keywords": [],
+  "author": "Manuel Spigolon <behemoth89@gmail.com> (https://github.com/Eomm)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Eomm/fastify-discord-bot-demo/issues"
+  },
+  "homepage": "https://github.com/Eomm/fastify-discord-bot-demo#readme",
+  "dependencies": {
+    "fastify": "^3.2.0",
+    "fastify-cli": "^2.1.0",
+    "fastify-env": "^2.0.1",
+    "fastify-helmet": "^5.0.0",
+    "fastify-oauth2": "^4.0.0"
+  },
+  "devDependencies": {
+    "standard": "^14.3.4",
+    "tap": "^14.10.8"
+  }
+}
