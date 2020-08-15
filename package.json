@@ -1,11 +1,11 @@
 {
   "name": "fastify-discord-bot-demo",
   "version": "1.0.0",
-  "description": "A Discord BOT built with Fastify!",
-  "main": "lib/bot.js",
+  "description": "A Discord APP built with Fastify!",
+  "main": "lib/app.js",
   "scripts": {
-    "start": "fastify start lib/bot.js",
-    "start:dev": "fastify start -w lib/bot.js",
+    "start": "fastify start lib/app.js",
+    "start:dev": "fastify start -w lib/app.js",
     "lint:fix": "standard --fix",
     "test": "standard && tap test/**/*.test.js"
   },
@@ -25,7 +25,8 @@
     "fastify-cli": "^2.1.0",
     "fastify-env": "^2.0.1",
     "fastify-helmet": "^5.0.0",
-    "fastify-oauth2": "^4.0.0"
+    "fastify-oauth2": "^4.0.0",
+    "fastify-static": "^3.2.0"
   },
   "devDependencies": {
     "standard": "^14.3.4",

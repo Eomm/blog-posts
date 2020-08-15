@@ -1,2 +1,2 @@
 # fastify-discord-bot-demo
-A Discord BOT built with Fastify!
+A Discord APP built with Fastify!
