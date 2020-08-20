@@ -1,7 +1,7 @@
 # fastify-discord-app-demo
 
-A Discord APP built with Fastify!
-This simple demo application will teach you in just few minutes how to:
+Find out how to build a Discord APP with Fastify!
+This simple demo application will show you in just few minutes how to:
 
 - login with Discord using OAUTH2 code flow
 - secure the web application
@@ -9,9 +9,8 @@ This simple demo application will teach you in just few minutes how to:
 - test the web application
 - deploy the web application to Heroku
 
-all this using [Fastify v3]()!
+all this using [Fastify v3](https://fastify.io/)!
 
-The source code is at your disposal on [GitHub]()
 
 ## Plugins
 
@@ -19,13 +18,13 @@ Fastify has great plugins that let you do more, with less.
 
 We will use:
 
-- [fastify](): we need a great web framework!
-- [fastify-cli](): to manage the startup of the server, to avoid annoing boilerplate code
-- [fastify-env](): to load the configuration
-- [fastify-helmet](): to protect our users from malicous ones
-- [fastify-oauth2](): to manage the OAUTH2 flow
-- [fastify-static](): to serve some static HTML file (just one, but this is a demo, right?)
-- [point-of-view](): to serve some server-side-render (SSR) pages
+- [fastify](https://github.com/fastify/fastify): we need a great web framework!
+- [fastify-cli](https://github.com/fastify/fastify-cli): to manage the startup of the server, to avoid annoing boilerplate code
+- [fastify-env](https://github.com/fastify/fastify-env): to load the configuration
+- [fastify-helmet](https://github.com/fastify/fastify-helmet): to protect our users from malicous ones
+- [fastify-oauth2](https://github.com/fastify/fastify-oauth2): to manage the OAUTH2 flow
+- [fastify-static](https://github.com/fastify/fastify-static): to serve some static HTML file (just one, but this is a demo, right?)
+- [point-of-view](https://github.com/fastify/point-of-view): to serve some server-side-render (SSR) pages
 
 a loooot of things that will let you get a wide overview of the power of fastify!
 
@@ -37,9 +36,12 @@ The target is quite simple: show to a user its Discord profile, so the needed pa
 - one page to show the profile
 - one error page (because it happens 😔)
 
+The source code of this project is at your disposal on [GitHub](https://github.com/Eomm/fastify-discord-bot-demo).
+
 ### Project setup
 
-Thanks to the awesome [Fastify plugin system]() it is necessary to create a simple file like this:
+Thanks to the awesome [Fastify plugin system](https://www.fastify.io/docs/latest/Getting-Started/#your-first-plugin)
+it is necessary to create a simple file like this:
 
 ```js
 // app.js
@@ -51,7 +53,8 @@ module.exports = function app (fastify, opts, next) {
 }
 ```
 
-and then run it with the [`fastify-cli`](): `fastify start app.js` and DONE! The server is online!
+and then run it with the [`fastify-cli`](https://github.com/fastify/fastify-cli): `fastify start app.js`
+and DONE! The server is online!
 
 ### Homepage
 
@@ -250,7 +253,7 @@ module.exports = function app (fastify, opts, next) {
 
 Thanks to Fastify, tests are easy to implement!
 
-Here an example with [`tap`]()
+Here an example with [`tap`](https://github.com/tapjs/node-tap)
 
 ```js
 const t = require('tap')
@@ -302,3 +305,16 @@ Now it is necessary to add the new callback URI `https://fastify-discord-app-dem
 to the Discord OAUTH2 settings.
 
 
+Congrats, the application is online [fastify-discord-app-demo.herokuapp.com](https://fastify-discord-app-demo.herokuapp.com/)!!
+
+## End
+
+In next posts we will:
+
++ store the token in cookies
++ add a CI/CD pipeline
++ more tests - they are never enough
++ and will add other features to this demo discord application with Fastify!
+
+Write comments below or open an issue on GitHub for any questions or feedback!
+Thank you!
