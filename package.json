@@ -4,7 +4,7 @@
   "description": "A Discord APP built with Fastify!",
   "main": "lib/app.js",
   "scripts": {
-    "start": "fastify start lib/app.js",
+    "start": "fastify start -a 0.0.0.0 lib/app.js",
     "start:dev": "fastify start -w lib/app.js",
     "lint:fix": "standard --fix",
     "test": "standard && tap test/**/*.test.js"

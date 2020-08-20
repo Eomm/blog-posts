@@ -273,13 +273,27 @@ t.test('the application starts', async t => {
 
 The application is done so the last step it is to deploy it to Heroku!
 
-So you need to create the app in the [heroku dashboard](https://dashboard.heroku.com/apps).
+To do it, the `package.json` must add a `start` scritp like this:
+
+```
+"start": "fastify start -a 0.0.0.0 app.js",
+```
+
+In order to start correctly the server on the heroku platform.
+
+Now you need to create the app in the [heroku dashboard](https://dashboard.heroku.com/apps).
 Following the instruction to connect this instance to your repository will be very easy!
 
 ```bash
 heroku login
 # add a new remote to my repository
 heroku git:remote -a fastify-discord-app-demo
+# check the remote addition
+git remote -v
+# push your master
+git push heroku master
+# in case your branch is not master:
+git push heroku local-branch:master
 ```
 
 Remember to configure the ENV vars in the settings tab.
