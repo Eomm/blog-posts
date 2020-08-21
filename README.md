@@ -30,18 +30,18 @@ a loooot of things that will let you get a wide overview of the power of fastify
 
 ## The Application
 
-The target is quite simple: show to a user its Discord profile, so the needed pages are:
+The goal is quite simple: show the Discord profile of a user. The required pages are:
 
-- one home page to login
-- one page to show the profile
-- one error page (because it happens 😔)
+- a root page to perform login
+- a page to show the profile
+- an error page (because it happens 😔)
 
 The source code of this project is at your disposal on [GitHub](https://github.com/Eomm/fastify-discord-bot-demo).
 
 ### Project setup
 
 Thanks to the awesome [Fastify plugin system](https://www.fastify.io/docs/latest/Getting-Started/#your-first-plugin)
-it is necessary to create a simple file like this:
+all you need to do is create a simple file like this:
 
 ```js
 // app.js
@@ -53,12 +53,12 @@ module.exports = function app (fastify, opts, next) {
 }
 ```
 
-and then run it with the [`fastify-cli`](https://github.com/fastify/fastify-cli): `fastify start app.js`
-and DONE! The server is online!
+then run it with the [`fastify-cli`](https://github.com/fastify/fastify-cli): `fastify start app.js`
+and you're DONE! The server is online!
 
 ### Homepage
 
-Now, let's assume a great designer has created a stunning `homepage.html` to serve:
+Now, let's assume a great designer creates a stunning `homepage.html` for us:
 
 ```js
 // app.js
@@ -70,12 +70,12 @@ module.exports = function app (fastify, opts, next) {
     serve: false // we don't want to expose only the static file because we do it ourself!
   })
 
-  // everytime the user load the site root, the homepage will be sent!
+  // everytime the user loads the site root, the homepage will be sent
   fastify.get('/', function serveHtml (request, reply) {
     reply.sendFile('homepage.html')
   })
 
-  // and if the user type a wrong URL, the homepage will be loaded in any case
+  // and if the user types a wrong URL, the homepage will be loaded as a fallback
   fastify.setNotFoundHandler(function letsGoToHomepage (request, reply) {
     reply.redirect('/')
   })
@@ -87,7 +87,7 @@ Now the homepage is online!
 
 ### Login
 
-In the homepage there is the "Login with Discord" button but how manage the authentication?
+In the homepage there is the "Login with Discord" button, but how can we manage the authentication?
 
 First of all it is necessary to create a [Discord Application](https://discord.com/developers/applications)
 to get the credentials: `CLIENT_ID` and `CLIENT_SECRET`.
@@ -130,7 +130,7 @@ DISCORD_SECRET=ABC123ABC
 > Note: the `BASE_URL` parameter will be useful to deply to Heroku
 
 Now, to keep all our logic in order, we can create a new file to manage this flow.. 
-and export always the same interface of the plugin system.
+and always export the same interface of the plugin system.
 
 ```js
 // auth.js
@@ -174,7 +174,7 @@ All should work and the output of the login is a ugly JSON response!
 
 ### SSR
 
-Now let's proceed adding a bit of server side rendering using the `handlerbars` engine.
+Now let's proceed by adding a bit of server side rendering using the `handlerbars` engine.
 
 We need to configure it first:
 
@@ -197,7 +197,7 @@ module.exports = function bot (fastify, opts, next) {
 
 Too easy!
 
-The great desiner built another page to show the user profile:
+Now, the designer draws another page to show the user profile:
 
 ```js
 // auth.js
@@ -222,10 +222,9 @@ module.exports = function auth (fastify, opts, next) {
 
 ### Security
 
-Right now this application doesn't have many security concern because there is not any information
-stored nor cookies information: the token is read, used and deleted.
+Right now this application doesn't have many security concerns, since there is no information or cookie being stored: the token is read, used and deleted.
 
-But how we could add security to the web pages?
+But how can we add security to the web pages?
 
 ```js
 // app.js
@@ -253,7 +252,7 @@ module.exports = function app (fastify, opts, next) {
 
 Thanks to Fastify, tests are easy to implement!
 
-Here an example with [`tap`](https://github.com/tapjs/node-tap)
+Here's an example with [`tap`](https://github.com/tapjs/node-tap)
 
 ```js
 const t = require('tap')
@@ -266,7 +265,7 @@ t.test('the application starts', async t => {
   const server = Fastify()
   server.register(app) // it is necessary to register the app entrypoint
 
-  // then with .inject it is possible to execute HTTP request to the server without starting it!
+  // then with .inject it is possible to execute HTTP requests to the server without starting it!
   const res = await server.inject('/')
   t.equal(res.payload, fs.readFileSync('./pages/homepage.html', 'utf8'))
 })
@@ -274,15 +273,15 @@ t.test('the application starts', async t => {
 
 ### Deploy
 
-The application is done so the last step it is to deploy it to Heroku!
+The application is done. The last step is to deploy it to Heroku!
 
-To do it, the `package.json` must add a `start` scritp like this:
+To do it, the `package.json` must add a `start` script like this:
 
 ```
 "start": "fastify start -a 0.0.0.0 app.js",
 ```
 
-In order to start correctly the server on the heroku platform.
+in order to start correctly the server on the heroku platform.
 
 Now you need to create the app in the [heroku dashboard](https://dashboard.heroku.com/apps).
 Following the instruction to connect this instance to your repository will be very easy!
@@ -314,7 +313,7 @@ In next posts we will:
 + store the token in cookies
 + add a CI/CD pipeline
 + more tests - they are never enough
-+ and will add other features to this demo discord application with Fastify!
++ add other features to this demo discord application with Fastify!
 
 Write comments below or open an issue on GitHub for any questions or feedback!
 Thank you!
