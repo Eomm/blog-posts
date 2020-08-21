@@ -317,3 +317,7 @@ In next posts we will:
 
 Write comments below or open an issue on GitHub for any questions or feedback!
 Thank you!
+
+## Acknowledgements
+
+Thank you very much to [@ezamagni](https://github.com/ezamagni) for a great feedback!
