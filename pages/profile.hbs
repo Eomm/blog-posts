@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+  <script src="https://kit.fontawesome.com/e349d2433a.js" crossorigin="anonymous"></script>
+  <style>
+    body {
+      margin: 2% auto;
+      background-color: #ededed;
+    }
+  </style>
+  <title>You are..{{username}}</title>
+</head>
+
+<body>
+
+  <div class="card mx-auto" style="max-width: 540px;">
+    <div class="float-left">
+      <img src="https://cdn.discordapp.com/avatars/{{id}}/{{avatar}}.png" class="rounded" alt="profile picture"
+        style="max-width: 140px;">
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Hi {{username}}!</h5>
+      <p class="card-text">
+      <pre><code>{{{json this}}}</code></pre>
+      </p>
+      <div class="text-center">
+        <a href="/" class="btn btn-secondary btn-lg" role="button">Homepage</a>
+      </div>
+    </div>
+    <div class="card-footer text-muted text-center">
+      Demo <a href="https://github.com/Eomm/fastify-discord-bot-demo" target="_blank">repository</a>
+    </div>
+  </div>
+
+</body>
+
+</html>
