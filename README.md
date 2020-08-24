@@ -1,7 +1,6 @@
 # fastify-discord-app-demo
 
-Find out how to build a Discord APP with Fastify!
-This simple demo application will show you in just few minutes how to:
+This simple demo application will show you in just a few minutes how to manage:
 
 - login with Discord using OAUTH2 code flow
 - secure the web application
@@ -21,7 +20,7 @@ We will use:
 - [fastify](https://github.com/fastify/fastify): we need a great web framework!
 - [fastify-cli](https://github.com/fastify/fastify-cli): to manage the startup of the server, to avoid annoing boilerplate code
 - [fastify-env](https://github.com/fastify/fastify-env): to load the configuration
-- [fastify-helmet](https://github.com/fastify/fastify-helmet): to protect our users from malicous ones
+- [fastify-helmet](https://github.com/fastify/fastify-helmet): to protect our users from malicious ones
 - [fastify-oauth2](https://github.com/fastify/fastify-oauth2): to manage the OAUTH2 flow
 - [fastify-static](https://github.com/fastify/fastify-static): to serve some static HTML file (just one, but this is a demo, right?)
 - [point-of-view](https://github.com/fastify/point-of-view): to serve some server-side-render (SSR) pages
@@ -30,7 +29,7 @@ a loooot of things that will let you get a wide overview of the power of fastify
 
 ## The Application
 
-The goal is quite simple: show the Discord profile of a user. The required pages are:
+The target is quite simple: to show to a user its Discord profile. The required pages are:
 
 - a root page to perform login
 - a page to show the profile
@@ -92,7 +91,7 @@ In the homepage there is the "Login with Discord" button, but how can we manage 
 First of all it is necessary to create a [Discord Application](https://discord.com/developers/applications)
 to get the credentials: `CLIENT_ID` and `CLIENT_SECRET`.
 You will need to register the valid callback URI like `http://localhost:3000/auth/discord/callback`,
-otherwise Discord will refuse to call back your application during the login of the user.
+otherwise Discord will refuse to call back your application during the user login.
 
 To load the configuration it is necessary to:
 
@@ -127,7 +126,7 @@ DISCORD_CLIENT_ID=1234567890
 DISCORD_SECRET=ABC123ABC
 ```
 
-> Note: the `BASE_URL` parameter will be useful to deply to Heroku
+> Note: the `BASE_URL` parameter will be useful to deploy to Heroku
 
 Now, to keep all our logic in order, we can create a new file to manage this flow.. 
 and always export the same interface of the plugin system.
@@ -170,7 +169,7 @@ module.exports = function auth (fastify, opts, next) {
 It is possible to try out the login and since I'm lazy I can run `fastify start -w app.js`
 That `-w` flag will reload the project whenever I save a file in the project itself!
 
-All should work and the output of the login is a ugly JSON response!
+Everything should work and the output of the login is an ugly JSON response!
 
 ### SSR
 
@@ -224,7 +223,7 @@ module.exports = function auth (fastify, opts, next) {
 
 Right now this application doesn't have many security concerns, since there is no information or cookie being stored: the token is read, used and deleted.
 
-But how can we add security to the web pages?
+But how could we add security to the web pages?
 
 ```js
 // app.js
@@ -275,7 +274,7 @@ t.test('the application starts', async t => {
 
 The application is done. The last step is to deploy it to Heroku!
 
-To do it, the `package.json` must add a `start` script like this:
+To do it, we have to add a `start` script like this in the `package.json`:
 
 ```
 "start": "fastify start -a 0.0.0.0 app.js",
@@ -308,7 +307,7 @@ Congrats, the application is online [fastify-discord-app-demo.herokuapp.com](htt
 
 ## End
 
-In next posts we will:
+In the next posts we will:
 
 + store the token in cookies
 + add a CI/CD pipeline
@@ -320,4 +319,4 @@ Thank you!
 
 ## Acknowledgements
 
-Thank you very much to [@ezamagni](https://github.com/ezamagni) for a great feedback!
+Thank you very much to [@ezamagni](https://github.com/ezamagni) for the great feedback!
