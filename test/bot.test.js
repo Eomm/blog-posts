@@ -1,12 +1,12 @@
 'use strict'
 
-const fs = require('fs')
-const t = require('tap')
-const nock = require('nock')
-const Fastify = require('fastify')
-const oauth2 = require('fastify-oauth2')
+import fs from 'fs'
+import t from 'tap'
+import nock from 'nock'
+import Fastify from 'fastify'
+import oauth2 from 'fastify-oauth2'
 
-const app = require('../lib/app')
+import app from '../lib/app.js'
 
 const fakeToken = {
   token: {
