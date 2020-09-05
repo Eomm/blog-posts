@@ -24,3 +24,36 @@ import authRoutes from './auth.js'
 - remove `'use strict'` since it is the default behaviour with ESM
 - update the `module.exports` to `export default function app (fastify, opts, next) {..`
 - fix the start script since `fastify-cli` doesn't support the ESM loading right now
+
+## CI/CD
+
+Adding CI/CD to the project is quite simple thanks to [GitHub Actions](https://github.com/features/actions).
+
+### Continuous Integration
+
+We want to run the tests automatically whenever there is a Pull Request, so the actions to take are:
+
+```yml
+#...
+    steps:
+      # checkout the project
+      - uses: actions/checkout@v2
+
+      # install nodejs on the Virtual Machine
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # install the project
+      - name: Install
+        run: npm install --ignore-scripts
+
+      # run the test on the project itself
+      - name: Run tests
+        run: npm test
+```
+
+### Continuous Delivery
+
+TODO
