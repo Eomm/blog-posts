@@ -112,11 +112,14 @@ In the next posts we will:
 
 + add new features to the application:
   + store the token in cookies
-  + some `/api` endpoints
+  + add some `/api` endpoints
 
 
 ## Side effects
 
 To write this article:
-- I created an issue to `fastify-cli` to support ESM - TODO
-- I added to the GitHub Action `gh-action-bump-version` the feature to support new strings [#36](https://github.com/phips28/gh-action-bump-version/pull/36) and to skip the tagging [#37](https://github.com/phips28/gh-action-bump-version/pull/37)
+- I created an [issue](https://github.com/fastify/fastify-cli/issues/267) to `fastify-cli` to support ESM
+- I added to the `gh-action-bump-version` GitHub Action:
+  - support new pattern matching strings [#36](https://github.com/phips28/gh-action-bump-version/pull/36) 
+  - skip the tagging phase [#37](https://github.com/phips28/gh-action-bump-version/pull/37)
+- I fixed a VSCode icon pack extension [#178](https://github.com/EmmanuelBeziat/vscode-great-icons/pull/178)
