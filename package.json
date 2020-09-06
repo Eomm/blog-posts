@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "description": "A Discord APP built with Fastify!",
   "main": "lib/app.js",
+  "type": "module",
   "scripts": {
-    "start": "fastify start -a 0.0.0.0 lib/app.js",
-    "start:dev": "fastify start -w lib/app.js",
+    "start": "node lib/start.mjs",
+    "start:dev": "nodemon lib/start.mjs",
     "lint:fix": "standard --fix",
-    "test": "standard && tap test/**/*.test.js"
+    "test": "standard && tap test/**/*.test.mjs"
   },
   "repository": {
     "type": "git",
@@ -21,18 +22,18 @@
   },
   "homepage": "https://github.com/Eomm/fastify-discord-bot-demo#readme",
   "dependencies": {
-    "fastify": "^3.2.1",
-    "fastify-cli": "^2.2.0",
+    "fastify": "^3.3.0",
     "fastify-env": "^2.0.1",
-    "fastify-helmet": "^5.0.0",
-    "fastify-oauth2": "^4.1.0",
+    "fastify-helmet": "^5.0.1",
+    "fastify-oauth2": "^4.2.0",
     "fastify-static": "^3.2.0",
-    "got": "^11.5.2",
+    "got": "^11.6.0",
     "handlebars": "^4.7.6",
-    "point-of-view": "^4.3.0"
+    "point-of-view": "^4.5.0"
   },
   "devDependencies": {
     "nock": "^13.0.4",
+    "nodemon": "^2.0.4",
     "standard": "^14.3.4",
     "tap": "^14.10.8"
   }

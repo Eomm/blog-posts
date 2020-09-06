@@ -1,12 +1,12 @@
 'use strict'
 
-const fs = require('fs')
-const t = require('tap')
-const nock = require('nock')
-const Fastify = require('fastify')
-const oauth2 = require('fastify-oauth2')
+import fs from 'fs'
+import t from 'tap'
+import nock from 'nock'
+import Fastify from 'fastify'
+import oauth2 from 'fastify-oauth2'
 
-const app = require('../lib/app')
+import app from '../lib/app.mjs'
 
 const fakeToken = {
   token: {
@@ -19,6 +19,13 @@ const fakeToken = {
 }
 
 t.beforeEach(function (done, childTest) {
+  process.env = {
+    NODE_ENV: 'development',
+    BASE_URL: 'http://localhost:3000',
+    DISCORD_CLIENT_ID: '12345678',
+    DISCORD_SECRET: 'XXXXXXXXXXXXXXXXX'
+  }
+
   const server = Fastify()
   server.register(app)
   childTest.context.server = server
@@ -32,7 +39,12 @@ t.test('the application starts', async t => {
 
 t.test('the application load the homepage', async t => {
   const res = await t.context.server.inject('/')
-  t.equal(res.payload, fs.readFileSync('./pages/homepage.html', 'utf8'))
+  t.equal(res.payload.substr(0, 500), fs.readFileSync('./pages/homepage.hbs', 'utf8').substr(0, 500))
+})
+
+t.test('the application has an health check', async t => {
+  const res = await t.context.server.inject('/health')
+  t.equal(res.statusCode, 200)
 })
 
 t.test('the application redirect when 404', async t => {
