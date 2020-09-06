@@ -19,6 +19,13 @@ const fakeToken = {
 }
 
 t.beforeEach(function (done, childTest) {
+  process.env = {
+    NODE_ENV: 'development',
+    BASE_URL: 'http://localhost:3000',
+    DISCORD_CLIENT_ID: '12345678',
+    DISCORD_SECRET: 'XXXXXXXXXXXXXXXXX'
+  }
+
   const server = Fastify()
   server.register(app)
   childTest.context.server = server
