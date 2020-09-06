@@ -32,7 +32,12 @@ t.test('the application starts', async t => {
 
 t.test('the application load the homepage', async t => {
   const res = await t.context.server.inject('/')
-  t.equal(res.payload, fs.readFileSync('./pages/homepage.html', 'utf8'))
+  t.equal(res.payload.substr(0, 500), fs.readFileSync('./pages/homepage.hbs', 'utf8').substr(0, 500))
+})
+
+t.test('the application has an health check', async t => {
+  const res = await t.context.server.inject('/health')
+  t.equal(res.statusCode, 200)
 })
 
 t.test('the application redirect when 404', async t => {

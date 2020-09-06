@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node lib/start.js",
-    "start:dev": "fastify start -w lib/app.js",
+    "start:dev": "nodemon lib/start.js",
     "lint:fix": "standard --fix",
     "test": "standard && tap --no-esm test/**/*.test.js"
   },
@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "nock": "^13.0.4",
+    "nodemon": "^2.0.4",
     "standard": "^14.3.4",
     "tap": "^14.10.8"
   }
