@@ -108,7 +108,7 @@ Check out [the source code](https://github.com/Eomm/fastify-discord-bot-demo/tre
 
 ## End
 
-In the next posts we will:
+In the next post we will:
 
 + add new features to the application:
   + store the token in cookies
