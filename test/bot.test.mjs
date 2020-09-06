@@ -6,7 +6,7 @@ import nock from 'nock'
 import Fastify from 'fastify'
 import oauth2 from 'fastify-oauth2'
 
-import app from '../lib/app.js'
+import app from '../lib/app.mjs'
 
 const fakeToken = {
   token: {

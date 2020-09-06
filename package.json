@@ -5,10 +5,10 @@
   "main": "lib/app.js",
   "type": "module",
   "scripts": {
-    "start": "node lib/start.js",
-    "start:dev": "nodemon lib/start.js",
+    "start": "node lib/start.mjs",
+    "start:dev": "nodemon lib/start.mjs",
     "lint:fix": "standard --fix",
-    "test": "standard && tap test/**/*.test.js"
+    "test": "standard && tap test/**/*.test.mjs"
   },
   "repository": {
     "type": "git",

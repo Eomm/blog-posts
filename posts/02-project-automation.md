@@ -11,7 +11,8 @@ So to update this project to the ESM module there are many possibilities, descri
 
 I will follow the one that makes sense to me to a project written in CJS as first the implementation:
 
-- add `"type": "module"` in the `package.json`: this will force Node.js to load every `.js` file as `.mjs`
+- add `"type": "module"` in the `package.json`
+- rename the `js` files to the `mjs` extension
 - fix the `__dirname` usage since it is not supported in ESM
 - remove all the `require` in favour of `import`
 
