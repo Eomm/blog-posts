@@ -8,6 +8,8 @@
     "start": "node lib/start.mjs",
     "start:dev": "nodemon lib/start.mjs",
     "lint:fix": "standard --fix",
+    "local:mongo": "docker run -d -p 27017:27017 --rm --name mongoLocal mongo:4.2",
+    "local:mongo:stop": "docker container stop mongoLocal",
     "test": "standard && tap test/**/*.test.mjs"
   },
   "repository": {
@@ -25,6 +27,7 @@
     "fastify": "^3.3.0",
     "fastify-env": "^2.0.1",
     "fastify-helmet": "^5.0.1",
+    "fastify-mongodb": "^2.0.1",
     "fastify-oauth2": "^4.2.0",
     "fastify-static": "^3.2.0",
     "got": "^11.6.0",
