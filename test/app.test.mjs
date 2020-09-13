@@ -1,14 +1,12 @@
-'use strict'
 
 import fs from 'fs'
 import t from 'tap'
 import nock from 'nock'
-import Fastify from 'fastify'
 import oauth2 from 'fastify-oauth2'
 
-import app from '../lib/app.mjs'
+import appFactory from '../lib/app.mjs'
 
-const fakeToken = {
+const fakeTokenResponse = {
   token: {
     access_token: '111111111111111111111111111111',
     expires_in: 604800,
@@ -19,15 +17,16 @@ const fakeToken = {
 }
 
 t.beforeEach(function (done, childTest) {
-  process.env = {
-    NODE_ENV: 'development',
+  // TODO move this config
+  const config = {
+    NODE_ENV: 'test',
     BASE_URL: 'http://localhost:3000',
     DISCORD_CLIENT_ID: '12345678',
-    DISCORD_SECRET: 'XXXXXXXXXXXXXXXXX'
+    DISCORD_SECRET: 'XXXXXXXXXXXXXXXXX',
+    DB_URI: 'mongodb://localhost:27017/'
   }
 
-  const server = Fastify()
-  server.register(app)
+  const server = appFactory(config)
   childTest.context.server = server
   childTest.teardown(() => { server.close() })
   done()
@@ -62,7 +61,7 @@ t.test('click on login', async t => {
 t.test('receive a callback', { todo: true }, async t => {
   nock(oauth2.DISCORD_CONFIGURATION.tokenHost)
     .post(oauth2.DISCORD_CONFIGURATION.tokenPath)
-    .reply(200, () => fakeToken)
+    .reply(200, () => fakeTokenResponse)
 
   const res = await t.context.server.inject('/auth/discord/callback?code=ABC123')
   t.equal(res.statusCode, 200)
