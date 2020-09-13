@@ -131,7 +131,33 @@ became too big and deserve to be indipendent from the rest of your application
 
 ## Connect to mongodb with Fastify
 
-Fastify has a plugin for everything! This time it is the turn of [fastify-mongodb](https://github.com/fastify/fastify-mongodb)!
+Fastify has a plugin for everything!  This time it is the turn of [fastify-mongodb](https://github.com/fastify/fastify-mongodb)!
+
+To load it, it is necessary that the configuration is valid.
+To do so we are using `fastify-env` already, but the Fastify plugin loading is totally async.
+So, we must use [`after()`](https://www.fastify.io/docs/latest/Server/#after) accomplish this task:
 
 ```js
+import env from 'fastify-env'
+// ...
+fastify.register(env, { ... })
+  .after((err) => {
+    if (err) throw err // if the config file has some issue, we must bubble up them
+    fastify.register(fastifyMongo, { url: fastify.config.DB_URI })
+  })
 ```
+
+**WARNING:** right now we will not focus to find the better place where loading the mongodb connection 
+as said in the _Encapsulation_ paragraph.  We will do this process in future in order to focus on security
+steps and to learn how to refactor a Fastify application.
+
+Now the `fastify.mongo` decorator has been added to the instance and it will be accessible to
+the instance itself and the children contexts.  
+At this stage, all the routes can access `fastify.mongo`!
+
+So the new awesome feature will be to add a page that list all the people that tried our application!
+But this time the page will not be a Server Side Rendering, but the list loading will be via REST API consumption.
+
+> Since in EU there is the GDPR regulamentation, we will not store the real people username, but a
+> fake-one in order to skip annoying messages and policies, because those are not tasks of this tutorial!
+
