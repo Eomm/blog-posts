@@ -129,6 +129,10 @@ became too big and deserve to be indipendent from the rest of your application
 - you can see patterns on your applications and build useful plugins to avoid repetitive work
 
 
+## Store the auth token
+
+TODO
+
 ## Connect to mongodb with Fastify
 
 Fastify has a plugin for everything!  This time it is the turn of [fastify-mongodb](https://github.com/fastify/fastify-mongodb)!
@@ -142,7 +146,7 @@ import env from 'fastify-env'
 // ...
 fastify.register(env, { ... })
   .after((err) => {
-    if (err) throw err // if the config file has some issue, we must bubble up them
+    if (err) throw err // if the config file has some issue, we must bubble up it
     fastify.register(fastifyMongo, { url: fastify.config.DB_URI })
   })
 ```
@@ -161,3 +165,91 @@ But this time the page will not be a Server Side Rendering, but the list loading
 > Since in EU there is the GDPR regulamentation, we will not store the real people username, but a
 > fake-one in order to skip annoying messages and policies, because those are not tasks of this tutorial!
 
+To isolate the APIs from the other application's components we create a brand new directory where all
+the APIs will be implemented.
+
+It is necessary to expose the fastify plugin interface as usual:
+
+```js
+export default function api (fastify, opts, next) {
+  // API context
+  next()
+}
+```
+
+Then we can:
+
+- add a PUT endpoint to create/update the visitor
+- add a GET endpoint to read the visitor's book with pagination
+- define the input and the output JSON schemas to secure:
+  - the input from malicous users
+  - the output from unnecessary data
+
+```js
+// it keep the code strict as possible all the JSON schemas are in a dedicated file
+import schema from './schema.mjs'
+
+export default function api (fastify, opts, next) {
+
+  // this context must return always JSON errors
+  fastify.setErrorHandler(function (error, request, reply) {
+    reply.send(error)
+  })
+
+  // the endpoint creates users
+  fastify.put('/users/:userId', {
+    handler: createUser,
+    schema: schema.createUser
+  })
+
+  // the endpoint searches for users
+  fastify.get('/users', {
+    handler: searchUsers,
+    schema: schema.searchUsers
+  })
+
+  next()
+}
+
+// write `function` to user the fastify instance as `this`
+// the great thing is that you may organize these functions wherever you want in the project
+// without struggling with tons of `factory-pattern` or clojures!
+async function createUser (request, reply) {
+  const { userId } = request.params
+
+  await this.mongo.client.db()
+    .collection('Users')
+    .updateOne(
+      { id: userId },
+      {
+        $set: request.body,
+        $push: { visits: new Date() },
+        $setOnInsert: { created: new Date() }
+      },
+      { upsert: true })
+
+  request.log.debug('Track user %s', userId) // fastify has a logger included!
+  reply.code(201)
+  return { userId }
+}
+
+async function searchUsers (request, reply) {
+  const { offset, limit } = request.query
+
+  // just a simple pagination
+  const query = await this.mongo.client.db().collection('Users')
+    .find({}, { projection: { _id: 0, visits: { $slice: -1 } } })
+    .sort({ username: 1 })
+    .skip(offset)
+    .limit(limit)
+
+  const total = await query.count() // it doesn't apply the skip&limit 😉
+  const rows = await query.toArray()
+
+  return { rows, total }
+}
+```
+
+## End
+
+TODO
