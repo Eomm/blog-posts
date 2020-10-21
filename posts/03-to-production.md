@@ -21,8 +21,7 @@ The first step is to get a database:
 
 ### Local database
 
-This step is quite simple after installing [Docker](https://www.docker.com/) on your
-PC.
+This step is quite simple after installing [Docker](https://www.docker.com/) on your PC.
 
 I like to add the command in the `package.json`:
 
@@ -131,11 +130,58 @@ became too big and deserve to be indipendent from the rest of your application
 
 ## Store the auth token
 
-TODO
+The token obatined from the OAUTH2 Code Flow should not be sent to the client to avoid security issues.
+
+As example we will store the discord token in-memory on the server: this is not a scalable solution, but
+it will works as a first step that will be evolved in the next blog post!
+
+To archive this the [`fastify-server-session`](https://github.com/jsumners/fastify-server-session) plugin will
+be used: it map a generated SessionId stored on the cookie's browser to a server memory object.
+Doing so we can implement the logic:
+
+```
+if (the request has not a session) {
+  - proceed to authenticate the client with the Discord Authentication Server
+  - create a session and store the token
+  - view the user profile
+} else {
+  - view the user profile with the token associated with the request session
+}
+```
+
+Let's see the code..
+
+The check we need to verify that the user is already logged in should be an [`onRequest` hook](https://www.fastify.io/docs/latest/Hooks/#onrequest):
+
+```js
+fastify.addHook('onRequest', function userAlreadyLogged (req, reply, done) {
+  if (req.session.token) {
+    viewUserProfile(req.session.token, reply)
+      .catch(done) // don't forget to manage errors!
+    return // do not call `done` to stop the flow
+  }
+  done()
+})
+```
+
+Hooks are one of the coolest Fastify's feature!
+
+The handler when the user logged in will be updated to:
+
+```js
+fastify.get('/discord/callback', async function (request, reply) {
+  const token = await this.discordOAuth2.getAccessTokenFromAuthorizationCodeFlow(request)
+  // server stored: the token object must not be sent to the client
+  request.session.token = token
+  return viewUserProfile(token, reply)
+})
+```
+
+And it's done!
 
 ## Connect to mongodb with Fastify
 
-Fastify has a plugin for everything!  This time it is the turn of [fastify-mongodb](https://github.com/fastify/fastify-mongodb)!
+Fastify has a plugin for everything!  This time it is the turn of [`fastify-mongodb`](https://github.com/fastify/fastify-mongodb)!
 
 To load it, it is necessary that the configuration is valid.
 To do so we are using `fastify-env` already, but the Fastify plugin loading is totally async.
@@ -252,4 +298,8 @@ async function searchUsers (request, reply) {
 
 ## End
 
-TODO
+In the next post we will:
+
++ migrate from statefull session to a stateless JWT
++ protect the `/api` endpoints
++ explore the project structure: is it maintainable?
