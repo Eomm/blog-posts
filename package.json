@@ -25,22 +25,22 @@
   "homepage": "https://github.com/Eomm/fastify-discord-bot-demo#readme",
   "dependencies": {
     "dotenv": "^7.0.0",
-    "fastify": "^3.3.0",
+    "fastify": "^3.7.0",
     "fastify-caching": "^6.0.1",
     "fastify-cookie": "^4.1.0",
-    "fastify-env": "^2.0.1",
-    "fastify-helmet": "^5.0.1",
+    "fastify-env": "^2.1.0",
+    "fastify-helmet": "^5.0.3",
     "fastify-mongodb": "^2.0.1",
-    "fastify-oauth2": "^4.2.0",
+    "fastify-oauth2": "^4.2.1",
     "fastify-server-session": "^4.0.0",
-    "fastify-static": "^3.2.0",
-    "got": "^11.6.0",
+    "fastify-static": "^3.3.0",
+    "got": "^11.8.0",
     "handlebars": "^4.7.6",
-    "point-of-view": "^4.5.0"
+    "point-of-view": "^4.6.0"
   },
   "devDependencies": {
     "nock": "^13.0.4",
-    "nodemon": "^2.0.4",
+    "nodemon": "^2.0.6",
     "standard": "^14.3.4",
     "tap": "^14.10.8"
   }
