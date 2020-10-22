@@ -300,6 +300,7 @@ async function searchUsers (request, reply) {
 
 In the next post we will:
 
-+ migrate from statefull session to a stateless JWT
-+ protect the `/api` endpoints
 + explore the project structure: is it maintainable?
++ protect the `/api` endpoints
++ migrate from statefull session to a stateless JWT
++ manage the Discord refresh token

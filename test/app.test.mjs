@@ -108,3 +108,42 @@ t.test('receive a callback error', async t => {
   t.equal(res.statusCode, 500)
   t.like(res.payload, '<title>Error</title>', 'the error page is returned')
 })
+
+t.test('api sign book', async t => {
+  const res = await t.context.server.inject({
+    method: 'PUT',
+    url: `/api/users/${fakeUserProfile.id}`,
+    payload: fakeUserProfile
+  })
+  t.equal(res.statusCode, 201)
+  t.deepEqual(res.json(), { userId: fakeUserProfile.id })
+})
+
+t.test('api read book', async t => {
+  await createUser(1)
+  await createUser(2)
+  await createUser(3)
+  await createUser(4)
+  await createUser(5)
+  await createUser(6)
+
+  const res = await t.context.server.inject({
+    method: 'GET',
+    url: '/api/users',
+    query: {
+      offset: 2,
+      limit: 3
+    }
+  })
+  t.equal(res.statusCode, 200)
+  t.equals(res.json().rows.length, 3)
+  t.equals(res.json().total, 7)
+
+  function createUser (id) {
+    return t.context.server.inject({
+      method: 'PUT',
+      url: `/api/users/${id}`,
+      payload: fakeUserProfile
+    })
+  }
+})
