@@ -14,7 +14,8 @@ The first step is to get a database:
 - in the CI we will use another docker instance
 - in production/Heroku we will connect to an [Atlas MongoDB](https://www.mongodb.com/cloud/atlas). It has a free plan that perfectly fits our needs!
 
-**DISCLAIMER:** We will write tests too of course, but we will not write a single line of mocked code:
+**DISCLAIMER:** We will write tests too of course, but we will not write a single line of `mock`ed code:
+
 - containers are cheap
 - you can't test a query with mocks
 - I think that DB state is not a con (this sentence could be a dedicated talk 😀)
@@ -23,7 +24,7 @@ The first step is to get a database:
 
 This step is quite straighforward after installing [Docker](https://www.docker.com/) on your PC.
 
-I like to add the command in the `package.json`:
+I like to add commands in the `package.json`:
 
 ```json
   "local:mongo": "docker run -d -p 27017:27017 --rm --name mongoLocal mongo:4.2",
@@ -32,7 +33,7 @@ I like to add the command in the `package.json`:
 
 ### CI database
 
-Thanks to Actions this step is simple too:
+Thanks to GitHub Actions this step can be done with this configuration in the `ci.yml` file:
 
 ```yml
   - name: Start MongoDB
@@ -76,7 +77,7 @@ const app = require('./application.js')(config)
 await app.listen(config.fastify.port, config.fastify.host)
 ```
 
-This simple structure will permit to load the application in a serverless environment, in a local PC
+This structure will permit to load the application in a serverless environment, in a local PC
 or in the CI servers without effort.
 
 ### Testable
@@ -121,7 +122,7 @@ only in the purple context:
 - the purple context and all its children can access the database connection
 - the left branch and the root itself will **NOT** be able access the DB
 
-Keeping in mind the application tree structure it is possible to design a highly modular software:
+Keeping in mind the application tree structure, it is possible to design a highly modular software:
 
 - every branch of the tree can be moved to another fastify instance: this can be useful when a piece of your application
 became too big and deserve to be indipendent from the rest of your application
@@ -135,7 +136,7 @@ The token obatined from the OAUTH2 Code Flow should not be sent to the client to
 As example we will store the discord token in-memory on the server: this is not a scalable solution, but
 it will works as a first step that will be evolved in the next blog post!
 
-To archive this the [`fastify-server-session`](https://github.com/jsumners/fastify-server-session) plugin will
+To archive this, the [`fastify-server-session`](https://github.com/jsumners/fastify-server-session) plugin will
 be used: it maps a generated SessionId, stored on the cookie's browser, to a server memory object.
 Doing so we can implement the logic:
 
@@ -164,7 +165,7 @@ fastify.addHook('onRequest', function userAlreadyLogged (req, reply, done) {
 })
 ```
 
-Hooks are one of the coolest features in Fastify!
+**Hooks are one of the coolest features in Fastify!**
 
 The user log handler will be updated to:
 
@@ -199,7 +200,7 @@ fastify.register(env, { ... })
 
 **WARNING:** right now we will not focus on finding the best place to load the mongodb connection 
 as said in the _Encapsulation_ paragraph.  We will do this process in future in order to focus on security
-steps and to learn how to refactor a Fastify application.
+steps and to learn how to refactor a Fastify application: we are starting small and learn fast!
 
 Now the `fastify.mongo` decorator has been added to the instance and it will be accessible to
 the instance itself and the children contexts.  
@@ -228,7 +229,7 @@ Then we can:
 - add a PUT endpoint to create/update the visitor
 - add a GET endpoint to read the visitor's book with pagination
 - define the input and the output JSON schemas to secure:
-  - the input from malicous users
+  - the input from malicous users input
   - the output from unnecessary data
 
 ```js
