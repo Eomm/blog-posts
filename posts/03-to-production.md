@@ -304,3 +304,8 @@ In the next post we will:
 + protect the `/api` endpoints
 + migrate from stateful session to a stateless JWT
 + manage the Discord refresh token
+
+
+## Acknowledgements
+
+Thank you very much to [@LorTos](https://github.com/LorTos) for the great feedback!
