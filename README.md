@@ -6,6 +6,8 @@ It will target Discord just for fun and to add some not-so-useful features.
 Every upgrade will be documented and posted on [dev.to](https://dev.to/eomm)
 and here you will find the source code and the commit history!
 
+To see the last version of the application, it is published at [https://fastify-discord-app-demo.herokuapp.com/](https://fastify-discord-app-demo.herokuapp.com/) 
+
 ## Posts
 
 1. [A Discord app with Fastify!](https://dev.to/eomm/a-discord-app-with-fastify-3h8c) - [📝](./posts/01-init-application.md)
