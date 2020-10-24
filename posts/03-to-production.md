@@ -12,16 +12,16 @@ The first step is to get a database:
 
 - in the local environment a docker instance of mongodb will be used
 - in the CI we will use another docker instance
-- in production/Heroku we will connect to an [Atlas MongoDB](https://www.mongodb.com/cloud/atlas). It has a free plan that fit perfectly for our needs!
+- in production/Heroku we will connect to an [Atlas MongoDB](https://www.mongodb.com/cloud/atlas). It has a free plan that perfectly fits our needs!
 
-**DISCLAIMER:** We will write test too off course, but we will not write a line of `mock` because:
+**DISCLAIMER:** We will write tests too of course, but we will not write a single line of mocked code:
 - containers are cheap
 - you can't test a query with mocks
-- I think that DB state is not a cons (this sentence could be a dedicated talk 😀)
+- I think that DB state is not a con (this sentence could be a dedicated talk 😀)
 
 ### Local database
 
-This step is quite simple after installing [Docker](https://www.docker.com/) on your PC.
+This step is quite straighforward after installing [Docker](https://www.docker.com/) on your PC.
 
 I like to add the command in the `package.json`:
 
@@ -43,17 +43,17 @@ Thanks to Actions this step is simple too:
 
 ### Production database
 
-It is [Atlas MongoDB](https://www.mongodb.com/cloud/atlas) business how they give us a free mongodb cluster on AWS! Awesome!
+[Atlas MongoDB](https://www.mongodb.com/cloud/atlas) gives us a free mongodb cluster on AWS! Awesome!
 
 ## Project structure
 
 Before digging into the code it is mandatory to focus a bit on the project structure to build and
-maintaine efficently the application because now, things are getting serious.
+maintain efficiently the application because now, things are getting serious.
 
 ### Application vs Loader
 
-Fastify is great in encapsulation and I found that following some rules let developers build
-applications with lesser discomforts.  
+Fastify is great in encapsulation and I found that following some rules allows developers to quickly build
+applications with less discomforts.  
 _The following example is a TL;DR version of the [Testing](https://www.fastify.io/docs/latest/Testing/)
 and [Plugins-Guide](https://www.fastify.io/docs/latest/Plugins-Guide/) pages._
 
@@ -68,7 +68,7 @@ The configuration is read by `opts` parameter.
   1. loading the configuration
   2. loading the application
 
-This could be breaf into this code example:
+This could be brief into this code example:
 
 ```js
 const config = await configurationLoader(process.argv[2] || process.env.NODE_ENV)
@@ -106,7 +106,7 @@ test('a test', async () => {
 
 ### Encapsulation
 
-Fastify helps you to apply the separation of concerns design principle thanks to its encapsulation system.  
+Fastify helps you apply separation of concerns design principle thanks to its encapsulation system.  
 This lead to applications more secure and better structured.
 
 > Is your database connection available where it is not necessary?
@@ -119,9 +119,9 @@ If the database is needed only in the right branch of the image, you can establi
 only in the purple context:
 
 - the purple context and all its children can access the database connection
-- the left branch and the root itself will be **NOT** able access the DB
+- the left branch and the root itself will **NOT** be able access the DB
 
-Keeping in mind the application tree structure it is possible to design a highly modulable software:
+Keeping in mind the application tree structure it is possible to design a highly modular software:
 
 - every branch of the tree can be moved to another fastify instance: this can be useful when a piece of your application
 became too big and deserve to be indipendent from the rest of your application
@@ -136,7 +136,7 @@ As example we will store the discord token in-memory on the server: this is not 
 it will works as a first step that will be evolved in the next blog post!
 
 To archive this the [`fastify-server-session`](https://github.com/jsumners/fastify-server-session) plugin will
-be used: it map a generated SessionId stored on the cookie's browser to a server memory object.
+be used: it maps a generated SessionId, stored on the cookie's browser, to a server memory object.
 Doing so we can implement the logic:
 
 ```
@@ -164,9 +164,9 @@ fastify.addHook('onRequest', function userAlreadyLogged (req, reply, done) {
 })
 ```
 
-Hooks are one of the coolest Fastify's feature!
+Hooks are one of the coolest features in Fastify!
 
-The handler when the user logged in will be updated to:
+The user log handler will be updated to:
 
 ```js
 fastify.get('/discord/callback', async function (request, reply) {
@@ -197,7 +197,7 @@ fastify.register(env, { ... })
   })
 ```
 
-**WARNING:** right now we will not focus to find the better place where loading the mongodb connection 
+**WARNING:** right now we will not focus on finding the best place to load the mongodb connection 
 as said in the _Encapsulation_ paragraph.  We will do this process in future in order to focus on security
 steps and to learn how to refactor a Fastify application.
 
@@ -205,8 +205,8 @@ Now the `fastify.mongo` decorator has been added to the instance and it will be 
 the instance itself and the children contexts.  
 At this stage, all the routes can access `fastify.mongo`!
 
-So the new awesome feature will be to add a page that list all the people that tried our application!
-But this time the page will not be a Server Side Rendering, but the list loading will be via REST API consumption.
+So the new awesome feature will be to add a page that lists all the people that tried our application!
+But this time the page will not be rendered through the server, but it will be loaded via REST API consumption.
 
 > Since in EU there is the GDPR regulamentation, we will not store the real people username, but a
 > fake-one in order to skip annoying messages and policies, because those are not tasks of this tutorial!
@@ -302,5 +302,5 @@ In the next post we will:
 
 + explore the project structure: is it maintainable?
 + protect the `/api` endpoints
-+ migrate from statefull session to a stateless JWT
++ migrate from stateful session to a stateless JWT
 + manage the Discord refresh token
