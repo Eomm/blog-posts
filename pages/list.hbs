@@ -9,33 +9,36 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <link href="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.css" rel="stylesheet">
 
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+  <script src="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.js"></script>
   <script src="https://kit.fontawesome.com/e349d2433a.js" crossorigin="anonymous"></script>
   <style>
     body {
       margin: 2% auto;
       background-color: #ededed;
     }
-
-    .discord {
-      background-color: #7289da;
-      color: #ffffff;
-    }
   </style>
-  <title>Who are you?</title>
+  <title>Who are they?</title>
 </head>
 
 <body>
   <div class="card text-center mx-auto" style="max-width: 540px;">
     <img src="https://via.placeholder.com/468x120/23272a/99aab5?text=Placeholder" class="card-img-top" alt="...">
     <div class="card-body">
-      <h5 class="card-title">Hi Guest!</h5>
-      <p class="card-text">Show me who you are in Discord!</p>
-      <p>
-        <a href="/auth/discord" class="btn discord"><i class="fab fa-discord"></i> Login with Discord</a>
-        <br><b>or</b><br>
-        <a href="/list" class="btn btn-dark"><i class="far fa-eye"></i> Look who logged in</a>
-      </p>
+      <h5 class="card-title">Guest List!</h5>
+      <table id="table" data-toggle="table" data-url="api/users"
+        data-height="400" data-side-pagination="server" data-pagination="true">
+        <thead>
+          <tr>
+            <th data-field="username">Visitor</th>
+            <th data-field="visits">Last visit</th>
+          </tr>
+        </thead>
+      </table>
     </div>
     <div class="card-footer text-muted">
       Demo <a href="https://github.com/Eomm/fastify-discord-bot-demo" target="_blank">repository</a> - v {{version}}

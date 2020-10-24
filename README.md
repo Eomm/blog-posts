@@ -10,7 +10,7 @@ and here you will find the source code and the commit history!
 
 1. [A Discord app with Fastify!](https://dev.to/eomm/a-discord-app-with-fastify-3h8c) - [📝](./posts/01-init-application.md)
 2. [Project Automation](https://dev.to/eomm/project-automation-2bee) - [📝](./posts/02-project-automation.md)
-3. COOMING SOON
+3. [To Production](https://dev.to/eomm/fastify-demo-goes-to-production-499c) - [📝](./posts/03-to-production.md)
 
 ## Contributing
 
