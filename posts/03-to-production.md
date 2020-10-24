@@ -286,7 +286,7 @@ async function searchUsers (request, reply) {
   // just a simple pagination
   const query = await this.mongo.client.db().collection('Users')
     .find({}, { projection: { _id: 0, visits: { $slice: -1 } } })
-    .sort({ username: 1 })
+    .sort({ 'visits.$0': 1 })
     .skip(offset)
     .limit(limit)
 
@@ -310,3 +310,4 @@ In the next post we will:
 ## Acknowledgements
 
 Thank you very much to [@LorTos](https://github.com/LorTos) for the great feedback!
+Image post credits to [jayahimsa](https://www.flickr.com/photos/49822796@N00/4928869326/in/photostream/) (CC BY-NC 2.0)
