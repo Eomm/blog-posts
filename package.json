@@ -1,6 +1,6 @@
 {
   "name": "fastify-discord-bot-demo",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "A Discord APP built with Fastify!",
   "main": "lib/app.js",
   "type": "module",
