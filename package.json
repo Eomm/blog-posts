@@ -26,7 +26,7 @@
   "dependencies": {
     "casual": "^1.6.2",
     "dotenv": "^7.0.0",
-    "fastify": "^3.7.0",
+    "fastify": "^3.8.0",
     "fastify-caching": "^6.0.1",
     "fastify-cookie": "^4.1.0",
     "fastify-env": "^2.1.0",
