@@ -7,57 +7,66 @@ All you need to know to control the Fastify errors!
 Errors in the Fastify world could be gouped in:
 
 1. Startup errors are triggerd when the application starts and the server won't start
-1. Runtime errors happen when the server receives an HTTP call and it could be:
+1. Runtime errors happen when the server receives an HTTP call and the server will remains up&running:
    1. Application errors are throws by the developer when the business logic need it
    1. Unexpected errors are throws when there is a bug
    1. Validation errors appear when the submitted data from a client doesn't match the endpoint's JSON schema
-   1. 404 errors when the routes doesn't exists
+   1. 404 errors when the requested route doesn't exist
 
 ## Manage Runtime errors
 
 Let's deep dive into the most interesting kinds of errors: handler's error.
 During your application lifecycle it is necessary to validate user input, check data consistency and so on.
 
-So manage errors is a key feature that Fastify support in the best ways possible:
+So manage errors is a key feature that Fastify support through these options:
 
-- The [`fastify.setErrorHandler()`](https://www.fastify.io/docs/v3.8.x/Server/#seterrorhandler) deals with all the thrown `Error`
-- The [`onError` hook](https://www.fastify.io/docs/v3.8.x/Hooks/#onerror) to enhance the error output in specific encapsulated context (_checkout my [Encapsulation chapter](https://dev.to/eomm/fastify-demo-goes-to-production-499c) to deepon how Fastify implements this design pattern_)
+- The [`fastify.setErrorHandler()`](https://www.fastify.io/docs/v3.8.x/Server/#seterrorhandler) deals with all the thrown and sent `Error`s
+- The [`onError` hook](https://www.fastify.io/docs/v3.8.x/Hooks/#onerror) to enhance the error output in specific encapsulated context (_checkout my [Encapsulation chapter](https://dev.to/eomm/fastify-demo-goes-to-production-499c) to deepon this design pattern_)
 - The [`option.schemaErrorFormatter`](https://www.fastify.io/docs/v3.8.x/Server/#schemaerrorformatter) will improve the default **validation** errors messages
-- The [`fastify.setNotFoundHandler()`](https://www.fastify.io/docs/v3.8.x/Server/#setnotfoundhandler) deals with missing routes, the `errorHandler` will not be invoked in this specific case
+- The [`fastify.setNotFoundHandler()`](https://www.fastify.io/docs/v3.8.x/Server/#setnotfoundhandler) deals with missing routes, the `errorHandler` may  not be invoked in this case
 
 As we see, Fastify has a lot of tools that can work togheter to archive all your needs to reply with clear errors!
 
-Before we start it is mandatory to clarify that, when you will find the `Error` word, I mean a real instance of:
+The first aspect to explain is the difference between:
+
+- throwing an `Error`: this happens when an `Error` instance is processed
+- sending a `json error`: this happens when an HTTP status code >= 300 is set and a JSON is processed
+- unexpected exception: this happens due nasty bug, don't worry, Fastify will handle it for you!
+
+Here a code example in a sync and async handler:
 
 ```js
-const e = new Error('some mistake')
+function callbackStyleHandler (request, reply) {
+  // "throwing" an error
+  reply.send(new Error('foo bar error'))
+  // ...or sending a json error
+  reply.code(500).send({ message: 'foo bar error' })
+  // ...or unexpected exception
+  'this is not an array'.sort() // fastify will handle the TypeError for you
+}
+
+async function asyncHandler (request, reply) {
+  // "throwing" an error
+  throw new Error('foo bar error')
+  // ...or sending a json error
+  reply.code(500)
+  return { message: 'foo bar error' }
+  // ...or unexpected exception
+  'this is not an array'.sort() // fastify will handle the TypeError for you
+}
 ```
 
-Instead, an `error object` will be a simple JSON that will describe an output:
-
-```js
-const objError = { message: 'some mistake' }
-```
-
-This difference is very important because executing these two sentences, is completely different:
-
-```js
-reply.send(new Error('foo bar'))
-// ...
-reply.code(500).send({ message: 'foo bar' })
-```
-
-The `send` lifecycle flow is:
+So, based on what you are sending (in sync handlers) or returing (in async handler), the `send` lifecycle will act like this:
 
 ```
-                        schema validation Error
+                       ★ schema validation Error
                                     │
                                     └─▶ schemaErrorFormatter
                                                │
                           reply sent ◀── JSON ─┴─ Error instance
                                                       │
-                                                      │          any uncaught Errors
-                      reply.send()                    │                 │
+                                                      │       ★ unexpected exception
+                    ★ reply.send()                    │                 │
                             │                         ▼                 │
        reply sent ◀── JSON ─┴─ Error instance ──▶ setErrorHandler ◀─────┘
                                                       │
@@ -66,11 +75,18 @@ The `send` lifecycle flow is:
                                                                                 └─▶ reply sent
 ```
 
-So, sending an `error object` will not execute these functions at all and what your functions return
-may impact the execution of your code, like hooks at first glance!
+So, sending an `json error` will not execute the error handler and the `onError` hooks too.
+What your functions return may impact the execution of your code!
 
+Notice that in `async` handler returns an `Error` or throwing it is the same:
 
-_You can find a complete code example that replicate that code flow at [github.com/Eomm/fastify-discord-bot-demo](https://github.com/Eomm/fastify-discord-bot-demo/tree/master/bonus/error-handling)_
+```js
+throw new Error('foo bar error')
+// it is like
+return new Error('foo bar error')
+```
+
+_You can find a complete code example that replicate that reply.send flow at [github.com/Eomm/fastify-discord-bot-demo](https://github.com/Eomm/fastify-discord-bot-demo/tree/master/bonus/error-handling)_
 
 
 ## Manage Startup errors

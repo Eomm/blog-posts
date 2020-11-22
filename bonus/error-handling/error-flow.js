@@ -12,7 +12,7 @@ const fastify = Fastify({
 
 fastify.register((instance, ops, next) => {
   instance.setErrorHandler(function (error, request, reply) {
-    instance.log.info(error, 'executing setErrorHandler')
+    this.log.info(error, 'executing setErrorHandler')
     reply.status(409).send(error)
   })
 
@@ -54,10 +54,15 @@ fastify.register((instance, ops, next) => {
     schema
   })
 
+  instance.get('/:key/async-return-error', {
+    handler: asyncReturnError,
+    schema
+  })
+
   next()
 }, { prefix: '/one' })
 
-fastify.inject('/one/', (_, res) => {
+fastify.inject('/one/1/async-return-error', (_, res) => {
   console.log(res.payload)
 })
 
@@ -80,4 +85,9 @@ function bugError (request, reply) {
   this.log.info('executing handler bugError')
   'this is a string not an array'.sort() // this will trigger an error
   reply.send('this will never executed')
+}
+
+async function asyncReturnError (request, reply) {
+  this.log.info('executing handler asyncReturnError')
+  return new Error('async return error and not throw!')
 }
