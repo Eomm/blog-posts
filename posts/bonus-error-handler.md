@@ -169,4 +169,5 @@ Thank you for reading!
 
 ## Acknowledgements
 
+Thank you very much to [Alona](https://www.linkedin.com/in/alona-neri-loyevska-a80486114/) for the great feedback!
 Image post credits to [xkcd](https://xkcd.com/1700/) (CC BY-NC 2.5)
