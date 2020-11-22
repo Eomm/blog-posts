@@ -25,7 +25,7 @@ So manage errors is a key feature that Fastify support through these options:
 - The [`option.schemaErrorFormatter`](https://www.fastify.io/docs/v3.8.x/Server/#schemaerrorformatter) will improve the default **validation** errors messages
 - The [`fastify.setNotFoundHandler()`](https://www.fastify.io/docs/v3.8.x/Server/#setnotfoundhandler) deals with missing routes, the `errorHandler` may  not be invoked in this case
 
-As we see, Fastify has a lot of tools that can work together to archive all your needs to reply with clear errors!
+As we see, Fastify has a lot of tools that can work together to archive all your need to reply with clear errors!
 
 The first aspect to explain is the difference between:
 
@@ -59,26 +59,30 @@ async function asyncHandler (request, reply) {
 So, based on what you are sending (in sync handlers) or returning (in async handler), the `send` lifecycle will act like this:
 
 ```
-                       ★ schema validation Error
-                                    │
-                                    └─▶ schemaErrorFormatter
-                                               │
-                          reply sent ◀── JSON ─┴─ Error instance
-                                                      │
-                                                      │       ★ unexpected exception
-                    ★ reply.send()                    │                 │
-                            │                         ▼                 │
-       reply sent ◀── JSON ─┴─ Error instance ──▶ setErrorHandler ◀─────┘
-                                                      │
-                                 reply sent ◀── JSON ─┴─ Error instance ──▶ onError Hook
-                                                                                │
-                                                                                └─▶ reply sent
+                 ★ schema validation Error
+                             │
+                             └─▶ schemaErrorFormatter
+                                        │
+                   reply sent ◀── JSON ─┴─ Error instance
+                                                │
+                                                │         ★ throw an Error
+               ★ send or return                 │                 │
+                      │                         ▼                 │
+ reply sent ◀── JSON ─┴─ Error instance ──▶ setErrorHandler ◀─────┘
+                                                │
+                           reply sent ◀── JSON ─┴─ Error instance ──▶ onError Hook
+                                                                         │
+                                                                         └─▶ reply sent
 ```
 
 So, sending a `JSON error` will not execute the error handler and the `onError` hooks too.
 What your functions return may impact the execution of your code!
 
-Notice that in `async` handler returns an `Error` or throwing it is the same:
+Every component of this flow **can be customized for every route!!**
+Thanks to all the [route options](https://www.fastify.io/docs/v3.8.x/Routes/#options) you can
+add some route customization when needed that will overwrite the default setting in the fastify instance.
+
+Notice that in `async` handler returns an `Error` or throws it is the same:
 
 ```js
 throw new Error('foo bar error')
@@ -98,7 +102,7 @@ They can be triggered by:
 - plugins that don't start **in time**, like a pre-fetch to a slow endpoint
 - bad usages of the Fastify framework, like defining 2 routes with the same path
 
-To manage these errors you must check the [`listen`](https://www.fastify.io/docs/v3.8.x/Server/#listen) or the [`ready`](https://www.fastify.io/docs/v3.8.x/Server/#ready) results:
+To manage these errors you have to check the [`listen`](https://www.fastify.io/docs/v3.8.x/Server/#listen) or the [`ready`](https://www.fastify.io/docs/v3.8.x/Server/#ready) results:
 
 ```js
 fastify.register((instance, ops, next) => {
@@ -114,7 +118,7 @@ fastify.listen(8080, (err) => {
 })
 ```
 
-Instead, if you want to ignore the error throws by one plugin _(it should not, but Fastify let you do what you want with your application)_
+Instead, if you want to ignore the error throws by one plugin _(it should not, but Fastify lets you free to do what you want with your application)_
 you can manage it like this and the server will start as expected.
 
 ```js
@@ -125,7 +129,7 @@ fastify.register((instance, ops, next) => {
 })
 ```
 
-Now, lets assume the plugin may throw two errors: one you can ignore and one cannot be ignored:
+Now, let's assume that the plugin may throw two errors: one you can ignore and one cannot be ignored:
 
 ```js
 fastify.register((instance, ops, next) => {
@@ -158,9 +162,9 @@ const fastify = Fastify({
 
 ## End
 
-Now, I hope I have been teaching you all you need to know to manage the application errors in your Fastify server!
+Now, I hope I have been teaching you about all you need to know to manage the application errors in your Fastify server!
 
-Write comments below or open an issue on GitHub for any questions or feedback!
+Write comments here below or open an issue on GitHub for any questions or feedback!
 Thank you for reading!
 
 ## Acknowledgements
