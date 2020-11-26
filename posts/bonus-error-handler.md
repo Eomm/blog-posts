@@ -1,6 +1,11 @@
+---
+title: Fastify Error handlers
+series: Fastify Bonus
+---
+
 # Fastify Error handlers
 
-All you need to know to control the Fastify errors!
+All you need to know to control the **Fastify v3** errors!
 
 ## Error types
 
