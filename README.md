@@ -13,6 +13,8 @@ To see the last version of the application, it is published at [https://fastify-
 1. [A Discord app with Fastify!](https://dev.to/eomm/a-discord-app-with-fastify-3h8c) - [📝](./posts/01-init-application.md)
 2. [Project Automation](https://dev.to/eomm/project-automation-2bee) - [📝](./posts/02-project-automation.md)
 3. [To Production](https://dev.to/eomm/fastify-demo-goes-to-production-499c) - [📝](./posts/03-to-production.md)
+4. [BONUS: Grokking Fastify Error handlers](https://dev.to/eomm/fastify-error-handlers-53ol) - [📝](./posts/bonus-error-handler.md)
+5. COOMING SOON!
 
 ## Contributing
 
