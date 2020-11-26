@@ -61,7 +61,7 @@ async function asyncHandler (request, reply) {
 }
 ```
 
-So, based on what you are sending (in sync handlers) or returning (in async handler), the `send` lifecycle will act like this:
+So, based on what you are sending (in sync handlers) or returning (in async handler), the [`send` lifecycle](https://www.fastify.io/docs/master/Lifecycle/) will act like this:
 
 ```
                  ★ schema validation Error
