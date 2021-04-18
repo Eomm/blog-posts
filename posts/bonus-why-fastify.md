@@ -33,10 +33,15 @@ Fastify supports `async/await` out of the box for all the components that must b
 - route handlers
 - application hooks
 - server methods like `.listen()`
+- await plugins loading (like a mongo connection) before start listening
+
+[Doc Reference](https://www.fastify.io/docs/latest/Plugins/#asyncawait)
 
 ### JSON Input
 
 By default, Fastify has a secure JSON body-parser to read the request body. You don't need anything else to accept `application/json` inputs.
+
+[Doc Reference](https://www.fastify.io/docs/latest/Server/#getdefaultjsonparser)
 
 ### Tests
 
@@ -45,10 +50,14 @@ Moreover, it is designed to run fast on test too, this is possible starting the 
 
 Actual use case: during my job, I migrated a codebase from `expressjs@3` to `fastify@2`, and the test execution time has more than halved!
 
+[Doc Reference](https://www.fastify.io/docs/latest/Testing/)
+
 ### Logging
 
 Fastify has a logger included, so I don't have to think about how to log or store the logger instance and boring stuff like this.
 Moreover, the default logger (aka [`pino`](https://www.npmjs.com/package/pino)) has so many plugins, so push the logs everywhere that it is impossible to lose them!
+
+[Doc Reference](https://www.fastify.io/docs/latest/Logging/)
 
 ### Configuration
 
@@ -65,9 +74,13 @@ module.exports = async function myAppPlugin (instance, opts) {
 }
 ```
 
+[Doc Reference](https://www.fastify.io/docs/latest/Plugins/)
+
 ### JSON Schema
 
 JSON Schema is another tool included in Fastify, so you don't need to struggle to configure it. You can use it.
+
+[Doc Reference](https://www.fastify.io/docs/latest/Validation-and-Serialization/)
 
 ### Plugin system
 
@@ -84,13 +97,15 @@ So, adding a middleware in expressjs will affect all the requests, even if not n
 In Fastify, instead, you can add a hook only to a limited set of routes or even on one route.
 This kind of architecture will avoid introducing bugs on routes that should not be affected by new middlewares.
 
+[Doc Reference](https://www.fastify.io/docs/latest/Plugins/)
+
 ### Others
 
 There are a lot more for me to prefer Fastify:
 
 - Fastify awesome community
 - the focus on performance
-- the release speed
+- the release scheduling
 
 ## End
 
