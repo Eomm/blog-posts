@@ -116,3 +116,7 @@ For more Fastify content, follow me on [Twitter](https://twitter.com/ManuEomm)!
 
 Write comments here below or open an issue on GitHub for any questions or feedback!
 Thank you for reading!
+
+## Acknowledgements
+
+Image post credits to [mohamed hassan](https://pxhere.com/en/photo/1640023?utm_content=shareClip&utm_medium=referral&utm_source=pxhere) (Creative Commons CC0)
