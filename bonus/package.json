@@ -8,5 +8,8 @@
   },
   "keywords": [],
   "author": "Manuel Spigolon <behemoth89@gmail.com> (https://github.com/Eomm)",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "pump": "^3.0.0"
+  }
 }
