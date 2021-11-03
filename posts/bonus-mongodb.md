@@ -2,7 +2,7 @@
 
 by *[Manuel Spigolon](https://twitter.com/ManuEomm)*
 
-In this article I will show you how to use Fastify and MongoDB together!
+In this article I will show you how to use Fastify and MongoDB together building a CRUD plugin!
 
 > This post has been inspired by [`fastify-in-practice`](https://github.com/Eomm/fastify-in-practice/#fastify-in-practice)
 > A talk I gave at the Come to Code 2021 conference in Italy!
@@ -12,11 +12,12 @@ Let's jump into the code!
 ## TODO List application
 
 We will create a simple TODO list application using Fastify and MongoDB.
-It will be a simple CRUD application within 3 routes:
+It will be a simple CRUD application within 4 routes:
 
 - **GET /todos**: returns all the todos
 - **POST /todos**: creates a new todo
 - **PUT /todos/:id**: updates the todo with the given id
+- **DELETE /todos/:id**: deletes the todo with the given id
 
 Our basic object model will be:
 
@@ -160,7 +161,7 @@ Create a new file `routes.js` and add the following code:
 
 ```js
 module.exports = function todoRoutes (app, opts, next) {
-  app.post('/todos', async function insertTodo (request, reply) {
+  app.post('/todos', async function createTodo (request, reply) {
     const todosCollection = app.mongo.db.collection('todos')
     const result = await todosCollection.insertOne(request.body)
     reply.code(201)
@@ -197,6 +198,19 @@ module.exports = function todoRoutes (app, opts, next) {
     return { id: request.params.id }
   })
 
+  app.delete('/todos/:id', async function deleteTodo (request, reply) {
+    const todosCollection = this.mongo.db.collection('todos')
+    const result = await todosCollection.deleteOne({
+      _id: this.mongo.ObjectId(request.params.id)
+    })
+    if (result.deletedCount === 0) {
+      const error = new Error('Object not found: ' + request.params.id)
+      error.status = 404
+      throw error
+    }
+    return { id: request.params.id }
+  })
+
   next()
 }
 ```
@@ -220,6 +234,8 @@ curl \
   -X PUT http://localhost:3000/todos/$(id) \
   -H 'Content-Type: application/json' \
   -d '{"done":true}'
+
+curl -X DELETE http://localhost:3000/todos/$(id)
 ```
 
 ### Secure the API
@@ -319,6 +335,12 @@ To integrate the schemas within our routes, we need to edit the `routes.js` file
       body: schemas.todoUpdateSchema
     }
   }, ...)
+
+  app.delete('/todos/:id', {
+    schema: {
+      params: schemas.todoIdSchema
+    }
+  }, ...)
 ```
 
 And it is done!!
@@ -336,3 +358,4 @@ You have seen very useful features of Fastify:
 - how to use the JSON Schema Validation and Serialization
 
 See you soon for the next article about testing and deployment!
+The code is availabe on the [`fastify-in-practice`](https://github.com/Eomm/fastify-in-practice/#fastify-in-practice) repository.
