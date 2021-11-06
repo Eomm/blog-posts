@@ -15,7 +15,8 @@ To see the last version of the application, it is published at [https://fastify-
 3. [To Production](https://dev.to/eomm/fastify-demo-goes-to-production-499c) - [📝](./posts/03-to-production.md)
 4. [BONUS: Grokking Fastify Error handlers](https://dev.to/eomm/fastify-error-handlers-53ol) - [📝](./posts/bonus-error-handler.md)
 5. [BONUS: Fastify Multipart File Management](https://backend.cafe/fastify-multipart-upload) - [📝](./posts/bonus-multipart-breakdown.md)
-6. COMING SOON!
+7. [BONUS: Fastify and mongodb](https://backend.cafe/how-to-use-fastify-and-mongodb) - [📝](./posts/bonus-mongodb.md)
+8. COMING SOON!
 
 ## Contributing
 
