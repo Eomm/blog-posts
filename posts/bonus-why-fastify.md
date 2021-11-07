@@ -99,13 +99,25 @@ This kind of architecture will avoid introducing bugs on routes that should not 
 
 [Doc Reference](https://www.fastify.io/docs/latest/Plugins/)
 
+### Release schedule
+
+Fastify has a clear Long Term Support (LTS) [policy](https://github.com/fastify/fastify/blob/main/docs/LTS.md) and
+it is released whenever there is new bug fixes or new features.
+
+For example, Node.js 16.10.0 introduced a new option to manage the maximum requests a socket can handle.
+This option has been shipped in Fastify after 7 days by receiving a pull request.
+
+The `expressjs` module has not a new release since 2 years ago (at the moment `v4.17.1`).
+For sure you can set the new option in `express` too, but you will need to create the http server
+by yourself, and you will need to use the `http.Server` class - but I think I'm using a framework
+to avoid that.
+
 ### Others
 
 There are a lot more for me to prefer Fastify:
 
 - Fastify awesome community
 - the focus on performance
-- the release scheduling
 
 ## End
 
