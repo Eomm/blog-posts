@@ -271,6 +271,10 @@ listed before.
 
 If you want to see them all, give it a check to the [`fastify-in-practice`](https://github.com/Eomm/fastify-in-practice/#fastify-in-practice) repository.
 
+> Insights: if you create multiple files to test your application, remember to use different database names.
+> You need to customize the `envData.MONGO_URL` parameter only.
+> This will avoid conflicts between tests.
+
 ## Summary
 
 We have seen a lot of things in this tutorial.
