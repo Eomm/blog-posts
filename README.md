@@ -11,13 +11,14 @@ To see the last version of the application, it is published at [https://fastify-
 ## Posts
 
 1. [A Discord app with Fastify!](https://dev.to/eomm/a-discord-app-with-fastify-3h8c) - [📝](./posts/01-init-application.md)
-2. [Project Automation](https://dev.to/eomm/project-automation-2bee) - [📝](./posts/02-project-automation.md)
-3. [To Production](https://dev.to/eomm/fastify-demo-goes-to-production-499c) - [📝](./posts/03-to-production.md)
-4. [BONUS: Grokking Fastify Error handlers](https://dev.to/eomm/fastify-error-handlers-53ol) - [📝](./posts/bonus-error-handler.md)
-5. [BONUS: Fastify Multipart File Management](https://backend.cafe/fastify-multipart-upload) - [📝](./posts/bonus-multipart-breakdown.md)
-7. [BONUS: How to use Fastify and MongoDB](https://backend.cafe/how-to-use-fastify-and-mongodb) - [📝](./posts/bonus-mongodb.md)
-8. [BONUS: How to test a Fastify application](https://backend.cafe/how-to-test-a-fastify-application) - [📝](./posts/bonus-mongodb-test.md)
-9. COMING SOON!
+1. [Project Automation](https://dev.to/eomm/project-automation-2bee) - [📝](./posts/02-project-automation.md)
+1. [To Production](https://dev.to/eomm/fastify-demo-goes-to-production-499c) - [📝](./posts/03-to-production.md)
+1. [BONUS: Grokking Fastify Error handlers](https://dev.to/eomm/fastify-error-handlers-53ol) - [📝](./posts/bonus-error-handler.md)
+1. [BONUS: Why should I prefer Fastify to Expressjs?](https://dev.to/eomm/why-should-i-prefer-fastify-to-expressjs-44c4) - [📝](./posts/bonus-why-fastify.md)
+1. [BONUS: Fastify Multipart File Management](https://backend.cafe/fastify-multipart-upload) - [📝](./posts/bonus-multipart-breakdown.md)
+1. [BONUS: How to use Fastify and MongoDB](https://backend.cafe/how-to-use-fastify-and-mongodb) - [📝](./posts/bonus-mongodb.md)
+1. [BONUS: How to test a Fastify application](https://backend.cafe/how-to-test-a-fastify-application) - [📝](./posts/bonus-mongodb-test.md)
+1. COMING SOON!
 
 ## Contributing
 
