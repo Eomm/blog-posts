@@ -1,6 +1,8 @@
 
 # Fastify WebSocket React Chat
 
+by *[Manuel Spigolon](https://twitter.com/ManuEomm)*
+
 We are going to implement a simple chat application using the [`fastify-websocket`](https://www.npmjs.com/package/fastify-websocket) plugin and React.js!
 You will learn the basics of web sockets.
 I will provide you with the React.js code for the frontend, but it will not be our primary focus.
