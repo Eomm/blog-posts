@@ -202,4 +202,8 @@ Now you know how to start tweaking the application and implement new features li
 Spoiler, in future blog posts, we will implement these features, and we will deploy this application too!
 To get notified when they are ready to subscribe to the [Backend Café](https://backend.cafe/) newsletter!
 
+### Acknowledgements
+
+Thanks to [Andrea Tosatto](https://github.com/andtos90) for the review of the code!
+
 Happy coding!
