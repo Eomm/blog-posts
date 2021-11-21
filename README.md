@@ -18,6 +18,7 @@ To see the last version of the application, it is published at [https://fastify-
 1. [BONUS: Fastify Multipart File Management](https://backend.cafe/fastify-multipart-upload) - [📝](./posts/bonus-multipart-breakdown.md)
 1. [BONUS: How to use Fastify and MongoDB](https://backend.cafe/how-to-use-fastify-and-mongodb) - [📝](./posts/bonus-mongodb.md)
 1. [BONUS: How to test a Fastify application](https://backend.cafe/how-to-test-a-fastify-application) - [📝](./posts/bonus-mongodb-test.md)
+1. [BONUS: Build a WebSocket React.js Chat](https://backend.cafe/fastify-websocket-react-chat) - [📝](./posts/bonus-web-socket-chat.md)
 1. COMING SOON!
 
 ## Contributing
