@@ -1,0 +1,21 @@
+{
+  "name": "graphql-federation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Manuel Spigolon <manuel.spigolon@nearform.com> (https://github.com/Eomm)",
+  "license": "MIT",
+  "dependencies": {
+    "faker": "^5.5.3",
+    "fastify": "^3.27.1",
+    "mercurius": "^9.3.0"
+  },
+  "devDependencies": {
+    "pino-pretty": "^7.5.1",
+    "standard": "^16.0.4"
+  }
+}
