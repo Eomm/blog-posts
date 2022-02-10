@@ -1,5 +1,7 @@
 # GraphQL Federation Playground with Mercurius
 
+by *[Manuel Spigolon](https://twitter.com/ManuEomm)*
+
 You are going to read about a GraphQL project that is perfect for playing with to skill up on GraphQL by using:
 
 - The [Mercurius](https://github.com/mercurius-js/mercurius) GraphQL server
