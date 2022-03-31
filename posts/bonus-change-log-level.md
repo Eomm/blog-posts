@@ -1,9 +1,9 @@
-# How to change the log level in Fastify
+# How to change the log level at runtime in Fastify
 
 by *[Manuel Spigolon](https://twitter.com/ManuEomm)*
 
 Fastify has a built-in logger that you can use out of the box: [`pino`](https://github.com/pinojs/pino).
-By default you can configure during the server initialization, but you can also change the log level at runtime!
+By default, you can configure during the server initialization, but you can also change the log level at runtime!
 Let's see how to do it!
 
 ## The log level
@@ -41,7 +41,7 @@ fastify.get('/', async (request, reply) => {
 fastify.listen(8080)
 ```
 
-Doing so, you can setup the log level based on the environment variable `LOG_LEVEL` in order to configure it as:
+Doing so, you can set up the log level based on the environment variable `LOG_LEVEL` in order to configure it as:
 
 - `debug`: during the development phase in your laptop
 - `error`: when the application is deployed in production
@@ -61,9 +61,9 @@ fastify.get('/', { logLevel: process.env.LOG_LEVEL_ROUTE }, async (request, repl
 })
 ```
 
-‼️ What if... the new endpoint is under pressure and logs hundred messages per seconds?
+‼️ What if... the new endpoint is under pressure and logs a hundred messages per second?
 
-Many Log Management Softwares (LMS) are billed per lines, so more logs mean more money 💸
+Many Log Management Software (LMS) are billed per line, so more logs mean more money 💸
 
 To solve this, you could change the `LOG_LEVEL_ROUTE` environment variable to `debug` and restart the server, but this has some drawbacks:
 
@@ -101,7 +101,7 @@ In the code example above, we are setting changing the route's log level every 5
 This is a very powerful feature that you can use:
 
 - to reduce your application costs
-- to speed up your application setting the log level to `error` when the application is under heavy load and `info` when it is idle
+- to speed up your application by setting the log level to `error` when the application is under heavy load and `info` when it is idle
 - to debug errors that you can't reproduce in test environments
 - monitor the application
 
@@ -109,7 +109,7 @@ Note this is just an example you can start with to adapt to your needs.
 
 ## End
 
-This article shows you how much flexibile Fastify and its components are.
+This article shows you how flexible Fastify and its components are.
 Within Fastify you can manipulate and configure everything for each route incrementing your control over your application.
 
 For more Fastify content, follow me on [Twitter](https://twitter.com/ManuEomm)!

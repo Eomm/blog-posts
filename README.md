@@ -21,7 +21,7 @@ To see the last version of the application, it is published at [https://fastify-
 1. [BONUS: Build a WebSocket React.js Chat](https://backend.cafe/fastify-websocket-react-chat) - [📝](./posts/bonus-web-socket-chat.md)
 1. [BONUS: How to send tweets from GitHub Actions](https://backend.cafe/how-to-send-tweets-from-github-actions) - [📝](./posts/bonus-tweet-new-releases.md)
 1. [BONUS: GraphQL Federation Playground with Mercurius](https://backend.cafe/graphql-federation-playground-with-mercurius) - [📝](./bonus/graphql-federation/README.md)
-1. [BONUS: Change log level in Fastify](https://backend.cafe/change-log-level-in-fastify) - [📝](./posts/bonus-change-log-level.md)
+1. [BONUS: Change log level in Fastify](https://backend.cafe/how-to-change-the-log-level-at-runtime-in-fastify) - [📝](./posts/bonus-change-log-level.md)
 3. COMING SOON!
 
 
