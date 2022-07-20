@@ -1,6 +1,6 @@
-# Becomig a Fastify JSON Schema GURU!
+# Becoming a Fastify JSON Schema GURU!
 
-Fastify `v4.3.0` has landed and new features are available!
+Fastify `v4.3.0` has landed with new features!
 In detail, there are new functions available to the `request` and `reply` objects that
 allow you to easily work with JSON Schema.
 
@@ -13,10 +13,10 @@ under the hood to provide validation and serialization of JSON data, **but** tho
 been exposed. In this way, it is impossible for developers to use those instances to process JSON schemas
 on their routes' handlers.
 
-Because of this, devs where forced to build their own JSON schema validator and serializer, that is
-a huge pain.
+Because of this, devs were forced to build their own JSON schema validator and serializer, which is a huge pain.
 
-### Why Fastify does not expose the instances?
+
+### Why does Fastify not expose the instances?
 
 Fastify has an abstraction layer that allows it to be agnostic about the JSON schema validator and serializer.
 This abstraction layer is called:
@@ -24,10 +24,10 @@ This abstraction layer is called:
 - [Validator Compiler](https://www.fastify.io/docs/latest/Reference/Server/#validatorcompiler)
 - [Serializer Compiler](https://www.fastify.io/docs/latest/Reference/Server/#serializercompiler)
 
-On top of there there is another component, the [Schema Controller](https://www.fastify.io/docs/latest/Reference/Server/#schemacontroller)
-that manages when the validator and serializer are created and how they should be initializated.
+On top of those compilers, there is another component, the [Schema Controller](https://www.fastify.io/docs/latest/Reference/Server/#schemacontroller)
+that manages when the validator and serializer are created and how they should be initialized.
 
-This layer is structured to let you customize everything in your Fastify application and to keep the
+This layer is structured to let you customise everything in your Fastify application and to keep the
 performance and the memory footprint as low as possible.
 
 So, why Fastify does not expose the instances?
@@ -35,7 +35,7 @@ Because nobody did it before, till now!
 
 ## The solution
 
-One day, [@metcoder95](https://github.com/metcoder95), member of the Fastify community, decided to open a PR to expose
+One day, [@metcoder95](https://github.com/metcoder95), a member of the Fastify community, decided to open a PR to expose
 the validator and serializator instances to all the developers!
 
 The awesome result was that the following code is now possible:
@@ -50,7 +50,7 @@ So, let's see how it works!
 
 Let's jump into the code to understand how this feature works.
 
-First, we need some JSON schema that we will used across the following code examples:
+First, we need some JSON schema that we will use across the following code examples:
 
 ```js
 const bodySchema = {
@@ -134,12 +134,12 @@ This will let you to generate dynamic schemas during the handler execution!
 
 ### Validate and serialize JSON data
 
-The last new feature added to Fastify is the ability to validate and serialize JSON data. This one is just a shortcut to write even less code:
+The last new feature is the ability to validate and serialize JSON data. This one is just a shortcut to writing even less code:
 
 ```js
 fastify.post('/light-foo',
   async function handler (request, reply) {
-    const validationResult = request.validate({ name: 'John' }, bodySchema)
+    const validationResult = request.validateInput({ name: 'John' }, bodySchema)
     console.log(validationResult)
 
     const serializedResponse = reply.serializeInput({ user: { id: 1 } }, responseSchema)
@@ -149,21 +149,21 @@ fastify.post('/light-foo',
 
 ## Performance
 
-Fastify is always thinking about the performance of your application. The new features we just read above, have this mindset too!
+Fastify is always thinking about the performance of your application. The new features we just read above have this mindset too!
 
-- `getValidationFunction`
-- `compileValidationSchema`
-- `validate`
-- `getSerializationFunction`
-- `compileSerializationSchema`
-- `serializeInput`
+- `request.getValidationFunction`
+- `request.compileValidationSchema`
+- `request.validateInput`
+- `reply.getSerializationFunction`
+- `reply.compileSerializationSchema`
+- `reply.serializeInput`
 
-All the new functions implements a `WeakMap` cache to avoid to recompile the functions every time.
+All the new functions implement a `WeakMap`` cache to avoid recompiling the functions every time.
 Compiling a new function is a very expensive operation, so it may impact your application performance.
 
-To avoid this, Fastify caches the compiled functions in a `WeakMap` so, every time you call the above functions with the same JSON schema, it will use the cached version.
+To avoid this, Fastify caches the compiled functions in a `WeakMap` so every time you call the above functions with the same JSON schema, it will use the cached version.
 
-There is a foundamental thing you must do to benefit from this cache: reuse the same JSON schema objects.
+There is a fundamental thing you must do to benefit from this cache: reuse the same JSON schema objects.
 Let's see how to do it!
 
 ### The WeakMap cache
@@ -223,10 +223,11 @@ fastify.get('/',
 
 ## Summary
 
-Thanks to the community contribution, Fastify is now able to compile new functions at runtime and let you to validate and serialize JSON data in your handler without the burden
-to create your own `ajv` and `fast-json-stringify` instances.
+Thanks to the community contribution, Fastify is now able to compile new functions at runtime and let you to validate and serialize JSON data in your handler without the burden of creating your own `ajv` and `fast-json-stringify` instances.
 
 You should now be able to use the new features to generate dynamic schemas and validate and serialize JSON data.
+
+If you have any questions or suggestions, please join the [Fastify discord](https://discord.gg/fastify) and feel free to drop a message.
 
 ## Acknowledgements
 
