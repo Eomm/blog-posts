@@ -158,7 +158,7 @@ Fastify is always thinking about the performance of your application. The new fe
 - `reply.compileSerializationSchema`
 - `reply.serializeInput`
 
-All the new functions implement a `WeakMap`` cache to avoid recompiling the functions every time.
+All the new functions implement a `WeakMap` cache to avoid recompiling the functions every time.
 Compiling a new function is a very expensive operation, so it may impact your application performance.
 
 To avoid this, Fastify caches the compiled functions in a `WeakMap` so every time you call the above functions with the same JSON schema, it will use the cached version.
