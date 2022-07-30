@@ -189,10 +189,34 @@ In this case, we are just adding a random ID to the query string to mock that we
 
 The `sendFile` method will send the file located in the `public/` folder and will show a feedback message to the users to let they know that they will receive the goodies they just payed.
 
+Our last step is to register the `stripe-integration` plugin in the `app.js` file. So, we must add the following line just after the `@fastify/env` registration.
+
+```
+  ...
+        HOST: { type: 'string', default: 'localhost' },
+        BASE_URL: { type: 'string', default: 'http://localhost:3000' }
+      }
+    }
+  })
+
+  app.register(require('./stripe-integration'))
+
+  return app
+}
+```
+
+Now, we can run the application and see the checkout page!
+
+To complete the test payment, you can use the [Stripe fake credit cards](https://stripe.com/docs/testing)
+
+![stripe fake payment](./assets/stripe-fake-pay.png)
+
+After the payment, you will see the `success` page!
+
 ## Summary
 
 Congratulations! You have completed the Fastify with Stripe tutorial!
-Now you can start improving this basic scaffolding to integrate your e-commerce
+Now, you can start improving this basic scaffolding to integrate your e-commerce
 with Stripe through Fastify.
 
 The source code is available at [`stripe-integration`](https://github.com/Eomm/fastify-discord-bot-demo/tree/master/bonus/stripe-integration)
