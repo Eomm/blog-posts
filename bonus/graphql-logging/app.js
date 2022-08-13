@@ -36,7 +36,17 @@ async function main () {
     serviceGateway.log.info(JSON.stringify(res.json(), null, 2))
   }
 
-  // TODO Query introspection
+  // Query introspection
+  {
+    const res = await doQuery(`{
+      __schema {
+        types {
+          name
+        }
+      }
+    }`)
+    serviceGateway.log.info(JSON.stringify(res.json(), null, 2))
+  }
 
   // Mutation
   {
@@ -117,10 +127,7 @@ async function buildGateway (services) {
 }
 
 function logGraphQLDetails (schema, document, context) {
-  const reqIdField = context.app.initialConfig.requestIdLogLabel
-
-  context.app.log.info({
-    [reqIdField]: context.reply.request.id,
+  context.reply.request.info({
     graphql: {
       queries: document.definitions
         .filter(d => d.kind === 'OperationDefinition' && d.operation === 'query')
