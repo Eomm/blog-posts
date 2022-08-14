@@ -38,7 +38,7 @@ So let's try to add some extra information to the log line to be more effective 
 
 ## How to create a basic GQL application?
 
-Luckily, Fastify and Mercurius are highly extensible and let us to add all the information we need.
+Luckily, Fastify and Mercurius are highly extensible and let us add all the necessary information.
 
 First, let's create a sample GraphQL application by creating a new project:
 
@@ -123,7 +123,7 @@ As you can see, the log line **does not contain** any info about the query sent 
 Let's see how to add this info to the log line!
 
 
-## How to add the query to the log line?
+## How to log the query?
 
 Mercurius has a lot of [hooks](https://github.com/mercurius-js/mercurius/blob/HEAD/docs/hooks.md) that allow us to execute custom code before or after some tasks.
 
@@ -161,8 +161,8 @@ app.graphql.addHook('preExecution', function logGraphQLDetails (schema, document
 })
 ```
 
-The `document` argument is the GraphQL document AST that will be executed. You can find more
-details about the document AST in the [GraphQL specification](https://graphql.org/graphql-js/).
+The `document` argument is the GraphQL document AST that will be processed. You can find more
+details about the AST structure in the [GraphQL specification](https://graphql.org/graphql-js/).
 
 Now, re-running the application will log:
 
@@ -193,7 +193,7 @@ If we look closely at the log line, we can see that the `graphql` property conta
 ```
 
 Note that the `queries` object is an array because we can have multiple queries in a single request!
-You can try it by modifying the `sample-app.js` adding a new query:
+You can try it by modifying the `sample-app.js` and adding a new query:
 
 ```js
 await doQuery(app, `{
@@ -204,11 +204,10 @@ await doQuery(app, `{
 
 ## Summary
 
-You have now learned how to use the `preExecution` hook to log the queries that are being executed.
-By doing this, you can see the queries that are being executed and be able to extract some metrics to
-know the GQL queries usages.
+You have now learned how to use the `preExecution` hook to log the queries that are being executed
+and extract some metrics to know the GQL queries usages and all that you may think of.
 
-This blog post has been an inspiration to create a mercurius plugin to log the queries and mutations!!
+This blog post has been an inspiration to create a Mercurius plugin to log the queries and mutations!!
 Check it out [`mercurius-logging`](https://github.com/Eomm/mercurius-logging)!
 
 If you have found this useful, you may read [this article](https://backend.cafe/graphql-federation-playground-with-mercurius).
