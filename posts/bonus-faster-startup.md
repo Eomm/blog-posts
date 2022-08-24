@@ -150,8 +150,8 @@ const fastify = require('fastify')
 const fs = require('fs')
 
 // These modules are used internally by Fastify
-const standaloneAjv = require('@fastify/ajv-compiler/standalone')
-const standaloneFjs = require('@fastify/fast-json-stringify-compiler/standalone')
+const { StandaloneValidator } = require('@fastify/ajv-compiler')
+const { StandaloneSerializer } = require('@fastify/fast-json-stringify-compiler')
 
 // This module is used to generate a valid filename for the compiled functions
 const sanitize = require('sanitize-filename')
@@ -161,14 +161,14 @@ const app = fastify(
     jsonShorthand: false,
     schemaController: {
       compilersFactory: {
-        buildValidator: standaloneAjv({
+        buildValidator: StandaloneValidator({
           readMode: false,
           storeFunction(routeOpts, schemaValidationCode) {
             const fileName = generateFileName(routeOpts)
             fs.writeFileSync(fileName, schemaValidationCode)
           }
         }),
-        buildSerializer: standaloneFjs({
+        buildSerializer: StandaloneSerializer({
           readMode: false,
           storeFunction (routeOpts, schemaSerializationCode) {
             const fileName = generateFileName(routeOpts)
@@ -249,11 +249,11 @@ const app = fastify(
     jsonShorthand: false,
     schemaController: {
       compilersFactory: {
-        buildValidator: standaloneAjv({
+        buildValidator: StandaloneValidator({
           readMode: true,
           restoreFunction
         }),
-        buildSerializer: standaloneFjs({
+        buildSerializer: StandaloneSerializer({
           readMode: true,
           restoreFunction
         }),
