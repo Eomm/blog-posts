@@ -25,6 +25,7 @@ To see the last version of the application, it is published at [https://fastify-
 1. [BONUS: Becoming a Fastify JSON Schema GURU!](https://backend.cafe/becoming-a-fastify-json-schema-guru) - [📝](./posts/bonus-schema-guru.md)
 1. [BONUS: Integrate Stripe with Fastify](https://backend.cafe/integrate-stripe-with-fastify) - [📝](./posts/bonus-stripe.md)
 1. [BONUS: How to log useful data from a GraphQL request?](https://backend.cafe/how-to-log-useful-data-from-a-graphql-request) - [📝](./posts/bonus-mercurius-logging.md)
+1. [BONUS: How to unlock the fastest Fastify server startup](https://backend.cafe/how-to-unlock-the-fastest-fastify-server-startup) - [📝](./posts/bonus-faster-startup.md)
 
 
 > Yeah, I know, the `BONUS` articles are more than the `fastify-discord-app-demo` articles
