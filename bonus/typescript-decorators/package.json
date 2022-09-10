@@ -1,0 +1,33 @@
+{
+  "name": "typescript-decorators",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "ts-standard -p tsconfig.json",
+    "lint:fix": "ts-standard --fix",
+    "build": "tsc -p tsconfig.json",
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Manuel Spigolon <behemoth89@gmail.com> (https://github.com/Eomm)",
+  "license": "MIT",
+  "dependencies": {
+    "@fastify/type-provider-json-schema-to-ts": "2.1.1",
+    "fastify": "4.5.3"
+  },
+  "devDependencies": {
+    "@types/node": "18.7.16",
+    "@typescript-eslint/experimental-utils": "^5.36.2",
+    "ts-node": "10.9.1",
+    "ts-standard": "11.0.0",
+    "typescript": "4.8.3"
+  },
+  "ts-standard": {
+    "ignore": [
+      "**/*.js",
+      "**/*.d.ts"
+    ]
+  }
+}
