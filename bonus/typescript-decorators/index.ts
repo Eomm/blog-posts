@@ -1,6 +1,7 @@
 
 import fastify from 'fastify'
 import { JsonSchemaToTsProvider } from '@fastify/type-provider-json-schema-to-ts'
+import plugin from './a-plugin'
 
 const server = fastify({
   logger: true
@@ -8,38 +9,17 @@ const server = fastify({
   .withTypeProvider<JsonSchemaToTsProvider>()
 
 
+server.register(async function (fastify, opts) {
+  fastify.register(plugin)
 
-declare module 'fastify' {
-  export interface FastifyRequest {
-    session: {
-      [key: string]: any
-      get(key: string): any
-      set(key: string, value: any): void
-    }
-    flash: Boolean
-  }
-  export interface FastifyReply {
-    flash: Boolean
-  }
-}
+  fastify.fooFunction() // type safe!
 
-server.get('/route', {
-  schema: {
-    querystring: {
-      type: 'object',
-      properties: {
-        foo: { type: 'number' },
-        bar: { type: 'string' }
-      },
-      required: ['foo', 'bar']
-    }
-  } as const // don't forget to use const !
+  fastify.get('/', async (request, reply) => {
+    reply.fooReply // type safe!
+    request.fooRequest // type safe!
+    return { hello: 'world' }
+  })
 
-}, (request, reply) => {
-  // type Query = { foo: number, bar: string }
-
-  const { foo, bar } = request.query // type safe!
-  console.log({ foo, bar })
 })
 
 server.get('/ping', async (request, reply) => {
