@@ -17,6 +17,21 @@ async function run () {
     migrationsPath: 'migrations/'
   })
 
+  const loaders = {
+    Developer: {
+      builtProjects: async function loader (queries, context) {
+        const devIds = queries.map(({ obj }) => obj.id)
+        const sql = `SELECT * FROM Projects WHERE devId IN (${devIds.join(',')})`
+        context.app.log.warn('sql: %s', sql)
+
+        const projects = await context.app.sqlite.all(sql)
+        return queries.map(({ obj }) => {
+          return projects.filter(p => p.devId === obj.id)
+        })
+      }
+    }
+  }
+
   const resolvers = {
     Query: {
       developers: async function (parent, args, context) {
@@ -38,7 +53,8 @@ async function run () {
   app.register(mercurius, {
     schema: gqlSchema,
     graphiql: true,
-    resolvers,
+    loaders,
+    resolvers
   })
 
   await app.listen({ port: 3001 })
