@@ -2,7 +2,6 @@
 
 const Fastify = require('fastify')
 const mercurius = require('mercurius')
-const DataLoader = require('dataloader')
 
 const gqlSchema = require('./gql-schema')
 run()

@@ -2,7 +2,6 @@
 
 const Fastify = require('fastify')
 const mercurius = require('mercurius')
-const DataLoader = require('dataloader')
 
 const gqlSchema = require('./gql-schema')
 run()
@@ -38,7 +37,7 @@ async function run () {
   app.register(mercurius, {
     schema: gqlSchema,
     graphiql: true,
-    resolvers,
+    resolvers
   })
 
   await app.listen({ port: 3001 })
