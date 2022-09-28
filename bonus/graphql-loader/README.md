@@ -178,7 +178,7 @@ app.register(mercurius, {
 ```
 
 As you can see, we have replaced the `resolvers.Developer.builtProjects` function with the `loaders` one.
-The difference is that the `loaders` receives an array of queries instead of a single `parent` object.
+The difference is that the `loaders` receives an array of queries (results from the parent query) instead of a single `parent` object.
 Mercurius will batch the queries and call the `loader` function only once.
 
 In this new loader function, you can run a single query to fetch all the data you need and then
