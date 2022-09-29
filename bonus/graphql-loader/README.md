@@ -36,8 +36,7 @@ type Project {
 ```
 
 Let's connect the previous schema to a new `app.js` file, where we will implement a Fastify + Mercurius application.
-_We will use an in-memory database to store the mock data._
-_You can find the SQL data used for this article in the [source code on GitHub](https://github.com/Eomm/fastify-discord-bot-demo/tree/HEAD/bonus/graphql-loader)_
+_We will use an in-memory database to store the mock data. You can find the SQL data used for this article in the [source code on GitHub](https://github.com/Eomm/fastify-discord-bot-demo/tree/HEAD/bonus/graphql-loader)._
 
 ```js
 const Fastify = require('fastify')
@@ -128,7 +127,7 @@ The DataLoader allows you to batch and cache the results of your queries and reu
 
 Mercurius offers you two ways to use DataLoader:
 
-- [**Loader**](https://github.com/mercurius-js/mercurius/blob/HEAD/docs/loaders.md): it is a built-in DataLoader-Like solution that is quick to setup and use.
+- [**Loader**](https://github.com/mercurius-js/mercurius/blob/HEAD/docs/loaders.md): it is a built-in DataLoader-Like solution that is quick to set up and use.
 - [**DataLoader**](https://github.com/graphql/dataloader): it is the standard solution to N+1 problem.
 
 In this article, we are going to see both solutions and compare them.
@@ -178,7 +177,7 @@ app.register(mercurius, {
 ```
 
 As you can see, we have replaced the `resolvers.Developer.builtProjects` function with the `loaders` one.
-The difference is that the `loaders` receives an array of queries (results from the parent query) instead of a single `parent` object.
+The difference is that the `loaders` receive an array of queries (results from the parent query) instead of a single `parent` object.
 Mercurius will batch the queries and call the `loader` function only once.
 
 In this new loader function, you can run a single query to fetch all the data you need and then
@@ -186,7 +185,7 @@ you must return a positionally-matched array of results.
 
 Pros:
 
-- It is quick to setup and use.
+- It is quick to set up and use.
 - It is not necessary to pollute the context.
 - It is managed by Mercurius.
 - Clear separation of concerns between the resolvers and the loaders.
@@ -254,7 +253,7 @@ It supports different ways to accumulate the queries:
 - Frame of execution: it is the default behavior. It accumulates the queries until the next tick. It is the same approach used by Mercurius Loader.
 - Time frame: it accumulates the queries until the specified time frame.
 
-The `batchLoader` function receives an array of keys as single argument, and it must return an array of results positionally matching the input array. As you can see, it is the same approach used by Mercurius Loader.
+The `batchLoader` function receives an array of keys as a single argument, and it must return an array of results positionally matching the input array. As you can see, it is the same approach used by Mercurius Loader.
 
 Pros:
 
@@ -263,13 +262,13 @@ Pros:
 
 Cons:
 
-- Requires more code to setup and configure, you need to create your own `context` to access the database.
+- Requires more code to set up and configure, you need to create your own `context` to access the database.
 - The resolvers must be aware and use the `DataLoader` instance.
 
 ### Summary
 
 You have now learned how to use DataLoaders with Mercurius by exploring two different solutions to solve the N+1 problem.
-You may think that mixing the resolvers and the loaders could be a good idea. Surely it is doable, but you must turn off one of the two cache to avoid inconsistencies and it could be a bit confusing to manage.
+You may think that mixing the resolvers and the loaders could be a good idea. Surely it is doable, but you must turn off one of the two caches to avoid inconsistencies and it could be a bit confusing to manage.
 
 If you have found this helpful, you may read [other articles about Mercurius](https://backend.cafe/series/mercurius).
 
