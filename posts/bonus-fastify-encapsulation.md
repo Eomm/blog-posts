@@ -225,9 +225,9 @@ Note that every plugin you will install will be wrapped with the `fastify-plugin
 if the plugin adds a database connection, it will be encapsulated and inaccessible from the parent context!
 
 
-### Why the Plugin System is so hard to understand?
+### Why is the Plugin System not easy to understand?
 
-We have seen the Plugin System and its workings, but why is it so hard to understand?  
+We have seen the Plugin System and how it works, but why is it not easy to understand?  
 The answer is simple: the Plugin System is a powerful tool, but it is not easy to control when things
 become bigger.  
 
