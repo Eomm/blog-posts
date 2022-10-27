@@ -186,7 +186,17 @@ async function plugin (instance, opts) {
 }
 ```
 
-Here it should become clearer how encapsulation works and its benefits.
+Here it should become clearer how encapsulation works and its benefits:
+
+- you can split your source code into different source files/plugins
+- load plugins with different settings (e.g.: connect to many MongoDB connections by registering the plugin twice and changing the connection URL)
+- add hooks to a limited set of routes: the ones defined in the encapsulation context
+
+In fact, if you try to rewrite our examples by moving the `plugin` function to a file,
+you will verify that you can't access the JavaScript clojure anymore to read some external config,
+but you need to rely on the Fastify `instance` argument only!
+
+This is Fastify's secret souce!
 
 
 ### Breaking the encapsulation
