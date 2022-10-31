@@ -3,6 +3,8 @@
 // https://github.com/facebook/jest/blob/e865fbd66e3dc4adf9d35a35ce91de1bee48bc93/packages/jest-environment-jsdom/src/index.ts
 // https://github.com/kayahr/jest-environment-node-single-context
 // https://github.com/facebook/jest/issues/2549
+// https://github.com/facebook/jest/issues/10039
+// https://github.com/nodejs/node/issues/31852
 
 const aSimpleModule = require('./index.js')
 
@@ -27,8 +29,22 @@ test('Array is not an Array', async () => {
   expect(values.bar).toBeInstanceOf(Array)
 })
 
-test('Date is not a Date', async () => {
-  const app = await aSimpleModule.fastifyApp()
+test('Date is not a Date from SQLITE', async () => {
+  const app = await aSimpleModule.fastifySqlite()
   const resp = await app.inject('/')
   expect(resp.json()).toEqual({ instanceof: true })
+})
+
+test('Date is not a Date from MONGODB', async () => {
+  const app = await aSimpleModule.fastifyMongo()
+  const resp = await app.inject('/')
+  expect(resp.json()).toEqual({ instanceof: true })
+  await app.close()
+})
+
+test('Date is not a Date from POSTGRES', async () => {
+  const app = await aSimpleModule.fastifyPostgres()
+  const resp = await app.inject('/')
+  expect(resp.json()).toEqual({ instanceof: true })
+  await app.close()
 })
