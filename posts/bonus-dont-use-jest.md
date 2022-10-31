@@ -17,6 +17,7 @@ The `jest`'s isolation comes from [its architecture](https://jestjs.io/docs/arch
 
 The `vm` module lets `jest` to run every test file into a sandbox with its own temporaney context.
 The context includes all the `global` classes such `Array`, `Error`, `Date` and many others.
+([_Here the jest source code that does the trick_](https://github.com/facebook/jest/blob/e865fbd66e3dc4adf9d35a35ce91de1bee48bc93/packages/jest-environment-jsdom/src/index.ts))
 
 Since `jest` overwrites some of those components to provide you fancy features like: mocks and fake clocks,
 it must set all the `vm`'s `global` data to set up the context where the test's source code will be executed.
@@ -24,7 +25,8 @@ it must set all the `vm`'s `global` data to set up the context where the test's 
 Unfortunately, when the Node.js core modules create a new instance of a `global` class,
 **they will not use** the `vm`'s context, but they fallback to the native implementation.
 
-This results that the `instanceof` operator will not work as expected and it will generate false negative!
+This results that the `instanceof` operator [will not work](https://github.com/facebook/jest/issues/2549)
+as expected and it will generate false negative!  
 You can get a quick example of this problem in the following snippet:
 
 ```js
@@ -69,11 +71,27 @@ from its codebase because it was causing problems to those developers that rely 
 
 ## How to fix it?
 
-there is an [open issue](https://github.com/nodejs/node/issues/31852) on Node.js core to provide to a `vm` instance
-the Node.js global's native implementation because it is not possible!
+From my analysis: you can't. There is an open issue on [the Node.js repository](https://github.com/nodejs/node/issues/31852)
+to let the `node:vm` module to use the `vm`'s context, but it is still open.
+It seems that the Node.js core team is interested to fix this problem by implementing the new [ShadowRealm](https://github.com/tc39/proposal-shadowrealm) spec and I think we will some progress during 2023.
 
+So, till that moment, the solutions are:
 
+- Avoid to use `jest` as testing framework for Node.js modules/backend applications. I personally prefer [`node-tap`](https://www.npmjs.com/package/tap).
+- Open an issue to the repository of the module that you are using and ask to remove the `instanceof` operator
 
-This issue is tracked 
-https://github.com/facebook/jest/issues/2549
-https://github.com/nodejs/node/issues/31852
+## Summary
+
+`jest` is a great testing framework and it works well for frontend applications,
+but you could face some issue if your dependancies rely on `instanceof`.
+
+It feels like a bet.  
+Moreover, I don't like the concept of using a different `global` context in my test and production environment.
+
+The `jest` architecture makes totally sense for frontend applications that run in the browser and has
+a different `global` context, but it is not the case for Node.js applications.
+
+Now jump into the source code on GitHub and start to play with the GraphQL implemented in Fastify.
+
+If you enjoyed this article comment, share and follow me on [twitter](https://twitter.com/ManuEomm)!
+
