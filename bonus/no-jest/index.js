@@ -1,38 +1,31 @@
 'use strict'
 
 const http = require('http')
-
-class MyError extends Error {
-  constructor (message) {
-    super(message)
-    this.name = this.constructor.name
-  }
-}
+const fastifySqlite = require('fastify-sqlite')
 
 module.exports = {
-  aSimpleArray: [1, 2, 3],
-  isInstanceOfArray: (param) => {
-    return param instanceof Array
-  },
-  aSimpleError: new Error('This is an error'),
-  isInstanceOfError: (param) => {
-    return param instanceof Error
-  },
-  MyError,
   aSimpleHttpRequest: () => {
     return new Promise((resolve, reject) => {
       const request = http.request('http://does-not-exist/', res => {
-        // console.log(`STATUS: ${res.statusCode}`)
-        // res.on('end', () => {
-        //   done(new Error('Ended before failure'))
-        // })
+        // no response
       })
 
-      request.once('error', err => {
-        resolve(err)
-        // expect(err).toBeInstanceOf(Error)
-        // done()
-      })
+      request.once('error', err => { resolve(err) })
     })
+  },
+
+  fastifyApp: async () => {
+    const fastify = require('fastify')()
+    await fastify.register(fastifySqlite, {
+      promiseApi: true,
+      dbFile: ':memory:'
+    })
+    await fastify.sqlite.exec('CREATE TABLE tbl (col DATE)')
+    await fastify.sqlite.exec("INSERT INTO tbl VALUES (DateTime('now'))")
+    fastify.get('/', async (request, reply) => {
+      const data = fastify.sqlite.all('SELECT * FROM tbl')
+      return { instanceof: data.col instanceof Date }
+    })
+    return fastify
   }
 }
