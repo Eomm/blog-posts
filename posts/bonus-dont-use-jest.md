@@ -91,9 +91,17 @@ Now, all will work as expected:
   ✓ Array is not an Array (5 ms)
 ```
 
-⚠️ Note that now the test is working because the `jest` isolation feature is totally disabled,
-removing one of the main features of this framework.
+⚠️ Note that now the test is working because the `jest` isolation feature is totally disabled by running all the tests
+in the same context.
 
+Another working solution is to use a new `jest` runner: [`jest-light-runner`](https://www.npmjs.com/package/jest-light-runner).
+It spin up a Node.js worker thread for each test file giving you the same isolation feature of `jest` but without the `vm`'s context.
+Note that not all the `jest` features are supported by this runner, but all the most used features are working!  
+So, after installing it, you can verify that the tests are green by running the command:
+
+```bash
+jest --runner jest-light-runner test.js
+```
 
 ## Summary
 
@@ -103,9 +111,9 @@ but you could face some issues if your dependencies rely on `instanceof`.
 We discussed about how to fix this problem in different ways:
 
 - Adopt the `jest-environment-node-single-context` custom test environment and its limitations
+- Use the `jest-light-runner` runner to get the same isolation feature of `jest` but with a subset of its features
 - Open an issue to the repository of the module that you are using and ask to remove the `instanceof` operator, _that is still a good practice_
 - Choose another test framework. _I personally prefer [`node-tap`](https://www.npmjs.com/package/tap)_
-
 
 The `jest` architecture makes total sense for frontend applications that run in the browser and has
 a different `global` context, but it does not suite the case for Node.js applications.  
