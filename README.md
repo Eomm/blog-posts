@@ -27,7 +27,7 @@ To see the last version of the application, it is published at [https://fastify-
 1. [BONUS: How to log useful data from a GraphQL request?](https://backend.cafe/how-to-log-useful-data-from-a-graphql-request) - [📝](./posts/bonus-mercurius-logging.md)
 1. [BONUS: How to unlock the fastest Fastify server startup](https://backend.cafe/how-to-unlock-the-fastest-fastify-server-startup) - [📝](./posts/bonus-faster-startup.md)
 1. [BONUS: How to use DataLoader with Mercurius GraphQL?](https://backend.cafe/how-to-use-dataloader-with-mercurius-graphql) - [📝](./posts/bonus-mercurius-loaders.md)
-1. [BONUS: Should you use jest as a testing library?](https://backend.cafe/should-you-use-jest-as-a-testing-library) - [📝](./posts/bonus-dont-use-jest.md)
+1. [BONUS: Should you use jest as a testing library?](https://backend.cafe/should-you-use-jest-as-a-testing-library) - [📝](./posts/bonus-jest-instanceof.md)
 
 
 > Yeah, I know, the `BONUS` articles are more than the `fastify-discord-app-demo` articles
