@@ -18,7 +18,7 @@ The `vm` module lets `jest` run every test file into a sandbox with its own temp
 The context includes all the `global` classes such `Array`, `Error`, `Date` and many others.
 ([_Here the jest source code that does the trick_](https://github.com/facebook/jest/blob/e865fbd66e3dc4adf9d35a35ce91de1bee48bc93/packages/jest-environment-jsdom/src/index.ts))
 
-Since `jest` overwrites some of those components to provide you fancy features like mocks and fake clocks,
+Since `jest` overwrites some of those components to provide you fancy features like mocks, fake clocks and a fast test execution,
 it must set all the `vm`'s `global` data to set up the context where the test's source code will be executed.
 
 Unfortunately, when the Node.js core modules create a new instance of a `global` class,
@@ -46,7 +46,7 @@ test('Array is not an Array', async () => {
 })
 ```
 
-By running the above test with the command `jest --verbose test.js` it will fail with the stange error:
+By running the above test with the command `jest test.js` (with the default `jest` configuration) it will fail with the stange error:
 
 ```bash
   ● Array is not an Array
@@ -70,26 +70,48 @@ from its codebase because it was causing problems for those developers that rely
 
 ## How to fix it?
 
-From my analysis: you can't. There is an open issue on [the Node.js repository](https://github.com/nodejs/node/issues/31852)
+It depends 😄
+
+You [can't](https://github.com/facebook/jest/issues/2549#issuecomment-521177864) out of the box.
+There is an open issue on [the Node.js repository](https://github.com/nodejs/node/issues/31852)
 to let the `node:vm` module to use the `vm`'s context, but it is still open.
 It seems that the Node.js core team is interested in fixing this problem by implementing the new [ShadowRealm](https://github.com/tc39/proposal-shadowrealm) spec, and I think we will make some progress during 2023.
 
-So, till that moment, the solutions are:
+If you can't wait, there is a very quick solution by using the [`jest-environment-node-single-context`](https://www.npmjs.com/package/jest-environment-node-single-context) custom test enviroment.  
+If you install this module and you run the previous code with the command:
 
-- Avoid using `jest` as a testing framework for Node.js modules/backend applications. I personally prefer [`node-tap`](https://www.npmjs.com/package/tap).
-- Open an issue to the repository of the module that you are using and ask to remove the `instanceof` operator
+```bash
+jest --testEnvironment jest-environment-node-single-context test.js
+```
+
+Now, all will work as expected:
+
+```bash
+ PASS  ./test.js
+  ✓ Array is not an Array (5 ms)
+```
+
+⚠️ Note that now the test is working because the `jest` isolation feature is totally disabled,
+removing one of the main features of this framework.
+
 
 ## Summary
 
 `jest` is a great testing framework, and it works well for frontend applications,
 but you could face some issues if your dependencies rely on `instanceof`.
 
-It feels like a bet.  
-Moreover, I don't like the concept of using a different `global` context in my test and production environment.
+We discussed about how to fix this problem in different ways:
+
+- Adopt the `jest-environment-node-single-context` custom test environment and its limitations
+- Open an issue to the repository of the module that you are using and ask to remove the `instanceof` operator, _that is still a good practice_
+- Choose another test framework. _I personally prefer [`node-tap`](https://www.npmjs.com/package/tap)_
+
 
 The `jest` architecture makes total sense for frontend applications that run in the browser and has
-a different `global` context, but it is not the case for Node.js applications.
+a different `global` context, but it does not suite the case for Node.js applications.  
+I don't like the concept of using a different `global` context in my test and production environment.
 
-Now jump into the source code on GitHub and start to play with the GraphQL implemented in Fastify.
+Now jump into this [article source code](https://github.com/Eomm/fastify-discord-bot-demo/tree/HEAD/bonus/jest-instanceof)
+to try the code snippets I wrote to verify my findings.
 
 If you enjoyed this article, comment, share and follow me on [Twitter](https://twitter.com/ManuEomm)!

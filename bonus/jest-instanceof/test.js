@@ -5,6 +5,8 @@
 // https://github.com/facebook/jest/issues/2549
 // https://github.com/facebook/jest/issues/10039
 // https://github.com/nodejs/node/issues/31852
+// https://github.com/facebook/jest/pull/5995/files
+// https://github.com/facebook/jest/issues/2549#issuecomment-521177864
 
 const aSimpleModule = require('./index.js')
 
@@ -13,6 +15,11 @@ const { parseArgs } = require('util')
 test('Error is not an Error', async () => {
   const err = await aSimpleModule.aSimpleHttpRequest()
   expect(err).toBeInstanceOf(Error)
+})
+
+test('Buffer is not an Uint8Array', () => {
+  const buffer = Buffer.from('hello')
+  expect(buffer instanceof Uint8Array).toBe(true)
 })
 
 test('Array is not an Array', async () => {
@@ -27,12 +34,6 @@ test('Array is not an Array', async () => {
   })
   expect(values.bar).toEqual(['a', 'b'])
   expect(values.bar).toBeInstanceOf(Array)
-})
-
-test('Date is not a Date from SQLITE', async () => {
-  const app = await aSimpleModule.fastifySqlite()
-  const resp = await app.inject('/')
-  expect(resp.json()).toEqual({ instanceof: true })
 })
 
 test('Date is not a Date from MONGODB', async () => {
