@@ -5,7 +5,7 @@ causes a lot of problems for backend developers.
 
 In this article, I try to recap the `jest`'s cross and delight and why I don't use this module to test Node.js modules and applications designed to run on the Node.js runtime (_and not in browsers_).
 
-## What is wrong with jest?
+## How does jest work?
 
 `jest` is a JavaScript Testing Framework with many features, including `isolated` written on its website.
 The isolation feature's target performance:
@@ -15,18 +15,18 @@ The isolation feature's target performance:
 The `jest`'s isolation comes from [its architecture](https://jestjs.io/docs/architecture) that uses the [`node:vm`](https://nodejs.org/api/vm.html) core module under the hood.
 
 The `vm` module lets `jest` run every test file into a sandbox with its own temporary context.
-The context includes all the `global` classes such `Array`, `Error`, `Date` and many others.
+The context includes all the `global` classes such `Array`, `Error`, `Date` and many others - the `describe` and the `it` test function for example.
 ([_Here the jest source code that does the trick_](https://github.com/facebook/jest/blob/e865fbd66e3dc4adf9d35a35ce91de1bee48bc93/packages/jest-environment-jsdom/src/index.ts))
 
 Since `jest` overwrites some of those components to provide you fancy features like mocks, fake clocks and a fast test execution,
 it must set all the `vm`'s `global` data to set up the context where the test's source code will be executed.
 
 Unfortunately, when the Node.js core modules create a new instance of a `global` class,
-**they will not use** the `vm`'s context, but they fall back to the native implementation.
+**they will not use** the `vm`'s context, but they fall back to the **native implementation**.
 
-This results in the `instanceof` operator [will not work](https://github.com/facebook/jest/issues/2549)
+This means that the `instanceof` operator [will not work](https://github.com/facebook/jest/issues/2549)
 as expected, and it will generate false negatives!  
-You can get a quick example of this problem in the following snippet:
+You can get a quick example of this problem in the following `test.js` snippet file:
 
 ```js
 const { parseArgs } = require('util')
@@ -46,7 +46,8 @@ test('Array is not an Array', async () => {
 })
 ```
 
-By running the above test with the command `jest test.js` (with the default `jest` configuration) it will fail with the stange error:
+By running the above test with the command `jest test.js` _(with the default `jest` configuration)_
+it will fail with the stange error:
 
 ```bash
   ● Array is not an Array
