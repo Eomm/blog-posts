@@ -1,9 +1,8 @@
 # Should you use jest as a testing library?
 
-`jest`, the popular testing framework created by Facebook with over 50 million downloads per month 
-causes a lot of problems for backend developers.
+[`jest`](https://jestjs.io/), the popular testing framework created by Facebook with over 50 million downloads per month, causes [many problems](https://github.com/facebook/jest/issues/2549) for backend developers.
 
-In this article, I try to recap the `jest`'s cross and delight and why I don't use this module to test Node.js modules and applications designed to run on the Node.js runtime (_and not in browsers_).
+In this article, I try to recap the `jest`'s cross and delight and how to deal with it and what is causing it.
 
 ## How does jest work?
 
@@ -116,8 +115,7 @@ We discussed about how to fix this problem in different ways:
 - Open an issue to the repository of the module that you are using and ask to remove the `instanceof` operator, _that is still a good practice_
 - Choose another test framework. _I personally prefer [`node-tap`](https://www.npmjs.com/package/tap)_
 
-The `jest` architecture makes total sense for frontend applications that run in the browser and has
-a different `global` context, but it does not suite the case for Node.js applications.  
+The `jest` architecture makes sense for frontend applications that run in the browser and has a different `global` context, but it does not suit the case for Node.js applications.  
 I don't like the concept of using a different `global` context in my test and production environment.
 
 Now jump into this [article source code](https://github.com/Eomm/fastify-discord-bot-demo/tree/HEAD/bonus/jest-instanceof)
