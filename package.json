@@ -10,7 +10,7 @@
     "lint:fix": "standard --fix",
     "local:mongo": "docker run -d -p 27017:27017 --rm --name mongoLocal mongo:4.2",
     "local:mongo:stop": "docker container stop mongoLocal",
-    "test": "standard && tap test/**/*.test.mjs"
+    "test": "tap test/**/*.test.mjs"
   },
   "repository": {
     "type": "git",
