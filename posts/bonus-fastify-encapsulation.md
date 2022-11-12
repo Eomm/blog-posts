@@ -11,17 +11,17 @@ We are going to view the encapsulation with awesome images to make it easier to 
 
 ## What is encapsulation?
 
-The encapsulation is not a new engineering concept nor a Fastify exclusive feature.
+Encapsulation is not a new engineering concept nor a Fastify exclusive feature.
 It is the Plugin System base concept, and you can't ignore it if you want to take advantage of Fastify.
 
 You can read its formal description on the [Wikipedia page](https://en.wikipedia.org/wiki/Encapsulation_(computer_programming).
-Briefly, it is a mechanism that allows you to create an isolated _context_ from the others application's _contexts_.
+Briefly, it is a mechanism that allows you to create an isolated _context_ from another application's _contexts_.
 Here is a simple representation of three encapsulated contexts:
 
 [![](https://mermaid.ink/img/pako:eNo9jrEOwjAMRH-lurkLjNmgXZlgIx2sxtAIklSpI4Gq_juGono6vTtZb0afHMPgnmkcqktrY6V3uDYpCr-k2nUrOW5k_yfNRmKHGoFzIO_01fztLWTgwBZGo6P8sLBx0R0VSed37GEkF65RRkfCrSc1CDA3ek5K2XlJ-bS6_RSXDyneN64)](https://mermaid.live/edit#pako:eNo9jrEOwjAMRH-lurkLjNmgXZlgIx2sxtAIklSpI4Gq_juGono6vTtZb0afHMPgnmkcqktrY6V3uDYpCr-k2nUrOW5k_yfNRmKHGoFzIO_01fztLWTgwBZGo6P8sLBx0R0VSed37GEkF65RRkfCrSc1CDA3ek5K2XlJ-bS6_RSXDyneN64)
 
 What does it mean?
-It may seem a trivial concept, but it is very powerful:
+This concept may seem trivial, but it is very powerful:
 
 - Each context can have its own state.
 - Each context can't access the state of other contexts.
@@ -60,7 +60,7 @@ The Plugins System has **these pillars**:
 I'm used to calling the root context the _root application instance_ and every child context as _plugin instance_.  
 Since we have a root context, every Fastify application can be represented as a [tree structure](https://en.wikipedia.org/wiki/Tree_(data_structure) where every node is a context.
 
-Let's see some code to understand better how it works.
+Let's take a look at some code to understand better how it works.
 
 Create a new project:
 
@@ -88,7 +88,7 @@ async function start() {
 The `app` variable in the previous code is the _root application instance_ or Fastify's root context.
 
 Let's try to create some contexts, as shown in the previous image.  
-To do it, we need to call the [`register`](https://www.fastify.io/docs/latest/Reference/Plugins/) method.
+To do this, we need to call the [`register`](https://www.fastify.io/docs/latest/Reference/Plugins/) method.
 
 Edit the `start` function as follows:
 
@@ -118,9 +118,9 @@ app.register(async function plugin (instance, opts) {
 
 By doing this, we are creating two child contexts from the root context.  
 Note that the first argument of the `register` method is a function that represents the _plugin instance_.
-Its first argument, named `instance` is the _context_ itself and gives us access to all the [Fastify's server methods](https://www.fastify.io/docs/latest/Reference/Server/).
+Its first argument, named `instance` is the _context_ itself and gives us access to all of [Fastify's server methods](https://www.fastify.io/docs/latest/Reference/Server/).
 
-We can visualize our code structure as follow, but it will look like the previous image that we recreate
+We can visualize our code structure as follows, but it will look like the previous image that we recreate
 with the Fastify Plugin System:
 
 [![](https://mermaid.ink/img/pako:eNqNkD0PgkAMhv_KpTMOOjKYAC7GuKiDwjk0XJWLckeOkvgR_7sVIq52ap8879D3CaU3BDGcAzaV2i20UzKPYuM9q6RprrZEtt6ppWsZXUnHyWSe_GWlg5UUmXdMN1bTPvu798fBSEcy63O_-_A1UuFZNvLVlwvO8xHngiGCmkKN1shXz4-mgSuqSUMsq8Fw0aDdSzzs2G_vroSYQ0cRdI1BpoVFKaOG-ITXVigZyz6sh5r6tl5v4glkyQ)](https://mermaid.live/edit#pako:eNqNkD0PgkAMhv_KpTMOOjKYAC7GuKiDwjk0XJWLckeOkvgR_7sVIq52ap8879D3CaU3BDGcAzaV2i20UzKPYuM9q6RprrZEtt6ppWsZXUnHyWSe_GWlg5UUmXdMN1bTPvu798fBSEcy63O_-_A1UuFZNvLVlwvO8xHngiGCmkKN1shXz4-mgSuqSUMsq8Fw0aDdSzzs2G_vroSYQ0cRdI1BpoVFKaOG-ITXVigZyz6sh5r6tl5v4glkyQ)
@@ -196,7 +196,7 @@ In fact, if you try to rewrite our examples by moving the `plugin` function to a
 you will verify that you can't access the JavaScript clojure anymore to read some external config,
 but you need to rely on the Fastify `instance` argument only!
 
-This is Fastify's secret souce!
+This is Fastify's secret sauce!
 
 
 ### Breaking the encapsulation
