@@ -297,7 +297,11 @@ Copy the content of the `appStructure.json` file and paste it into the [https://
 you will see the detailed data structure of your application, and you will be able to understand
 where each component is stored in your codebase.
 
-<iframe src="https://jsoncrack.com/widget?json=%5B%5B%22id%22%2C%22name%22%2C%22children%22%2C%22decorators%22%2C%22a%7C0%7C1%7C2%7C3%22%2C%22n%7C0.2JM9MCEhR%22%2C%22fastify%20-%3E%20fastify-overview%22%2C%22a%7C0%7C1%7C3%22%2C%22n%7C0.HHM8bNij5%22%2C%22plugin%22%2C%22decorate%22%2C%22a%7CA%22%2C%22a%7C1%22%2C%22ctx1%22%2C%22o%7CC%7CD%22%2C%22a%7CE%22%2C%22o%7CB%7CF%22%2C%22o%7C7%7C8%7C9%7CG%22%2C%22n%7C0.8lUbww5Wj%22%2C%22ctx2%22%2C%22o%7CC%7CJ%22%2C%22a%7CK%22%2C%22o%7CB%7CL%22%2C%22o%7C7%7CI%7C9%7CM%22%2C%22a%7C0%7C1%7C2%22%2C%22n%7C0.MW5QvoaRy%22%2C%22n%7C0.3E9ftYeINU%22%2C%22n%7C0.UOyFYLyvR%22%2C%22a%7C0%7C1%22%2C%22n%7C0.P5x0PRhZi%22%2C%22o%7CS%7CT%7C9%22%2C%22a%7CU%22%2C%22o%7CO%7CR%7C9%7CV%22%2C%22n%7C0.Qyx1wQNZv%22%2C%22o%7CS%7CX%7C9%22%2C%22n%7C0.LTPmSdvEa%22%2C%22n%7C0.%3Agl3qnHkfx%22%2C%22n%7C0.%3A3WFxiQX2xX%22%2C%22o%7CS%7Cb%7C9%22%2C%22a%7Cc%22%2C%22o%7CO%7Ca%7C9%7Cd%22%2C%22a%7Ce%22%2C%22o%7CO%7CZ%7C9%7Cf%22%2C%22a%7CW%7CY%7Cg%22%2C%22o%7CO%7CQ%7C9%7Ch%22%2C%22a%7Ci%22%2C%22o%7CO%7CP%7C9%7Cj%22%2C%22a%7CH%7CN%7Ck%22%2C%22rootDecorator%22%2C%22o%7CC%7Cm%22%2C%22a%7Cn%22%2C%22o%7CB%7Co%22%2C%22o%7C4%7C5%7C6%7Cl%7Cp%22%5D%2C%22q%22%5D" width="512" height="384" style="border: 2px solid #b9bbbe; border-radius: 6px;"></iframe>
+<iframe height="300" style="width: 100%;" scrolling="no" title="Untitled" src="https://codepen.io/Eomm/embed/XWYRzZj?default-tab=result&editable=true" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href="https://codepen.io/Eomm/pen/XWYRzZj">
+  Untitled</a> by Manuel Spigolon (<a href="https://codepen.io/Eomm">@Eomm</a>)
+  on <a href="https://codepen.io">CodePen</a>.
+</iframe>
 
 Thanks to the plugin, you will be able to see the runtime application graph:
 
