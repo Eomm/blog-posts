@@ -1,6 +1,6 @@
 # The Complete Guide to the Fastify Plugin System
 
-The most important feature of Fastify is the Plugin System and the encapsulation concept.
+One of the most important differentiating features of Fastify is its Plugin System and the encapsulation concept.
 These two features are synonymous as we are talking about the same thing.
 
 The Plugin System is a powerful tool that allows you to build a modular application.
@@ -193,7 +193,7 @@ Here it should become clearer how encapsulation works and its benefits:
 - add hooks to a limited set of routes: the ones defined in the encapsulation context
 
 In fact, if you try to rewrite our examples by moving the `plugin` function to a file,
-you will verify that you can't access the JavaScript clojure anymore to read some external config,
+you will verify that you can't access the JavaScript closure anymore to read some external config,
 but you need to rely on the Fastify `instance` argument only!
 
 This is Fastify's secret sauce!
@@ -225,7 +225,7 @@ async function plugin (instance, opts) {
 }
 ```
 
-Now the application schema will look like this because we broke the `context 1` context, and the parent swallowed it:
+Now the application schema will look like this because we broke the `ctx1` context, and the parent swallowed it:
 
 [![](https://mermaid.ink/img/pako:eNqFj7EOwjAMRH8l8twujBmQKF0YWICtYbASQyMaJ0pdCaj67wT6Adx0Or2TfTPY6Ag03DOmXl1aw6ro3Z1iFLVLafAWxUdWBx4F2dL1P1HX22almm4fWegpalN6UEGgHNC7cnD-Egakp0AGdLEO88OA4aVwOEk8v9iCljxRBVNyKNR6LH8G0DccxpKS8xLzcV3wG7J8AKFxRjM)](https://mermaid.live/edit#pako:eNqFj7EOwjAMRH8l8twujBmQKF0YWICtYbASQyMaJ0pdCaj67wT6Adx0Or2TfTPY6Ag03DOmXl1aw6ro3Z1iFLVLafAWxUdWBx4F2dL1P1HX22almm4fWegpalN6UEGgHNC7cnD-Egakp0AGdLEO88OA4aVwOEk8v9iCljxRBVNyKNR6LH8G0DccxpKS8xLzcV3wG7J8AKFxRjM)
 
@@ -269,10 +269,10 @@ app.register(async function plugin (instance, opts) {
 ```
 
 The plugin hell is not wrong, but it makes the code hard to read and understand.
-This denotes it is less maintainable, and you may be forced to add some `global` to solve some issues.
+This denotes it is less maintainable, and you may be forced to add some `global` variables to solve some issues.
 
 To solve this problem, you can use the [`fastify-overview`](https://github.com/Eomm/fastify-overview) plugin
-to visualize the tree structure and be able to move in your code base without any difficulties.
+to visualize the tree structure and be able to navigate within your code base without any difficulties.
 
 First, we need to install the plugin and configure it:
 
