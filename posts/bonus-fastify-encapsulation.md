@@ -37,7 +37,8 @@ Here is a descriptive image:
 
 [![](https://mermaid.ink/img/pako:eNpFjz0PgjAQhv8KuRkGHTuY8LEZJx0U26GhpxBtS-qRaAj_3UMEbrr3uWe4t4fKGwQB96DbOjoV0kU86TX3jvBN0UYlyS5d81lNRraQ7Whka77MRsY8zxe-nznjslxw-cer6BTEYDFY3Rj-rB_vEqhGixIEr0aHhwTpBvZ0R_74cRUICh3G0LVGExaN5kIWxE0_X0zRNOTDYar6azx8ATfET_I)](https://mermaid.live/edit#pako:eNpFjz0PgjAQhv8KuRkGHTuY8LEZJx0U26GhpxBtS-qRaAj_3UMEbrr3uWe4t4fKGwQB96DbOjoV0kU86TX3jvBN0UYlyS5d81lNRraQ7Whka77MRsY8zxe-nznjslxw-cer6BTEYDFY3Rj-rB_vEqhGixIEr0aHhwTpBvZ0R_74cRUICh3G0LVGExaN5kIWxE0_X0zRNOTDYar6azx8ATfET_I)
 
-This new graph is more complex, but it is very powerful because it defines new behaviours:
+This new image shows us three different [Rooted trees](https://en.wikipedia.org/wiki/Tree_(graph_theory)#Rooted_tree).
+It is more complex, but it is very powerful because it defines new behaviours:
 
 - Each context may have child contexts.
 - Each context could have at most one parent context.
@@ -95,22 +96,22 @@ Edit the `start` function as follows:
 ```js
 const app = fastify({ logger: true })
 
-app.register(async function plugin (instance, opts) {
+app.register(async function pluginOne (instance, opts) {
   // context 1
-  instance.register(async function plugin (instance, opts) {
+  instance.register(async function pluginX (instance, opts) {
   // context X
   })
 })
 
-app.register(async function plugin (instance, opts) {
+app.register(async function pluginTwo (instance, opts) {
   // context 2
-  instance.register(async function plugin (instance, opts) {
+  instance.register(async function pluginY (instance, opts) {
     // context Y
-    instance.register(async function plugin (instance, opts) {
+    instance.register(async function pluginK (instance, opts) {
       // context K
     })
   })
-  instance.register(async function plugin (instance, opts) {
+  instance.register(async function pluginZ (instance, opts) {
     // context Z
   })
 })
@@ -143,7 +144,7 @@ In Fastify, the state is represented by:
 This means that every time you create a new context by calling the `register` method,
 you can pass a new set of options, settings, etc.  
 Moreover, the inheritance implementation inherits the parent context's state.
-In practice, this means that the child contexts inherit the parent's: hooks, decorators and plugins.
+In practice, this means that the child contexts inherit the parent's: hooks, decorators, settings and plugins.
 
 ```js
 const app = fastify({ logger: true })
