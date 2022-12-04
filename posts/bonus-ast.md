@@ -39,7 +39,7 @@ Some examples of transformations are:
 
 Finally, the new AST is then passed to the **compiler**:
 
-> > 📄 Source ➞ ⚙️ Parser ➞ 🌲 AST ➞ ⚙️ Transform ➞ 🌲 AST (Transformed) ➞ ⚙️ Compiler ➞ 📄 Output
+> 📄 Source ➞ ⚙️ Parser ➞ 🌲 AST ➞ ⚙️ Transform ➞ 🌲 AST (Transformed) ➞ ⚙️ Compiler ➞ 📄 Output
 
 The compiler generates output such as:
 
