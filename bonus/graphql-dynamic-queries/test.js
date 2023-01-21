@@ -4,7 +4,7 @@ const { test } = require('tap')
 
 const buildApp = require('./app')
 
-test('Should not access', { skip: 'bug' }, async t => {
+test('Should not access', { skip: 'https://github.com/mercurius-js/auth/issues/98' }, async t => {
   const app = await buildApp()
   const res = await doQuery(app, 'none', `
     query {

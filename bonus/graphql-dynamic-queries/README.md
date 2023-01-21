@@ -130,14 +130,8 @@ async function buildApp () {
         }
       },
       Grid: {
-        resolveType (obj) {
-          if (Object.hasOwnProperty.call(obj, 'adminColumn')) {
-            return 'AdminGrid'
-          }
-          if (Object.hasOwnProperty.call(obj, 'moderatorColumn')) {
-            return 'ModeratorGrid'
-          }
-          return 'UserGrid'
+        resolveType (obj, context) {
+          return getUserType(context)
         }
       }
     }
@@ -147,6 +141,17 @@ async function buildApp () {
 }
 
 module.exports = buildApp
+
+function getUserType (context) {
+  switch (context.reply.request.headers['x-user-type']) {
+    case 'admin':
+      return 'AdminGrid'
+    case 'moderator':
+      return 'ModeratorGrid'
+    default:
+      return 'UserGrid'
+  }
+}
 ```
 
 To verify that everything is working, you can start the server running `node app.js run` and you should
@@ -276,11 +281,11 @@ async function buildApp () {
     resolvers: {
       Query: {
         searchData: async function (root, args, context, info) {
-          switch (context.auth.identity) {
-            case 'admin':
+          switch (getUserType(context)) {
+            case 'AdminGrid':
               return { totalRevenue: 42 }
 
-            case 'moderator':
+            case 'ModeratorGrid':
               return { banHammer: true }
 
             default:
@@ -318,13 +323,107 @@ Nevertheless, we can't run the tests yet because we have not implemented the sec
 
 ### Implementing the Dynamic Queries
 
+The last step is to implement the dynamic queries.
+Right now, our tests are failing with the following error:
+
+> "Cannot query field 'totalRevenue' on type 'Grid'. Did you mean to use an inline fragment on 'AdminGrid'?
+
+The error is correct because we are not using inline fragments to query a Union type.
+
+To overcome this issue, we can use the mercurius [`preValidation`](https://github.com/mercurius-js/mercurius/blob/master/docs/hooks.md#prevalidation) hook.
+Let's try to see how it works:
+
+[![](https://mermaid.ink/img/pako:eNptkMFuwjAMhl_F8qlI8AI9TIIG7bIdNnYjHKLE0AqSFCeZQJR3x213nE-W_8_-bT_QRkdY44lN38KP0gEk1vvm0lHIB1it3ob3rw-4FuL7AJv9jviX-DBzm1GHpuo5WkoJRlJFW7z0LmakmRBV2ZbsGUzJLTiTzZ-qJnVb0Y1syfTfgO2EDN-U-hgSDWtcoif2pnOy92OENOaWPGmsJXWGzxp1eAondnF3DxbrzIWWWHrxJtUZOddjfTSXJFVyXY78OT9i-sfzBTsWWD4?type=png)](https://mermaid.live/edit#pako:eNptkMFuwjAMhl_F8qlI8AI9TIIG7bIdNnYjHKLE0AqSFCeZQJR3x213nE-W_8_-bT_QRkdY44lN38KP0gEk1vvm0lHIB1it3ob3rw-4FuL7AJv9jviX-DBzm1GHpuo5WkoJRlJFW7z0LmakmRBV2ZbsGUzJLTiTzZ-qJnVb0Y1syfTfgO2EDN-U-hgSDWtcoif2pnOy92OENOaWPGmsJXWGzxp1eAondnF3DxbrzIWWWHrxJtUZOddjfTSXJFVyXY78OT9i-sfzBTsWWD4)
+
+When a client sends a GraphQL query, the server will process the GQL Document in the `preValidation` hook,
+before validating the GQL against the GQL Schema.
+
+In this hook, **we can modify the GQL Document** sent by the user to add the inline fragments.
+So, after the `mercurius-auth` plugin registration, we can add the following code:
 
 
+```js
+async function buildApp () {
+  const app = Fastify() // the same as before
 
+  await app.register(GQL, {
+    // the same as before 
+  })
+
+  app.register(require('mercurius-auth'), {
+    // the same as before
+  })
+
+  app.graphql.addHook('preValidation', async (schema, document, context) => {
+    const { visit } = require('graphql')
+
+    const userType = getUserType(context)
+
+    const newDocument = visit(document, {
+      enter: (node) => {
+        // We check if we must add the inline fragment
+        const isMaskedQuery = node.kind === 'Field' &&
+                              node.name.value === 'searchData' &&
+                              node.selectionSet.selections.length === 1 &&
+                              node.selectionSet?.selections.length > 0
+
+        if (isMaskedQuery) {
+          // This is the magic, we add a new inline fragment modifying the AST
+          const nodeWithInlineFragment = {
+            ...node,
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'InlineFragment',
+                  typeCondition: {
+                    kind: 'NamedType',
+                    name: {
+                      kind: 'Name',
+                      value: userType
+                    }
+                  },
+                  selectionSet: node.selectionSet
+                }
+              ]
+            }
+          }
+          return nodeWithInlineFragment
+        }
+      }
+    })
+
+    // We apply the new AST to the GQL Document
+    document.definitions = newDocument.definitions
+  })
+
+  return app
+}
+```
+
+
+In the previous code, we inspect the GraphQL [Document Abstract Syntax Tree (AST)]((https://backend.cafe/what-is-ast)) to determine if we need to add the inline fragment programmatically.
+If we recognize the query as a masked query, we add the inline fragment to the AST and return the modified AST to the GraphQL Document.
+
+By doing this, Mercurius will process the modified GraphQL Document as if the user had sent it with the inline fragment. This means that it will:
+
+- Validate the GraphQL Document against the GraphQL Schema
+- Apply the authentication policy
+- Resolve the query
+
+With this implementation, when running tests, everything should pass successfully.
 
 ## Summary
 
-todo
+We have seen how versatile Mercurius is and how simple it is to implement features like dynamic queries in a complex scenario.
+While the goal may seem challenging, this server-side implementation provides several benefits such as:
+
+- Avoiding breaking changes on the client side to support new features
+- Hiding GraphQL Types from the client through disabling schema introspection
+- Applying query optimizations for the client
+- Providing a specialized response based on the user type instead of a generic one.
+
+This is just a small example of the possibilities when using Mercurius and manipulating the GraphQL Document.
 
 If you have found this helpful, you may read [other articles about Mercurius](https://backend.cafe/series/mercurius).
 
