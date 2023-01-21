@@ -131,10 +131,10 @@ async function buildApp () {
       },
       Grid: {
         resolveType (obj) {
-          if (obj.adminColumn) {
+          if (Object.hasOwnProperty.call(obj, 'adminColumn')) {
             return 'AdminGrid'
           }
-          if (obj.moderatorColumn) {
+          if (Object.hasOwnProperty.call(obj, 'moderatorColumn')) {
             return 'ModeratorGrid'
           }
           return 'UserGrid'
@@ -214,13 +214,111 @@ async function doQuery (app, userType, query) {
 }
 ```
 
-For the sake of simplicity, we will not write all the tests here,
-but you can find the complete code in the [GitHub repository](https://github.com/Eomm/fastify-discord-bot-demo/tree/HEAD/bonus/graphql-dynamic-queries).
+For the sake of simplicity, we will not list all the tests here,
+but you can find the complete complete source code in the [GitHub repository](https://github.com/Eomm/fastify-discord-bot-demo/tree/HEAD/bonus/graphql-dynamic-queries).
 
 Running the tests with `node test.js` will fail because we have not implemented the business logic yet.
 So, let's start writing the code!
 
 ## Implementing the server-side Dynamic Queries
+
+To implement the business logic, there are these main steps:
+
+1. Retrieve the user's role from the request headers
+2. Manage the GraphQL query to return the correct type based on the user's role
+
+Let's solve the first point.
+
+### How to retrieve the user's role
+
+We can implement the user role retrieval by installing the [`mercurius-auth`](https://github.com/mercurius-js/auth) plugin.
+
+```bash
+npm i mercurius-auth@3
+```
+
+Then, we can register the plugin in our `app.js` file.
+To understand what the plugin does, you can read its documentation.
+
+In the following example, we will compare the `x-user-type` HTTP header with the `@auth` directive we are going to define in the schema.
+If they match, the user will be authorized to access the field and run the query.
+
+Let's start by defining the `@auth` directive in the schema:
+
+```graphql
+directive @auth(
+  role: String
+) on OBJECT
+
+# ..same as before
+
+type AdminGrid @auth(role: "admin") {
+  totalRevenue: Float
+}
+
+type ModeratorGrid @auth(role: "moderator") {
+  banHammer: Boolean
+}
+
+type UserGrid @auth(role: "user") {
+  basicColumn: String
+}
+```
+
+Then, we can register the plugin in our `app.js` file and implement a simple `searchData` resolver:
+
+```js
+async function buildApp () {
+  const app = Fastify() // the same as before
+
+  await app.register(GQL, {
+    schema,
+    resolvers: {
+      Query: {
+        searchData: async function (root, args, context, info) {
+          switch (context.auth.identity) {
+            case 'admin':
+              return { totalRevenue: 42 }
+
+            case 'moderator':
+              return { banHammer: true }
+
+            default:
+              return { basicColumn: 'basic' }
+          }
+        }
+      },
+    },
+    Grid: {} // the same as before 
+  })
+
+  app.register(require('mercurius-auth'), {
+    authContext (context) {
+      return {
+        identity: context.reply.request.headers['x-user-type']
+      }
+    },
+    async applyPolicy (policy, parent, args, context, info) {
+      const role = policy.arguments[0].value.value
+      app.log.info('Applying policy %s on user %s', role, context.auth.identity)
+
+      // we compare the schema role directive with the user role
+      return context.auth.identity === role
+    },
+    authDirective: 'auth'
+  })
+
+  return app
+}
+```
+
+Now, the user should be able to retrieve the `totalRevenue` field only if the `x-user-type` header is set to `admin`.
+
+Nevertheless, we can't run the tests yet because we have not implemented the second point.
+
+### Implementing the Dynamic Queries
+
+
 
 
 

@@ -4,6 +4,21 @@ const { test } = require('tap')
 
 const buildApp = require('./app')
 
+test('Should not access', { skip: 'bug' }, async t => {
+  const app = await buildApp()
+  const res = await doQuery(app, 'none', `
+    query {
+      searchData {
+        ... on AdminGrid {
+          totalRevenue
+        }
+      }
+    }
+  `)
+
+  t.equal(res.data.errors[0].message, 'Failed auth policy check on totalRevenue')
+})
+
 test('A user with the `admin` role should be able to retrieve the `totalRevenue` field without inline fragments', async t => {
   const app = await buildApp()
   const res = await doQuery(app, 'admin', `
@@ -13,8 +28,6 @@ test('A user with the `admin` role should be able to retrieve the `totalRevenue`
       }
     }
   `)
-
-  console.log(JSON.stringify(res, null, 2))
 
   t.same(res.data.searchData, { totalRevenue: 42 })
 })

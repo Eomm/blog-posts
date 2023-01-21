@@ -10,16 +10,15 @@ type Query {
 
 union Grid = AdminGrid | ModeratorGrid | UserGrid
 
-
-type AdminGrid {
+type AdminGrid @auth(role: "admin") {
   totalRevenue: Float
 }
 
-type ModeratorGrid {
+type ModeratorGrid @auth(role: "moderator") {
   banHammer: Boolean
 }
 
-type UserGrid {
+type UserGrid @auth(role: "user") {
   basicColumn: String
 }
 `
