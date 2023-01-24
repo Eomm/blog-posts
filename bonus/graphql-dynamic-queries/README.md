@@ -8,7 +8,7 @@ In this article, we'll explore a real world example with Dynamic GQL queries wit
 > The example we will discuss is only one scenario that you may encounter as Software Engineer at NearForm!
 > If you want to solve these kind of problems, [we are hiring!](https://grnh.se/18177b983us)
 
-## What are Dynamic GQL queries?
+## What are Dynamic GraphQL queries?
 
 A dynamic GraphQL query is a query that is constructed at runtime, based on the needs of the client.
 This is useful when the client is uncertain of the structure of the data and needs to retrieve specific data based on conditions,
