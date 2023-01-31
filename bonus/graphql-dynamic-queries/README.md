@@ -2,7 +2,7 @@
 
 by *[Manuel Spigolon](https://twitter.com/ManuEomm)*
 
-If you're using [Fastify](https://www.fastify.io) with [Mercurius]() as your GraphQL adapter, you may be looking for some advanced usages.
+If you're using [Fastify](https://www.fastify.io) with [Mercurius](https://github.com/mercurius-js/mercurius) as your GraphQL adapter, you may be looking for some advanced usages.
 In this article, we'll explore a real world example with Dynamic GQL queries with Mercurius.
 
 > The example we will discuss is only one scenario that you may encounter as Software Engineer at NearForm!
@@ -17,8 +17,8 @@ or when the client needs to retrieve a subset of data depending on the user's ro
 In our use case, we want to invert the control of query dynamicity from the client to the server.
 This means that the client will send a standard GQL query and the server will return the data based on:
 
-- the client's query
-- the user's role
+- The client's query
+- The user's role
 
 It's important to note that we are not talking about returning a subset of a generic GraphQL type,
 but a **completely different GraphQL type**.
