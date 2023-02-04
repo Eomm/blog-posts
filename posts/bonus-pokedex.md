@@ -172,13 +172,152 @@ Let's solve the all!
 
 ### Serve a static website
 
-### How to implement the pagination
+To serve static files with Fastify, you need to use [`@fastify/static`](https://github.com/fastify/fastify-static) plugin.  
+And I used it with Platformatic too, because all the Fastify's plugins are compatible!
+
+As a Fastify user, doing it has been really simple. I created a `/static-website.js` file
+that does exactly what I need:
+
+```js
+const path = require('path')
+const fastifyStatic = require('@fastify/static')
+
+/** @param {import('fastify').FastifyInstance} app */
+module.exports = async function (app) {
+  app.register(fastifyStatic, {
+    root: path.join(__dirname, 'pokedex-ui/build'),
+    decorateReply: false
+  })
+}
+```
+
+The code is quite straitforward but has one awesome addition.  
+The `jsdoc` comment before the `module.exports` statement provides you a cool autocompletion
+feature adding your whole database!
+
+![Platformatic autocompletion](./assets/autocompletion.png)
+
+This pattern works for TypeScript users and pure JavaScript developer too!
+
+After implementing our custom code, we must integrate it into Platformatic, so we need to edit the
+core of our Platformatic application, the `platformatic.db.json` file.  
+This [configuration file controls](https://oss.platformatic.dev/docs/next/reference/db/configuration) everything
+on our application such as:
+
+- The HTTP server
+- The additional plugins and integrations
+- The different environments
+- The authorizations
+- The application metrics and monitoring
+- ..and many other things
+
+In our case we need to add our `static-website.js` to the `plugins` section and turn the `dashboard` offline:
+
+```json5
+{
+  // ... other Platformatic settings
+  "dashboard": false,
+  "plugin": [
+    {
+      "path": "static-website.js"
+    }
+  ]
+}
+```
+
+By default, Platformatic serves a cool dashboard as root endpoint `/`.  
+It is really insigtful to explore all the endpoints Platformatic generated for us.  
+In my case I want to serve the Pokedex UI as root path, so I had to turn it off. (Note there is a feature request [to customize the dashboard endpoint](https://github.com/platformatic/platformatic/issues/657))
+
+
+### How to implement the pagination and the search form
+
+Well.. I don't have too much to say here because it works out of the box!  
+To implement it I need two queries:
+
+- One to search a slice of the whole dataset
+- One to count the whole dataset by using the same filters of the search query
+
+Under the hood, Platformatic is using the [`@platformatic/sql-mapper`](https://oss.platformatic.dev/docs/reference/sql-mapper/introduction) plugin to generate a set of APIs from a database schema.
+[Here you can find a complete list](https://oss.platformatic.dev/docs/reference/sql-mapper/entities/api) of the generated endpoints. This plugin can generate what you need to implement the pagination and the search form without any extra configuration!
+
+The queries are the following:
+
+```gql
+query searchPokemon($limit: LimitInt, $offset: Int, $name: String, $gen: [Int]) {
+  pokemon(limit: $limit, offset: $offset, where: {name: {like: $name}, generation: { in: $gen } }) {
+    id
+    name
+    picture { url }
+    isLegendary
+  }
+}
+
+query countSearchPokemon($name: String, $gen: [Int]) {
+  countPokemon(where: {name: {like: $name}, generation: { in: $gen }}) {
+    total
+  }
+}
+```
+
+As you can see, the only difference is that the first query manages the `limit` and `offset` parameters
+that are a standard de facto for every pagination.
+
+Moreover, every generated enpoint has a [complete query system](https://oss.platformatic.dev/docs/reference/sql-mapper/entities/api#where-clause) to filter the data!
+
+I really enjoyed to focus only on my Pokedex UI, without the need to implement or change something in the backend.
+
 
 ### How to get custom data
 
-### How to implement the search form
+The `Generation` select item in the search box, should list all the Pokemon's generation.
+This query is too much specific and our database schema doesn't facilitate Platformatic to generate
+such query. So we need to write a custom endpoint to do so!
+
+Since Platformatic generate REST and GraphQL endpoints by default, we need to choose if we want
+to implement the custom endpoint as REST or GQL or both of course: it is up to us.
+
+I will go for the GQL one because my UI relays on GraphQL to communicate with the backend.
+
+The operation consist in two steps:
+
+1. Extend the GQL Schema by declaring the custom Query
+2. Implment the new Query resolver
+
+If you don't know GQL and these steps are not clear, I think that reading [these articles]()
+will help you to introduce yourself to GraphQL.
+
+```js
+/** @param {import('fastify').FastifyInstance} app */
+module.exports = async function (app) {
+  // 1. Extend the GQL Schema
+  app.graphql.extendSchema(`
+    extend type Query {
+      generations: [Int]
+    }
+  `)
+
+  // 2. Implement the resolver
+  app.graphql.defineResolvers({
+    Query: {
+      generations: async function (source, args, context, info) {
+        const sql = app.platformatic.sql('SELECT DISTINCT generation FROM Pokemon ORDER BY generation ASC')
+        const generations = await app.platformatic.db.query(sql)
+        return generations.map(g => g.generation)
+      }
+    }
+  })
+}
+```
+
+The handler runs a raw SQL query and return the results.
 
 ### How to expose read-only endpoints
 
 
+
 ## Summary
+
+
+
+If you enjoyed this article, comment, share, and follow me on [Twitter @ManuEomm](https://twitter.com/ManuEomm)!
