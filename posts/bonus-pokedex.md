@@ -270,11 +270,11 @@ I really enjoyed to focus only on my Pokedex UI, without the need to implement o
 
 ### How to get custom data
 
-The `Generation` select item in the search box, should list all the Pokemon's generation.
-This query is too much specific and our database schema doesn't facilitate Platformatic to generate
-such query. So we need to write a custom endpoint to do so!
+The `Generation` select item in the search box should list all the Pokemon's generations.
+This query is too much specific and our database schema doesn't facilitate to Platformatic how to generate
+such query. So we need to write a custom endpoint!
 
-Since Platformatic generate REST and GraphQL endpoints by default, we need to choose if we want
+Since Platformatic generates REST and GraphQL endpoints by default, we need to choose if we want
 to implement the custom endpoint as REST or GQL or both of course: it is up to us.
 
 I will go for the GQL one because my UI relays on GraphQL to communicate with the backend.
@@ -310,14 +310,92 @@ module.exports = async function (app) {
 }
 ```
 
-The handler runs a raw SQL query and return the results.
+The handler runs a raw SQL query and return the results - nice and easy.
+As documented, the `app.platformatic.sql` decorator returns the [`@database`](https://www.atdatabases.org/)
+instance already configured a ready to be used. This module provides you a comprehensive set of features
+to query your database protecting it from SQL injections.
 
 ### How to expose read-only endpoints
 
+By default, Platformatic doesn't performa any authorization check, but we can configure it in the
+`platformatic.db.json` file. Adding a simple `authorization: {}` property will turn authentication on.  
+This will block everything, because with this setup is all blocked by default now.
 
+Since we want to provide read access only, we need to list all the entities we want to grant read access to.
+
+Here a small example:
+
+```json5
+{
+  // .. other configuration properties
+  "authorization": {
+    "rules": [
+      {
+        "role": "anonymous",
+        "entity": "pokemon",
+        "find": true,
+        "save": false,
+        "delete": false
+      },
+      {
+        "role": "anonymous",
+        "entity": "pokemonElement",
+        "find": true,
+        "save": false,
+        "delete": false
+      },
+      {
+        "role": "anonymous",
+        "entity": "picture",
+        "find": true,
+        "save": false,
+        "delete": false
+      }
+      // .. repeat for every database entity
+    ]
+  }
+}
+```
+
+With the previous setup we are granting to any `anonymous` users the `find` operation, while blocking
+the `save` (aka `insert` and `update`) and the `delete` ones.
+This example is a simple one with `true` and `false` values, but every rule item may contain a more complex checks as [broadly documented](https://oss.platformatic.dev/docs/reference/db/authorization/rules).
+
+### How to deploy it?
+
+This step is always a pain for me because I need to search a small and free intrastructure where I can
+publish my experiments and skill up - possibily without providing my credit card!
+
+If you read carefully the installation process output there was this option:
+
+> Do you want to create the github action to deploy this application to Platformatic Cloud? yes
+
+So, the deploy took me these steps:
+
+- Login to [https://platformatic.cloud/](https://platformatic.cloud/)
+- Generate and API key
+- Copy and paste the API key to the GitHub repository's secretes
+- Done!
+
+Nice and shine! So, by opening a PR I get a [clear message](https://github.com/Eomm/pokedex/pull/2#issuecomment-1373335670)
+that link me [my live application](https://sable-happy-alluring-shirt.deploy.space/)!  
+I never try a smoother process than this one! 👏
 
 ## Summary
 
+After building this small project I think that Platformatic is not just an ORM as it may seems, but it
+is an enhanced version of Fastify.  
+It implements a lot of good practices and boring stuff that enable us to spin up a fastify instance with:
 
+- A solid database interface and upgrade process
+- A good authentication and authorization
+- Application already wired to gather metric and measurements
+- Easy to apply CORS settings
+- ..all this extendible with custom Fastify plugins, so all you already did can still be used
+
+Of course we did not cover all these topics with this article but I hope you would likt to try them out.
+Last important thing to mention is that Platformatic did not reached the v1 release yet. It is still
+under development and it adds many new cool features at every release.  
+I'm very curious to know what the `v1` version will include!
 
 If you enjoyed this article, comment, share, and follow me on [Twitter @ManuEomm](https://twitter.com/ManuEomm)!
