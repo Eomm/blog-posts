@@ -21,7 +21,7 @@ but I want to track my working process.
 
 The following image is the raw Entity-Relation schema for our Pokedex:
 
-![Pokedex DB Schema]()
+![Pokedex DB Schema](./assets/pokedex-er.png)
 
 We must write down the code into a `001.do.schema.sql` file. It will be the first migration file.
 
@@ -263,7 +263,7 @@ Moreover, every generated endpoint has a [complete query system](https://oss.pla
 I enjoyed focusing only on my Pokedex UI, without needing to implement or change something in the backend.
 
 
-### How to get custom data
+### How to run a custom query
 
 The `Generation` select item in the search box should list all the Pokemon's generations.
 This query is too specific, and our database schema doesn't facilitate how Platformatic generates such a query. So we need to write a custom endpoint!
@@ -277,7 +277,7 @@ The operation consists in two steps:
 1. Extend the GQL Schema by declaring the custom Query
 2. Implment the new Query resolver
 
-If you don't know GQL and these steps are not clear, I think that reading [these articles]()
+If you don't know GQL and these steps are not clear, I think that reading [these articles](https://backend.cafe/series/mercurius)
 will help you to introduce yourself to GraphQL.
 
 ```js
@@ -352,6 +352,8 @@ Here is a small example:
 With the previous setup, we are granting to any `anonymous` users the `find` operation while blocking the `save` (aka `insert` and `update`) and the `delete` ones.
 This example is simple with `true` and `false` values, but every rule item may contain more complex checks as [broadly documented](https://oss.platformatic.dev/docs/reference/db/authorization/rules).
 
+Restarting our Platformatic service with the new configuration, will block any `DELETE` or `PATCH` calls to our endpoints 🛡️
+
 ### How to deploy it?
 
 This step is always a pain for me because I need to search for a small and free infrastructure where I can publish my experiments and skill up - possibly without providing my credit card!
@@ -360,7 +362,7 @@ If you read the installation process output carefully, there was this option:
 
 > Do you want to create the github action to deploy this application to Platformatic Cloud? yes
 
-So, the deployment took me these steps:
+So, the deployment to the [Platformatic beta environment](https://platformatic.cloud/) took me these steps:
 
 - Login to [https://platformatic.cloud/](https://platformatic.cloud/)
 - Generate an API key
