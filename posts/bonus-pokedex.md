@@ -66,7 +66,7 @@ query gottaCatchThemAll {
 }
 ```
 
-Then, with a [simple magical Node.js script](), we can save the `INSERT` statements into a `002.do.data.sql` file.
+Then, with a [simple magical Node.js script](https://github.com/Eomm/pokedex/blob/main/scripts/generatePokebase.js), we can save the `INSERT` statements into a `002.do.data.sql` file.
 
 At this point, we have the database schema and the data. We can now start to create the Platformatic project.
 
@@ -388,4 +388,5 @@ Of course, we did not cover all these topics in this article but I hope you woul
 The last important thing to mention is that Platformatic has not yet reached the v1 release. It is still under development and adds many new cool features at every release.  
 I'm curious to know what the `v1` version will include!
 
+As always, you can find the source coda at [https://github.com/Eomm/pokedex](https://github.com/Eomm/pokedex).  
 If you enjoyed this article, comment, share, and follow me on [Twitter @ManuEomm](https://twitter.com/ManuEomm)!
