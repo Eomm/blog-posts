@@ -1,6 +1,6 @@
 # How to build a Pokedex with Platformatic
 
-Recently, [Matteo Collina](https://nodeland.dev/), one of Fastify's creators and much more, launched a new Backend As A Service service: [Platformatic](https://platformatic.dev/).
+Recently, [Matteo Collina](https://nodeland.dev/), one of Fastify's creators and much more, launched [Platformatic](https://platformatic.dev/): a _fast_ backend development platform.
 Since it is built on top of Fastify, it claims to be a life changer, and I want to try it and write down my thoughts!
 
 So, what are we going to build? A Pokedex!  
