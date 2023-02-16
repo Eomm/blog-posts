@@ -1,0 +1,22 @@
+{
+  "name": "graphql-dynamic-queries",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "standard --fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Manuel Spigolon <manuel.spigolon@nearform.com> (https://github.com/Eomm)",
+  "license": "MIT",
+  "dependencies": {
+    "fastify": "^4.11.0",
+    "mercurius": "^11.5.0",
+    "mercurius-auth": "^3.0.0"
+  },
+  "devDependencies": {
+    "standard": "^17.0.0",
+    "tap": "^16.3.4"
+  }
+}

@@ -31,6 +31,7 @@ To see the last version of the application, it is published at [https://fastify-
 1. [BONUS: The Complete Guide to the Fastify Encapsulation](https://backend.cafe/the-complete-guide-to-the-fastify-plugin-system) - [📝](./posts/bonus-fastify-encapsulation.md)
 1. [BONUS: What is AST?](https://backend.cafe/what-is-ast) - [📝](./posts/bonus-ast.md)
 1. [Bonus: How to build a Pokedex with Platformatic](https://backend.cafe/how-to-build-a-pokedex-with-platformatic) - [📝](./posts/bonus-pokedex.md)
+1. [BONUS: Dynamic GraphQL queries with Mercurius](https://backend.cafe/dynamic-graphql-queries-with-mercurius) - [📝](./posts/bonus-mercurius-dynamic.md)
 
 
 > Yeah, I know, the `BONUS` articles are more than the `fastify-discord-app-demo` articles
