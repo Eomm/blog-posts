@@ -325,7 +325,7 @@ This configuration will block everything because this setup is all blocked by de
 
 Since we want to provide read access only, we need to list all the entities we want to grant read access.
 
-Here is a small example:
+Here is an example of the output configuration:
 
 ```json5
 {
@@ -354,6 +354,8 @@ Here is a small example:
         "delete": false
       }
       // .. repeat for every database entity
+      // until this new shortcut will be released 🎉
+      // https://github.com/platformatic/platformatic/issues/658
     ]
   }
 }
