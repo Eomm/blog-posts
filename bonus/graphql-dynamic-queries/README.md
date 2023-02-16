@@ -427,6 +427,6 @@ This is just a small example of the possibilities when using Mercurius and manip
 
 If you have found this helpful, you may read [other articles about Mercurius](https://backend.cafe/series/mercurius).
 
-Now jump into the [source code on GitHub](https://github.com/Eomm/fastify-discord-bot-demo/tree/HEAD/graphql-dynamic-queries) and start to play with the GraphQL implemented in Fastify.
+Now jump into the [source code on GitHub](https://github.com/Eomm/fastify-discord-bot-demo/tree/HEAD/bonus/graphql-dynamic-queries) and start to play with the GraphQL implemented in Fastify.
 
 If you enjoyed this article comment, share and follow me on [twitter](https://twitter.com/ManuEomm)!
