@@ -128,8 +128,16 @@ function normalizeList (val) {
 
 So it is important to understand that sometimes simple checks are faster than a single line of code.
 Let's call it `exit early` pattern.  
-This doesn't mean that you should write verbose code, but you should be aware of how to improve the performance.
+This doesn't mean that you should write verbose code, but you should be aware how to improve the performance:
 
+- Conditions that are more likely to be true should be checked first
+- Simple checks are faster than forcing an unique code path
+- A bit of duplication is better than a bit less performance
+
+Another interesting example is to map all the supported ASCII characters to a `Map` object.
+In Fastify [we did this too](https://github.com/fastify/fast-uri/pull/7/files), and all in the name of performance.
+This new code helps us to reduce the complexity of the code by treating uppercase and lowercase characters as the same.
+For sure, this code would not pass a coding interview as well!
 
 ## Know your language and runtime
 
