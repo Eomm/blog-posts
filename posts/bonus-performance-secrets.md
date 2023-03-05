@@ -139,6 +139,43 @@ In Fastify [we did this too](https://github.com/fastify/fast-uri/pull/7/files), 
 This new code helps us to reduce the complexity of the code by treating uppercase and lowercase characters as the same.
 For sure, this code would not pass a coding interview as well!
 
+### Performance shortcuts
+
+Earlier, I mentioned to write readable code and prefer simple checks, but it worth to mention that
+sometimes you may isolate a piece of code that is not readable, but it is faster.
+
+A perfect example is the `new Function` usage. By writing:
+
+```js
+const functionArgs = ['value']
+const functionBody = 'return value[0].toUpperCase()'
+const fn = new Function(...functionArgs, functionBody)
+
+console.log(fn('Hello')) // prints H
+```
+
+You can create a function body at runtime by concatenating strings.
+
+This technique is the secret sauce of Fastify's [`fast-json-stringify`](https://github.com/fastify/fast-json-stringify) module.
+Another extreame example is the `string.startsWith` and `string.endsWith` methods.  
+If we want to check that a string starts with the `foo` string, we can generate a function body like the following:
+
+
+```js
+const functionArgs = ['value']
+const functionBody = `return value[0] === 'f' && value[1] === 'o' && value[2] === 'o'`
+const fn = new Function(...functionArgs, functionBody)
+
+console.log(fn('foo')) // prints true
+console.log(fn('bar')) // prints false
+```
+
+The generated function is **14x** times faster than the native method!
+This is technique [likely to be integrated](https://github.com/fastify/help/issues/711) into the Fastify's code.
+
+⚠️ Note that generating a function body at runtime could be unsafe if you are managing user input to generate the function.
+Be careful when you use this technique to improve the performance!
+
 ## Know your language and runtime
 
 Node.js is a JavaScript runtime, but it has its own peculiarities that you should know to write performant code.
