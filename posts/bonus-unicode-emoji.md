@@ -59,7 +59,7 @@ So, if you print the `🤌` + ` 🏿`, every Unicode viewer will render the `�
 A combining character changes the the character that is immediately before it by creating a new character.
 
 This technique can be used to represent accents, diacritics, etc.
-An example is the `ñ` character, which is the combination of the `n`(`U+006E`) character and the `~`(`U+0303`) character or the japanese `ぴ` character which is `ひ`(`U+3072`) and `゚`(`U+309A`).  
+An example is the `ñ` character, which is the combination of the `n`(`U+006E`) character and the `◌̃`(`U+0303`) character or the japanese `ぴ` character which is `ひ`(`U+3072`) and `゚`(`U+309A`).  
 
 A special mention goes to the `ZWJ` (`U+200D`) [**zero-width joiner**](https://en.wikipedia.org/wiki/Zero-width_joiner) character, which is non-printable and is used to merge two or more characters into a single one.
 It is the case of the `👨‍👧‍👦` emoji, which is the combination of: `👨`(`U+1F468`) + `👧`(`U+1F467`) + `👦`(`U+1F466`) as we read earlier. Every char depends on the previous one.
@@ -178,9 +178,34 @@ You will be surprised to see that the string length is 8 and 4 respectively.
 
 But, how can we count the number of characters in a string without using the `String.length` property?
 
-TODO
+A common solution is to use the [`String.normalize`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/normalize) method to convert the string to a [**normalization form**](https://en.wikipedia.org/wiki/Unicode_equivalence#Normalization).
+Then, using the spread operator to convert the string to an array of **code points** will give us the number of characters in the string.
 
+```js
+[...'ñañaña'.normalize()].length; // 6
+[...'ñañaña'].length; // 9
+```
 
+In this example, the `ñ` is represented by two code points `n`(`U+006E`) + `◌̃`(`U+0303`), but the `normalize` method will convert it to a single code point `ñ`(`U+00F1`).
+
+Unfortunately, this does not work for all emojis:
+
+```
+[...'😊'.normalize()].length // 1
+[...'🤌🏼'.normalize()].length // It is still 2!!!
+```
+
+So, we must adopt a new strategy by using [`Intl.Segmenter`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Segmenter) to split the string into segments and count the number of segments.
+
+```js
+const segmenter = new Intl.Segmenter('en', { granularity: 'grapheme' });
+[...segmenter.segment('🤌🏼')].length // 1 🎉
+```
+
+> **Note**  
+> It is available in Node.js since version 16.0.0 and it is not supported by all the browsers.
+
+You may choose the best solution for your use case.
 
 ## Summary
 
@@ -190,8 +215,9 @@ I tried to explain the concepts in a simple and accessible way. If you want to l
 - https://mathiasbynens.be/notes/javascript-unicode
 - https://dmitripavlutin.com/what-every-javascript-developer-should-know-about-unicode/
 
-Other useful resources that I used to write debug things are:
+Other useful resources that I used to debug things are:
 
+- https://github.com/node-unicode/node-unicode-data to get all the Unicode data in Node.js.
 - https://codepoints.net/ to explore Unicode characters and code points.
 - https://www.compart.com/en/unicode/ to explore Unicode planes and groups.
 
