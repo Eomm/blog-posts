@@ -25,7 +25,7 @@ Now that we have the requirements let's start!
 ## Creating the Platformatic project
 
 We can start by creating the Platformatic project.
-I followed the [Plafromatic documentation](https://oss.platformatic.dev/docs/getting-started/quick-start-guide/#create-a-new-api-project)
+I followed the [Platformatic documentation](https://oss.platformatic.dev/docs/getting-started/quick-start-guide/#create-a-new-api-project)
 that is well-written and helpful.
 
 So, I'm going to recap what I did briefly.
