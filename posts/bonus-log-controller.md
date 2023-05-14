@@ -1,10 +1,10 @@
 # Unlock the Power of Runtime Log Level Control
 
-As a backend developer, logging is an essential aspect of monitoring and debugging applications.
-Traditionally, changing the log level of an application required restarting it or modifying the configuration and redeploying.
+As a backend developer, logging is essential to monitoring and debugging applications.
+Traditionally, changing an application's log level required restarting it or modifying the configuration and redeploying it.
 
-However, there are scenarios where changing the log level at runtime becomes necessary to efficiently monitor and troubleshoot applications.
-This article introduces a the new [`fastify-log-controller`](https://github.com/Eomm/fastify-log-controller) plugin that enables changing the log level of your application at runtime, without the need for restarts or resetting the in-memory state!
+However, there are scenarios where changing the log level at runtime becomes necessary to monitor and troubleshoot applications efficiently.
+This article introduces the new [`fastify-log-controller`](https://github.com/Eomm/fastify-log-controller) plugin that enables changing the log level of your application at runtime without the need for restarts or resetting the in-memory state!
 
 
 ## The wrong log level
@@ -37,10 +37,10 @@ fastify.get('/some-route', {
 ```
 
 This feature is useful when you want to reduce the noise of the logs or increase the verbosity of a specific context or route.
-Although this feature is powerful, it's not possible to change it at runtime by default.  
+Although this feature is powerful, changing it at runtime by default is impossible.  
 So, if you don't implement a custom solution, you can't adapt to changing debugging or monitoring requirements without **restarting the application**! -and in the worst case, you may need to **redeploy the application** if the log level is defined in the configuration file!
 
-Sometimes, you may need to increase the log level to get more detailed logs for specific contexts or decrease it to reduce the noise. Having the ability to modify the log level dynamically can significantly enhance the debugging and monitoring capabilities of your application, helping your support team to troubleshoot issues faster 🚀!
+Sometimes, you may need to increase the log level to get more detailed logs for specific contexts or decrease it to reduce the noise. Having the ability to modify the log level dynamically can significantly enhance your application's debugging and monitoring capabilities, helping your support team troubleshoot issues faster 🚀!
 
 
 ## How to change the log level at runtime
@@ -61,7 +61,7 @@ Here is the first step:
 npm install fastify-log-controller
 ```
 
-Create a new file `example.js` and add the following scaffold:
+Create a new file, `example.js`, and add the following scaffold:
 
 ```js
 async function example () {
@@ -132,7 +132,7 @@ Since the log level of the `bar` encapsulated context is set to `debug`, the `in
 ### Customize the log level of a route
 
 To customize the log level of a route, you need to do the same thing as for the encapsulated context.
-In this case you will need to wrap the route with the `register` method and set the `logCtrl` option as before.
+In this case, you will need to wrap the route with the `register` method and set the `logCtrl` option as before.
 
 So, modify the `example.js` file as follows:
 
@@ -181,14 +181,14 @@ Now, if you call the `/route` route, you should see the `info` message in the co
 The `fastify-log-controller` plugin accepts the following options:
 
 - `optionKey: string` _(default: `logCtrl`)_  
-  The key used to set the log level of an encapsulated context or route.
+  The property name used to set the log level of an encapsulated context or route.
 - `routeConfig: object` _(default: `{}`)_  The object can contain the [Fastify route configuration](https://www.fastify.io/docs/latest/Reference/Routes/#routes-options).
   The configuration of the `POST /log-level` route. You can't change the `handler` and `schema` properties only - so you will be able to add an authentication strategy.
 
 
 ## Summary
 
-In this article you have found a convenient solution to the problem of changing log levels at runtime in a Fastify application. By registering this plugin, you gain the ability to dynamically control the log levels for different encapsulated contexts without the need for application restarts or resetting the in-memory state.
+In this article, you have found a convenient solution to the problem of changing log levels at runtime in a Fastify application. By registering this plugin, you can dynamically control the log levels for different encapsulated contexts without needing application restarts or resetting the in-memory state.
 
 This plugin introduces a new route at `/log-level`, allowing you to send a `POST` request to modify the log level for a specific encapsulated context. With the ability to adjust log levels at runtime, you can fine-tune your logging strategy, enabling more detailed logs for debugging or reducing noise in production environments.
 
