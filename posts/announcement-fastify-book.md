@@ -36,7 +36,7 @@ Here is a list of the chapters included in the book:
 - _Chapter 14:_ Developing a GraphQL API
 - _Chapter 15:_ Type-Safe Fastify
 
-We hope you will find all the helpful content and that it will help you become a Fastify expert!
+We hope you will find all the content helpful and that it will help you become a Fastify expert!
 
 
 ## Pre-order your copy today!
@@ -47,7 +47,7 @@ This book covers many topics, including Fastify's core concepts, routing, plugin
 Whether you are a seasoned developer or just starting your journey with Fastify,
 this book will empower you to build high-performance web applications with ease.
 
-Inside the Book:
+Inside the book:
 - Gain a deep understanding of Fastify's architecture and how it differs from other Node.js frameworks
 - Explore various routing techniques and advanced features to build robust APIs and microservices
 - Learn how to leverage Fastify's plugin system to enhance functionality and streamline development
