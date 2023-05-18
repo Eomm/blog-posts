@@ -3,7 +3,7 @@
 Me ([Manuel Spigolon]), [Maksim Sinik] and [Matteo Collina] are thrilled to share some exciting news with the Fastify community!
 After two years of hard work and dedication, we are delighted to announce the official release date of our book!
 
-[**Accelerating Server-Side Development with Fastify**][book] will be released on **16th June 2023!** 🗓️
+[**'Accelerating Server-Side Development with Fastify'**][book] will be released on **16th June 2023!** 🗓️
 
 This book aims to be the definitive resource for developers looking to harness the full potential of [Fastify], a lightning-fast web framework for Node.js.
 
@@ -41,7 +41,7 @@ We hope you will find all the content helpful and that it will help you become a
 
 ## Pre-order your copy today!
 
-With great pleasure, we announce that [_Accelerating Server-Side Development with Fastify_][book] will be officially released on **16th June 2023!**
+With great pleasure, we announce that [_'Accelerating Server-Side Development with Fastify' ][book] will be officially released on **16th June 2023!**
 This book covers many topics, including Fastify's core concepts, routing, plugins, testing, and deployment strategies.
 
 Whether you are a seasoned developer or just starting your journey with Fastify,
@@ -56,7 +56,7 @@ Inside the book:
 
 Pre-order your copy today and embark on a journey to become a Fastify expert!
 
-[📖 Pre-order the Accelerating Server-Side Development with Fastify book 📘][book]
+[📖 Pre-order the 'Accelerating Server-Side Development with Fastify' book 📘][book]
 
 We hope it will serve as a valuable resource for the Fastify community.  
 We look forward to hearing your feedback on the book!
