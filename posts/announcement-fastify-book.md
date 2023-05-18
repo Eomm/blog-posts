@@ -7,6 +7,19 @@ After two years of hard work and dedication, we are delighted to announce the of
 
 This book aims to be the definitive resource for developers looking to harness the full potential of [Fastify], a lightning-fast web framework for Node.js.
 
+## Build high-performance web applications with ease
+
+_'Accelerating Server-Side Development with Fastify'_ covers many topics.
+These include Fastify's core concepts, routing, plugins, testing, and deployment strategies.
+Whether you are a seasoned developer or just starting your journey with Fastify, this book will empower you to build high-performance web applications with ease.
+
+What’s inside _'Accelerating Server-Side Development with Fastify'_:
+- Gain a deep understanding of Fastify's architecture and how it differs from other Node.js frameworks
+- Explore various routing techniques and advanced features to build robust APIs and microservices
+- Learn how to leverage Fastify's plugin system to enhance functionality and streamline development
+- Discover best practices for testing Fastify applications, ensuring code quality and reliability
+- Master deployment strategies, including containerization and serverless deployment options
+
 
 ## Chapter list
 
@@ -41,20 +54,7 @@ We hope you will find all the content helpful and that it will help you become a
 
 ## Pre-order your copy today!
 
-With great pleasure, we announce that [_'Accelerating Server-Side Development with Fastify' ][book] will be officially released on **16th June 2023!**
-This book covers many topics, including Fastify's core concepts, routing, plugins, testing, and deployment strategies.
-
-Whether you are a seasoned developer or just starting your journey with Fastify,
-this book will empower you to build high-performance web applications with ease.
-
-Inside the book:
-- Gain a deep understanding of Fastify's architecture and how it differs from other Node.js frameworks
-- Explore various routing techniques and advanced features to build robust APIs and microservices
-- Learn how to leverage Fastify's plugin system to enhance functionality and streamline development
-- Discover best practices for testing Fastify applications, ensuring code quality and reliability
-- Master deployment strategies, including containerization and serverless deployment options
-
-Pre-order your copy today and embark on a journey to become a Fastify expert!
+Pre-order your copy today using the link below and start your journey to becoming a Fastify expert!
 
 [📖 Pre-order the 'Accelerating Server-Side Development with Fastify' book 📘][book]
 
@@ -78,7 +78,8 @@ Working on this project has been an honour.
 Thank you,
 Manuel
 
-If you enjoyed this article, comment, share and follow me on [Twitter](https://twitter.com/ManuEomm)!
+If you enjoyed this article and that you’ll like _'Accelerating Server-Side Development with Fastify'_.
+Comment, share and follow me on [Twitter](https://twitter.com/ManuEomm)!
 
 [Packt]: https://www.packtpub.com/
 [Fastify]: https://www.fastify.io/
