@@ -1,4 +1,4 @@
-# Official Release Date of "Accelerating Server-Side Development with Fastify" Book
+# Official Release Date of 'Accelerating Server-Side Development with Fastify' Book
 
 Me ([Manuel Spigolon]), [Maksim Sinik] and [Matteo Collina] are thrilled to share some exciting news with the Fastify community!
 After two years of hard work and dedication, we are delighted to announce the official release date of our book!
