@@ -83,7 +83,7 @@ Comment, share and follow me on [Twitter](https://twitter.com/ManuEomm)!
 
 [Packt]: https://www.packtpub.com/
 [Fastify]: https://www.fastify.io/
-[book]: https://www.packtpub.com/product/accelerating-server-side-development-with-fastify/9781800563582
+[book]: https://packt.link/DvIDB
 [Manuel Spigolon]: https://twitter.com/ManuEomm
 [Maksim Sinik]: https://twitter.com/maksimsinik
 [Matteo Collina]: https://twitter.com/matteocollina
