@@ -182,9 +182,9 @@ Now, if you call the `/route` route, you should see the `info` message in the co
 
 The `fastify-log-controller` plugin accepts the following options:
 
-- `optionKey: string` _(default: `logCtrl`)_  
+- `optionKey: string` _(default: `logCtrl`)_.  
   The property name used to set the log level of an encapsulated context or route.
-- `routeConfig: object` _(default: `{}`)_  The object can contain the [Fastify route configuration](https://www.fastify.io/docs/latest/Reference/Routes/#routes-options).
+- `routeConfig: object` _(default: `{}`)_.  The object can contain the [Fastify route configuration](https://www.fastify.io/docs/latest/Reference/Routes/#routes-options).
   The configuration of the `POST /log-level` route. You can't change only the `handler` and `schema` properties, so you will be able to add an authentication strategy.
 
 
