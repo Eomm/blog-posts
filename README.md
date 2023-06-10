@@ -33,8 +33,9 @@ To see the last version of the application, it is published at [https://fastify-
 1. [BONUS: How to build a Pokedex with Platformatic](https://backend.cafe/how-to-build-a-pokedex-with-platformatic) - [📝](./posts/bonus-pokedex.md)
 1. [BONUS: Dynamic GraphQL queries with Mercurius](https://backend.cafe/dynamic-graphql-queries-with-mercurius) - [📝](./posts/bonus-mercurius-dynamic.md)
 1. [BONUS: The Secrets Behind High Performance](https://backend.cafe/the-secrets-behind-high-performance-with-node-js) - [📝](./posts/bonus-performance-secrets.md)
-1. [BONUS: How to handle emojis in Node.js](https://backend.cafe//how-to-handle-emojis-in-nodejs) - [📝](./posts/bonus-unicode-emoji.md)
+1. [BONUS: How to handle emojis in Node.js](https://backend.cafe/how-to-handle-emojis-in-nodejs) - [📝](./posts/bonus-unicode-emoji.md)
 1. [ANNOUNCEMENT: Fastify Book!](https://backend.cafe/fastify-v4-book) - [📝](./posts/announcement-fastify-book.md)
+1. [BONUS: Unlock the Power of Runtime Log Level Control](https://backend.cafe/unlock-the-power-of-runtime-log-level-control) - [📝](./posts/bonus-log-controller.md)
 1. [BONUS: Validate the Fastify input with Joi](https://backend.cafe/validate-the-fastify-input-with-joi) - [📝](./posts/bonus-fastify-joi.md)
 
 
