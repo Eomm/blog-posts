@@ -1,7 +1,7 @@
 # Validate the Fastify input with Joi
 
 If you are an `hapi` developer, you may know the [`joi`](https://www.npmjs.com/package/joi) library.
-It is a powerful validation library that allows you to define programmatically schemas for your data and validate them with ease.
+It is a powerful validation library that allows you to define programmatic schemas for your data and validate them with ease.
 
 One of the most hard things when you migrate from `hapi` to `fastify` is the complexity to keep using `joi` for the route's input validation.
 
