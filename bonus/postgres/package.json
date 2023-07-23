@@ -1,0 +1,25 @@
+{
+  "name": "postgres",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start-pg": "docker run --rm -p 5432:5432 --name fastify-postgres -e POSTGRES_PASSWORD=postgres -d postgres:15-alpine",
+    "stop-pg": "docker stop fastify-postgres",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Manuel Spigolon <behemoth89@gmail.com> (https://github.com/Eomm)",
+  "license": "MIT",
+  "dependencies": {
+    "@fastify/postgres": "^5.2.0",
+    "fastify": "^4.20.0",
+    "JSONStream": "^1.3.5",
+    "pg": "^8.11.1",
+    "pg-cursor": "^2.10.1",
+    "pg-query-stream": "^4.5.1"
+  },
+  "devDependencies": {
+    "standard": "^17.1.0"
+  }
+}
