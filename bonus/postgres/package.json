@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start-pg": "docker run --rm -p 5432:5432 --name fastify-postgres -e POSTGRES_PASSWORD=postgres -d postgres:15-alpine",
-    "stop-pg": "docker stop fastify-postgres",
+    "start:dev": "node --watch app.js",
+    "start:pg": "docker run --rm -p 5432:5432 --name fastify-postgres -e POSTGRES_PASSWORD=postgres -d postgres:15-alpine",
+    "stop:pg": "docker stop fastify-postgres",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

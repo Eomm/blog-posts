@@ -1,19 +1,50 @@
-const { Readable } = require('stream')
-const Cursor = require('pg-cursor')
+'use strict'
 
-module.exports = class ReadableCursor extends Readable {
+const { Readable } = require('node:stream')
+const Cursor = require('pg-cursor')
+const JSONStream = require('JSONStream')
+
+const { STREAM_QUERY } = require('./utils')
+
+module.exports = async function (app, opts) {
+  app.get('/api/cursor', {
+    schema: {
+      query: {
+        type: 'object',
+        properties: {
+          rowCount: { type: 'number', default: 500_000 }
+        }
+      }
+    }
+  }, queryCursor)
+}
+
+async function queryCursor (request, reply) {
+  const client = await this.pg.connect()
+  const cursor = new ReadableCursor({
+    query: STREAM_QUERY,
+    client,
+    rows: request.query.rowCount
+  })
+
+  reply.type('application/json')
+  return cursor.pipe(JSONStream.stringify())
+}
+
+class ReadableCursor extends Readable {
   cursor = null
   client = null
   query = null
 
-  constructor (query, client) {
+  constructor ({ query, client, rows }) {
     super({ objectMode: true, highWaterMark: 500 })
     this.query = query
     this.client = client
+    this.rowsCount = rows
   }
 
   _construct (callback) {
-    this.cursor = this.client.query(new Cursor(this.query, []))
+    this.cursor = this.client.query(new Cursor(this.query, [this.rowsCount]))
     callback()
   }
 

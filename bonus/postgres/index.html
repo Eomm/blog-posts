@@ -15,42 +15,78 @@
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 
   <script type="text/babel">
+    const StopAtContext = React.createContext();
+
+    function StopAtProvider ({ children }) {
+      const [stopAt, setStopAt] = React.useState(500000);
+
+      return (
+        <StopAtContext.Provider value={{ stopAt, setStopAt }}>
+          {children}
+        </StopAtContext.Provider>
+      );
+    }
+
+    function StopAtInput () {
+      const { stopAt, setStopAt } = React.useContext(StopAtContext);
+
+      const handleInputChange = (event) => {
+        const newValue = event.target.value.replace(/\D/g, '');
+        setStopAt(Number(newValue));
+      };
+
+      return (
+        <input
+          type="text"
+          value={stopAt.toLocaleString()}
+          onChange={handleInputChange}
+          style={{ marginBottom: '10px' }}
+        />
+      );
+    }
+
     // React component for the button and elapsed time display using React Hooks
-    function StreamButton ({ url }) {
+    function StreamButton ({ name, url }) {
       const [elapsedTime, setElapsedTime] = React.useState(null);
       const [rowCount, setRowCount] = React.useState(null);
+      const { stopAt } = React.useContext(StopAtContext);
 
       const handleClick = async () => {
         setElapsedTime(-1);
         const startTime = Date.now();
         try {
-          const response = await fetch(url);
+          const response = await fetch(`${url}?${new URLSearchParams({ rowCount: stopAt, })}`);
+
           const data = await response.json();
           setRowCount(data.length)
         } catch (error) {
           console.error('Error:', error);
         }
-        const endTime = Date.now();
-        const elapsedSeconds = (endTime - startTime) / 1000;
+        const elapsedSeconds = (Date.now() - startTime) / 1000;
         setElapsedTime(elapsedSeconds);
       };
 
       return (<div>
-        <button onClick={handleClick}>Perform HTTP Call to {url}</button>
-        {elapsedTime > 0 && <p>Elapsed Time: {elapsedTime} seconds. Total rows {rowCount}</p>}
+        <button onClick={handleClick}>Perform HTTP: {name}</button>
         {elapsedTime === -1 && <p>Elapsed Time: ⏳</p>}
+        {elapsedTime > 0 && <p>Elapsed Time: {elapsedTime} seconds. Total rows {rowCount}</p>}
       </div>);
     }
 
-    function BatchButton ({ url }) {
+    function BatchButton ({ name, url }) {
+      const { stopAt } = React.useContext(StopAtContext);
       const [elapsedTime, setElapsedTime] = React.useState(null);
       const [rowCount, setRowCount] = React.useState(null);
+      const [batchSize, setBatchSize] = React.useState(50000); // Default batchSize
+
+      const handleBatchSizeChange = (event) => {
+        const newBatchSize = parseInt(event.target.value.replace(/\D/g, ''));
+        setBatchSize(newBatchSize);
+      };
 
       const handleClick = async () => {
         setElapsedTime(-1);
         const startTime = Date.now();
-        const batchSize = 50000;
-        const stopAt = 500000;
         let offset = 0;
 
         try {
@@ -58,17 +94,16 @@
             const response = await fetch(`${url}?offset=${offset}&limit=${batchSize}`);
             const data = await response.json();
             const currentRowCount = data.length + offset;
-            setRowCount(currentRowCount)
+            setRowCount(currentRowCount);
 
             if (data.length === 0 || currentRowCount >= stopAt) {
-              // No more data to fetch, exit the loop
+              // No more data to fetch or reached the stopAt limit, exit the loop
               break;
             }
 
             // Increment the offset for the next batch
             offset += data.length;
           }
-
         } catch (error) {
           console.error('Error:', error);
         }
@@ -77,19 +112,35 @@
         setElapsedTime(elapsedSeconds);
       };
 
-      return (<div>
-        <button onClick={handleClick}>Perform HTTP Call to {url}</button>
-        {elapsedTime > 0 && <p>Elapsed Time: {elapsedTime} seconds. Total rows {rowCount}</p>}
-        {elapsedTime === -1 && <p>Elapsed Time: ⏳</p>}
-      </div>);
+      return (
+        <div>
+          <label htmlFor="batchSizeInput">Batch Size:</label>
+          <input
+            id="batchSizeInput"
+            type="text"
+            value={batchSize.toLocaleString()}
+            onChange={handleBatchSizeChange}
+            style={{ marginRight: '10px' }}
+          />
+          <button onClick={handleClick}>Perform HTTP: {name}</button>
+          {elapsedTime > 0 && <p>Elapsed Time: {elapsedTime} seconds. Total rows {rowCount}</p>}
+          {elapsedTime === -1 && <p>Elapsed Time: ⏳</p>}
+        </div>
+      );
     }
 
     // Mount the React component to the 'root' element
-    ReactDOM.render(<>
-      <StreamButton url="/api/stream" />
-      <BatchButton url="/api/batch" />
-      <StreamButton url="/api/cursor" />
-    </>, document.getElementById('root'));
+    ReactDOM.render(
+      <StopAtProvider>
+        <StopAtInput />
+        <StreamButton name="pg-query-stream" url="/api/stream" />
+        <br />
+        <BatchButton name="batch queries" url="/api/batch" />
+        <br />
+        <StreamButton name="pg-cursor" url="/api/cursor" />
+        <br />
+      </StopAtProvider>,
+      document.getElementById('root'));
   </script>
 </body>
 
