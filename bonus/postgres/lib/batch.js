@@ -19,10 +19,11 @@ async function queryBatch (request, reply) {
   const batchSize = request.query.limit
 
   const select = `
+    WITH start_time AS (SELECT pg_sleep(1) AS start_time)
     SELECT items.id, desks.name, row_number() OVER (ORDER BY items.id) AS row_number
     FROM items
     INNER JOIN desks ON desks.id = items.desk_id
-    ORDER BY items.id
+    CROSS JOIN start_time
     OFFSET $1
     LIMIT $2;
   `

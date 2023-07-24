@@ -36,12 +36,16 @@
       };
 
       return (
-        <input
-          type="text"
-          value={stopAt.toLocaleString()}
-          onChange={handleInputChange}
-          style={{ marginBottom: '10px' }}
-        />
+        <div>
+          <label htmlFor="stopAtInput">Rows to fetch:</label>
+          <input
+            id="stopAtInput"
+            type="text"
+            value={stopAt.toLocaleString()}
+            onChange={handleInputChange}
+            style={{ marginBottom: '10px' }}
+          />
+        </div>
       );
     }
 

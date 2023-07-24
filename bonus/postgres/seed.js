@@ -14,9 +14,8 @@ CREATE TABLE items (
   desk_id INTEGER NOT NULL REFERENCES desks(id)
 );
 
-
 INSERT INTO desks (name) (
-  SELECT md5(random()::text) FROM generate_series(1,1000)
+  SELECT md5(random()::text) FROM generate_series(1,200000)
 );
 
 WITH max_desk AS (

@@ -20,7 +20,9 @@ module.exports = async function (app, opts) {
 
 async function queryStream (request, reply) {
   const client = await this.pg.connect()
-  const query = new QueryStream(STREAM_QUERY, [request.query.rowCount])
+  const query = new QueryStream(STREAM_QUERY, [request.query.rowCount], {
+    highWaterMark: 500
+  })
   const stream = client.query(query)
 
   stream.on('end', () => { client.release() })
