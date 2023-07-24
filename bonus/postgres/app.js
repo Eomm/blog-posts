@@ -7,7 +7,7 @@ const app = require('fastify')({ logger: true })
 const QueryStream = require('pg-query-stream')
 const JSONStream = require('JSONStream')
 
-const Cursor = require('pg-cursor')
+const ReadableCursor = require('./cursor')
 
 app.get('/', async function serveUi (request, reply) {
   reply.type('text/html')
@@ -65,5 +65,15 @@ async function queryStream (request, reply) {
 }
 
 async function queryCursor (request, reply) {
-  // todo
+  const client = await this.pg.connect()
+  const select = `
+    SELECT items.id, desks.name, row_number() OVER (ORDER BY items.id) AS row_number
+    FROM items
+    INNER JOIN desks ON desks.id = items.desk_id
+    ORDER BY items.id
+    LIMIT 500000
+  `
+  const cursor = new ReadableCursor(select, client)
+  reply.type('application/json')
+  return cursor.pipe(JSONStream.stringify())
 }
