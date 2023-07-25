@@ -3,7 +3,7 @@
 const QueryStream = require('pg-query-stream')
 const JSONStream = require('JSONStream')
 
-const { STREAM_QUERY } = require('./utils')
+const { SLOW_QUERY } = require('./utils')
 
 module.exports = async function (app, opts) {
   app.get('/api/stream', {
@@ -11,7 +11,7 @@ module.exports = async function (app, opts) {
       query: {
         type: 'object',
         properties: {
-          rowCount: { type: 'number', default: 500_000 }
+          limit: { type: 'number', default: 50_000 }
         }
       }
     }
@@ -20,7 +20,8 @@ module.exports = async function (app, opts) {
 
 async function queryStream (request, reply) {
   const client = await this.pg.connect()
-  const query = new QueryStream(STREAM_QUERY, [request.query.rowCount], {
+  const slowQuery = `${SLOW_QUERY} LIMIT $1`
+  const query = new QueryStream(slowQuery, [request.query.limit], {
     highWaterMark: 500
   })
   const stream = client.query(query)

@@ -1,5 +1,7 @@
 'use strict'
 
+const { SLOW_QUERY } = require('./utils')
+
 module.exports = async function (app, opts) {
   app.get('/api/batch', {
     schema: {
@@ -18,16 +20,12 @@ async function queryBatch (request, reply) {
   const offset = request.query.offset
   const batchSize = request.query.limit
 
-  const select = `
-    WITH start_time AS (SELECT pg_sleep(1) AS start_time)
-    SELECT items.id, desks.name, row_number() OVER (ORDER BY items.id) AS row_number
-    FROM items
-    INNER JOIN desks ON desks.id = items.desk_id
-    CROSS JOIN start_time
+  const slowQuery = `
+    ${SLOW_QUERY}
     OFFSET $1
     LIMIT $2;
   `
 
-  const result = await this.pg.query(select, [offset, batchSize])
+  const result = await this.pg.query(slowQuery, [offset, batchSize])
   return result.rows
 }

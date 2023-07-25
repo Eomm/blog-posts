@@ -4,7 +4,7 @@ const { Readable } = require('node:stream')
 const Cursor = require('pg-cursor')
 const JSONStream = require('JSONStream')
 
-const { STREAM_QUERY } = require('./utils')
+const { SLOW_QUERY } = require('./utils')
 
 module.exports = async function (app, opts) {
   app.get('/api/cursor', {
@@ -12,7 +12,7 @@ module.exports = async function (app, opts) {
       query: {
         type: 'object',
         properties: {
-          rowCount: { type: 'number', default: 500_000 }
+          limit: { type: 'number', default: 50_000 }
         }
       }
     }
@@ -22,9 +22,9 @@ module.exports = async function (app, opts) {
 async function queryCursor (request, reply) {
   const client = await this.pg.connect()
   const cursor = new ReadableCursor({
-    query: STREAM_QUERY,
+    query: `${SLOW_QUERY} LIMIT $1`,
     client,
-    rows: request.query.rowCount
+    limit: request.query.limit
   })
 
   reply.type('application/json')
@@ -36,15 +36,15 @@ class ReadableCursor extends Readable {
   client = null
   query = null
 
-  constructor ({ query, client, rows }) {
+  constructor ({ query, client, limit }) {
     super({ objectMode: true, highWaterMark: 500 })
     this.query = query
     this.client = client
-    this.rowsCount = rows
+    this.limit = limit
   }
 
   _construct (callback) {
-    this.cursor = this.client.query(new Cursor(this.query, [this.rowsCount]))
+    this.cursor = this.client.query(new Cursor(this.query, [this.limit]))
     callback()
   }
 

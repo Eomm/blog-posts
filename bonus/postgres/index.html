@@ -59,7 +59,7 @@
         setElapsedTime(-1);
         const startTime = Date.now();
         try {
-          const response = await fetch(`${url}?${new URLSearchParams({ rowCount: stopAt, })}`);
+          const response = await fetch(`${url}?${new URLSearchParams({ limit: stopAt, })}`);
 
           const data = await response.json();
           setRowCount(data.length)

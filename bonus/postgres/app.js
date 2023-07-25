@@ -22,4 +22,4 @@ app.register(require('./lib/stream'))
 app.register(require('./lib/cursor'))
 app.register(require('./lib/batch'))
 
-app.listen({ port: 8080 })
+app.listen({ port: 8080, host: '0.0.0.0' })
