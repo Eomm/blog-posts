@@ -6,7 +6,7 @@ const app = require('fastify')({ logger: true })
 
 app.get('/', async function serveUi (request, reply) {
   reply.type('text/html')
-  return fs.readFile('./index.html', 'utf8')
+  return fs.readFile('./index.html')
 })
 
 app.register(require('@fastify/postgres'), {
