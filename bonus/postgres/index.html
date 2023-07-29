@@ -60,9 +60,15 @@
         const startTime = Date.now();
         try {
           const response = await fetch(`${url}?${new URLSearchParams({ limit: stopAt, })}`);
+          // const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
+          // while (true) {
+          //   const { done } = await reader.read();
+          //   if (done) break;
+          // }
+          // setRowCount(stopAt);
 
           const data = await response.json();
-          setRowCount(data.length)
+          setRowCount(data.length);
         } catch (error) {
           console.error('Error:', error);
         }
@@ -143,10 +149,10 @@
         <hr style={{ margin: '22px' }} />
         <BatchButton name="batch queries" url="/api/batch" />
         <hr style={{ margin: '22px' }} />
+        <StreamButton name="pg-cursor" url="/api/cursor" />
       </StopAtProvider>,
       document.getElementById('root'));
 </script>
-        <!-- <StreamButton name="pg-cursor" url="/api/cursor" /> -->
 </body>
 
 </html>
