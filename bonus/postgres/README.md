@@ -1,6 +1,8 @@
 # Streaming PostgreSQL data with Fastify
 
-In recent years, we have been surrounded by cool interactive data visualization.
+## Discover how to stream a massive amount of data from a PostgreSQL database to a Reactjs client
+
+In recent years, we have been surrounded by cool, interactive data visualizations.
 These visualizations are powered by datasets stored in databases and made available through APIs.
 
 Clients can then query the API and get the data they need to render the visualization.
@@ -8,12 +10,12 @@ Clients can then query the API and get the data they need to render the visualiz
 But what happens when the dataset is enormous?
 And what if the query to access the data is **complex** and **slow**?
 
-You may be used to adding a "cool" loading animation to your visualization and waiting for the data to be loaded
+You may be used to adding a 'cool' loading animation to your visualization and waiting for the data to be loaded
 but this is not the best user experience.
 
 So, we will see how to stream a massive amount of data from a PostgreSQL database to a Reactjs client!
 
-## Build the Dataset
+## Build the dataset
 
 I will go fast here because this is not the main topic of this article, and the code is available on [GitHub][repo].
 
@@ -21,7 +23,7 @@ We will create two tables that represent our huge dataset:
 
 | Table | Rows | Description |
 | --- | --- | --- |
-| `desks` | 200,000 | 200 thousands desks in a building |
+| `desks` | 200,000 | 200 thousand desks in a building |
 | `items` | 10,000,000 | 10 million items on the desks |
 
 The query we are going to analyze is the following:
@@ -51,21 +53,21 @@ It will take a few minutes to complete, but we will have a huge dataset to play 
 ## Build the API
 
 We are going to use [Fastify](https://www.fastify.dev/) to build the API,
-it has everything we need to build a fast and scalable API in no time 🎉
+it has everything we need to build a fast and scalable API in no time 🎉.
 
 But, before writing the code, we need to think about the API we want to build.
 Since we want to return a huge amount of data, we can't run the query and return the result in one shot: whatever server we use, it will run out of memory!
 
 So we need to stream the result of the query to the client by using different techniques:
 
-- **Batching**: we can run the query in batches and return the result in chunks
-- **Streaming**: we can stream the result of the query to the client as soon as we get the data
+- **Batching**: we can run the query in batches and return the result in chunks.
+- **Streaming**: we can stream the result of the query to the client as soon as we get the data.
 
 The Batching approach can be implemented using the SQL language's `LIMIT` and `OFFSET` clauses.
 So we don't need any external library to implement it.
 
 The Streaming approach is more complex, but it is more efficient and allows us to return the data as soon as we get it.
-A quick Google search will show you that few libraries can help us with this task:
+A quick Google search will show you that a few libraries can help us with this task:
 
 - [`pg-cursor`](https://www.npmjs.com/package/pg-cursor)
 - [`pg-query-stream`][pg-stream]
@@ -78,12 +80,12 @@ Both libraries are great, but the `pg-query-stream` has a better API, so we will
 
 Now that we know what to do, we can start writing the code!
 
-### Project Setup
+### Project setup
 
 We will create a quick project setup.
-It is important to note that the code is not optimized for production use to keep it as simple as possible.
+It is important to note that the code is not optimized for production use. This is to keep it as simple as possible.
 
-If you want to learn more about Fastify, you may find helpful the [Fastify book](https://backend.cafe/fastify-v4-book)!
+If you want to learn more about Fastify, you may find the [Fastify book](https://backend.cafe/fastify-v4-book) helpful!
 
 So, let's start creating a new project from scratch with the following commands:
 
@@ -182,13 +184,13 @@ we should see the `index.html` application!
 We can now implement the API's business logic!
 
 
-### Implementing the Batching Approach
+### Implementing the Batching approach
 
-The Batching approach is the most common to implement since it is used broadly in the industry to paginate the results of a query.
+The Batching approach is the most common one to implement since it is used broadly in the industry to paginate the results of a query.
 The idea is to run the query in batches and return the data chunks, so we need two inputs from the client:
 
-- `limit`: the number of rows to return in each chunk
-- `offset`: the number of rows to skip before returning the batch result
+- `limit`: the number of rows to return in each chunk.
+- `offset`: the number of rows to skip before returning the batch result.
 
 We can get these two values in the `request.query` object by adding a JSON schema to the route that validates the input:
 
@@ -242,12 +244,12 @@ We can now test the API by running the following command:
 curl http://localhost:8080/api/batch?offset=0&limit=10000
 ```
 
-The server should return the first 10.000 rows of the result of the `slowQuery`!
-Note that the response will pop up in the terminal after 1 second at least 🐌
+The server should return the first 10,000 rows of the result of the `slowQuery`!
+Note that the response will pop up in the terminal after 1 second at the latest 🐌.
 
-### Implementing the Streaming Approach
+### Implementing the Streaming approach
 
-The Streaming approach **could** more complex to implement, but thanks to the [`pg-query-stream`][pg-stream] library, it is not ✨
+The Streaming approach **could** be more complex to implement. However, thanks to the [`pg-query-stream`][pg-stream] library, it is not ✨.
 
 The idea is to stream the result of the query to the client as soon as we get the data.
 So we need to create a stream that reads the result of the query and pipe it to the client.
@@ -303,11 +305,11 @@ async function queryStream (request, reply) {
 
 Let's analyze the code:
 
-1. We create a new PostgreSQL client by calling `this.pg.connect()` that returns an available `client` from the pool
-2. We create a new `QueryStream` that will run the same `slowQuery` as the batch implementation except for the `OFFSET` clause
+1. We create a new PostgreSQL client by calling `this.pg.connect()` that returns an available `client` from the pool.
+2. We create a new `QueryStream` that will run the same `slowQuery` as the batch implementation except for the `OFFSET` clause:
   - It is important to note that we need to set the `highWaterMark` option to read a good amount of rows from the database. The [default value is 16](https://nodejs.org/api/stream.html#streamgetdefaulthighwatermarkobjectmode), which is too low for our use case!
-3. We create a new `stream` by calling `client.query(query)` that will execute the query
-4. We must remember to listen for the `end` event of the `stream` to release the `client` back to the pool
+3. We create a new `stream` by calling `client.query(query)` that will execute the query.
+4. We must remember to listen for the `end` event of the `stream` to release the `client` back to the pool.
 5. We return the `stream` piped to a `JSONStream` that will convert the result to a JSON string. Fastify will automatically manage the stream and send the result to the client!
 
 We can now test the API by running the following command:
@@ -316,23 +318,23 @@ We can now test the API by running the following command:
 curl http://localhost:8080/api/stream?limit=10000
 ```
 
-The server should return the first 10.000 rows of the result of the `slowQuery`!
+The server should return the first 10,000 rows of the result of the `slowQuery`!
 
 You should see the result being streamed to the terminal as soon as the server gets the data from the database!
 There is no delay between the rows, so the client can start to render the data as soon as it gets it!
 The pop-up effect is gone! 🚀
 
-## Build the Client
+## Build the client
 
 Now that we have the API up and running, we can build the client to test the API and see the effect of the two approaches.
 Since I like minimalism 🤣 and don't want to spend too much time on the client, I will use the [Reactjs application][react] I have created before.
 
 It is a simple application with the following features:
 
-- An input to set globally for the application how many rows we must fetch from the API calls
-- A button to call the `/api/batch` route and show the time it takes to get the result
+- An input to set globally for the application how many rows we must fetch from the API calls.
+- A button to call the `/api/batch` route and show the time it takes to get the result.
   - An input to set the maximum number of rows to get for each batch: we can't get all the rows in one shot, or the server will run out of memory!
-- A button to call the `/api/stream` route and show the time it takes to get the result
+- A button to call the `/api/stream` route and show the time it takes to get the result.
 
 Here is a screenshot of the application:
 
@@ -373,13 +375,13 @@ Let's analyze the results:
 The results are exciting!
 The streaming approach is faster than the batch approach when the number of batches (calculated by `totalRows / batchSize`) is higher or equal to 10.
 
-Is this a general rule? Let's try to understand why!
+Is this a general rule? Let's answer this question by doing some investigating!
 
 Watch this video taken from the Chrome DevTools's Network tab about the 2nd test result:
 
 ![the application UI results](../../posts/assets/pg-network.gif)
 
-We can see that the batch approach makes 2 requests to the server, while the streaming approach makes only one request.
+We can see that the batch approach makes two requests to the server, while the streaming approach makes only one request.
 But the `Content Download` time is much higher for the streaming approach.
 
 Could we improve it?
@@ -400,7 +402,7 @@ This means that the 10 batches rule is not a general rule to defeat the streamin
 
 So the speed relation of the two approaches is the following:
 
-- **Batching**: If we have a small number of batches, the batch approach is faster to implement and run. But we can't increase the batch size too much to reduce the number of batches. The 350.000 rows batch size fetched ~30 MB of data; that's way too much for a single set but was helpful for our understanding.
+- **Batching**: If we have a small number of batches, the batch approach is faster to implement and run. But we can't increase the batch size too much to reduce the number of batches. The 350,000 rows batch size fetched ~30 MB of data; that's way too much for a single set but was helpful for our understanding.
 
 - **Streaming**: It is not always the fastest approach if we don't configure the stream properly. However, it is the most efficient approach because it doesn't require loading all the data in memory before sending it to the client. Moreover, it is the more stable approach in the long run because it doesn't require changing the batch size when the dataset grows, and it lets us build more responsive UI applications.
 
@@ -409,10 +411,10 @@ So the speed relation of the two approaches is the following:
 In this article, we have seen how to stream a massive amount of data from a PostgreSQL database to a Reactjs client!
 We explored two different approaches, and we have seen how to implement them with Fastify and the `pg-query-stream` library.
 
-The performance of the two approaches has been compared, and we have seen that the streaming approach is the most efficient and stable in the long run, even if it is not always the fastest.
+The performance of the two approaches has been compared, and we have seen that the streaming approach is the most efficient and stable in the long run — even if it is not always the fastest.
 
 We analyzed the results and found a relation between each approach and its performance.
-Now, you can choose the best approach for your use case by knowing the pros and cons of each approach!
+Now you can choose the best approach for your use case by knowing the pros and cons of each approach!
 
 If you enjoyed this article, comment, share and follow me on [Twitter](https://twitter.com/ManuEomm)!
 
