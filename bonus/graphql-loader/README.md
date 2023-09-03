@@ -36,7 +36,7 @@ type Project {
 ```
 
 Let's connect the previous schema to a new `app.js` file, where we will implement a Fastify + Mercurius application.
-_We will use an in-memory database to store the mock data. You can find the SQL data used for this article in the [source code on GitHub](https://github.com/Eomm/fastify-discord-bot-demo/tree/HEAD/bonus/graphql-loader)._
+_We will use an in-memory database to store the mock data. You can find the SQL data used for this article in the [source code on GitHub](https://github.com/Eomm/blog-posts/tree/HEAD/bonus/graphql-loader)._
 
 ```js
 const Fastify = require('fastify')
@@ -272,6 +272,6 @@ You may think that mixing the resolvers and the loaders could be a good idea. Su
 
 If you have found this helpful, you may read [other articles about Mercurius](https://backend.cafe/series/mercurius).
 
-Now jump into the [source code on GitHub](https://github.com/Eomm/fastify-discord-bot-demo/tree/HEAD/bonus/graphql-loader) and start to play with the GraphQL implemented in Fastify.
+Now jump into the [source code on GitHub](https://github.com/Eomm/blog-posts/tree/HEAD/bonus/graphql-loader) and start to play with the GraphQL implemented in Fastify.
 
 If you enjoyed this article comment, share and follow me on [twitter](https://twitter.com/ManuEomm)!

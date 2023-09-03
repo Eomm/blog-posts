@@ -309,5 +309,5 @@ It is interesting to note the logs of the nodes:
 {"level":30,"name":"gateway","reqId":"req-1","res":{"statusCode":200},"responseTime":7.0754170417785645,"msg":"request completed"}
 ```
 
-Now jump into the [source code on GitHub](https://github.com/Eomm/fastify-discord-bot-demo/tree/HEAD/bonus/graphql-federation) and start to play with the GraphQL Federation implemented in Fastify.
+Now jump into the [source code on GitHub](https://github.com/Eomm/blog-posts/tree/HEAD/bonus/graphql-federation) and start to play with the GraphQL Federation implemented in Fastify.
 Comment and share if you enjoyed this article!

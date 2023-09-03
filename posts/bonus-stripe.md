@@ -40,7 +40,7 @@ The flow will be:
 
 Since we are not focusing on the implementation of web pages, we will use the Stripe  
 test pages.
-All the pages are stored in this GitHub repository: [`Eomm/fastify-discord-bot-demo`](https://github.com/Eomm/fastify-discord-bot-demo/tree/master/bonus/stripe-integration) or in the [Stripe documentation](https://stripe.com/docs/checkout/quickstart?lang=node).
+All the pages are stored in this GitHub repository: [`Eomm/blog-posts`](https://github.com/Eomm/blog-posts/tree/master/bonus/stripe-integration) or in the [Stripe documentation](https://stripe.com/docs/checkout/quickstart?lang=node).
 
 ### Project installation
 
@@ -219,7 +219,7 @@ Congratulations! You have completed the Fastify with Stripe tutorial!
 Now, you can start improving this basic scaffolding to integrate your e-commerce
 with Stripe through Fastify.
 
-The source code is available at [`stripe-integration`](https://github.com/Eomm/fastify-discord-bot-demo/tree/master/bonus/stripe-integration)
+The source code is available at [`stripe-integration`](https://github.com/Eomm/blog-posts/tree/master/bonus/stripe-integration)
 
 Remember to follow me on Twitter [@Eomm](https://twitter.com/Eomm) to get more content!
 See you soon for the next article!

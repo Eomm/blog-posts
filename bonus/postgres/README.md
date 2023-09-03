@@ -418,6 +418,6 @@ Now you can choose the best approach for your use case by knowing the pros and c
 
 If you enjoyed this article, comment, share and follow me on [Twitter](https://twitter.com/ManuEomm)!
 
-[repo]: https://github.com/Eomm/fastify-discord-bot-demo/tree/HEAD/bonus/postgres/
-[react]: https://github.com/Eomm/fastify-discord-bot-demo/tree/HEAD/bonus/postgres/index.html
+[repo]: https://github.com/Eomm/blog-posts/tree/HEAD/bonus/postgres/
+[react]: https://github.com/Eomm/blog-posts/tree/HEAD/bonus/postgres/index.html
 [pg-stream]: https://www.npmjs.com/package/pg-query-stream

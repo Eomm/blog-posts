@@ -118,7 +118,7 @@ We discussed about how to fix this problem in different ways:
 The `jest` architecture makes sense for frontend applications that run in the browser and has a different `global` context, but it does not suit the case for Node.js applications.  
 I don't like the concept of using a different `global` context in my test and production environment.
 
-Now jump into this [article source code](https://github.com/Eomm/fastify-discord-bot-demo/tree/HEAD/bonus/jest-instanceof)
+Now jump into this [article source code](https://github.com/Eomm/blog-posts/tree/HEAD/bonus/jest-instanceof)
 to try the code snippets I wrote to verify my findings.
 
 If you enjoyed this article, comment, share and follow me on [Twitter](https://twitter.com/ManuEomm)!

@@ -220,7 +220,7 @@ async function doQuery (app, userType, query) {
 ```
 
 For the sake of simplicity, we will not list all the tests here,
-but you can find the complete complete source code in the [GitHub repository](https://github.com/Eomm/fastify-discord-bot-demo/tree/HEAD/bonus/graphql-dynamic-queries).
+but you can find the complete complete source code in the [GitHub repository](https://github.com/Eomm/blog-posts/tree/HEAD/bonus/graphql-dynamic-queries).
 
 Running the tests with `node test.js` will fail because we have not implemented the business logic yet.
 So, let's start writing the code!
@@ -427,6 +427,6 @@ This is just a small example of the possibilities when using Mercurius and manip
 
 If you have found this helpful, you may read [other articles about Mercurius](https://backend.cafe/series/mercurius).
 
-Now jump into the [source code on GitHub](https://github.com/Eomm/fastify-discord-bot-demo/tree/HEAD/bonus/graphql-dynamic-queries) and start to play with the GraphQL implemented in Fastify.
+Now jump into the [source code on GitHub](https://github.com/Eomm/blog-posts/tree/HEAD/bonus/graphql-dynamic-queries) and start to play with the GraphQL implemented in Fastify.
 
 If you enjoyed this article comment, share and follow me on [twitter](https://twitter.com/ManuEomm)!

@@ -212,5 +212,5 @@ Check it out [`mercurius-logging`](https://github.com/Eomm/mercurius-logging)!
 
 If you have found this useful, you may read [this article](https://backend.cafe/graphql-federation-playground-with-mercurius).
 
-Now jump into the [source code on GitHub](https://github.com/Eomm/fastify-discord-bot-demo/tree/HEAD/bonus/graphql-logging) and start to play with the GraphQL implemented in Fastify.
+Now jump into the [source code on GitHub](https://github.com/Eomm/blog-posts/tree/HEAD/bonus/graphql-logging) and start to play with the GraphQL implemented in Fastify.
 Comment and share if you enjoyed this article!

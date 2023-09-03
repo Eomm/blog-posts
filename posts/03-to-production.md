@@ -1,6 +1,6 @@
 # To Production
 
-This tutorial is the 3rd of a series. Read the [previous ones](https://github.com/Eomm/fastify-discord-bot-demo/#fastify-discord-app-demo)
+This tutorial is the 3rd of a series. Read the [previous ones](https://github.com/Eomm/blog-posts/#fastify-discord-app-demo)
 to get the codebase.
 
 ## A Database

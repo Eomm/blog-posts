@@ -1,8 +1,9 @@
 {
-  "name": "fastify-discord-bot-demo",
+  "name": "blog-posts",
   "version": "1.1.1",
   "description": "A Discord APP built with Fastify!",
   "main": "lib/app.js",
+  "access": "private",
   "type": "module",
   "scripts": {
     "start": "node lib/start.mjs",
@@ -14,15 +15,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Eomm/fastify-discord-bot-demo.git"
+    "url": "git+https://github.com/Eomm/blog-posts.git"
   },
   "keywords": [],
   "author": "Manuel Spigolon <behemoth89@gmail.com> (https://github.com/Eomm)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Eomm/fastify-discord-bot-demo/issues"
+    "url": "https://github.com/Eomm/blog-posts/issues"
   },
-  "homepage": "https://github.com/Eomm/fastify-discord-bot-demo#readme",
+  "homepage": "https://github.com/Eomm/blog-posts#readme",
   "dependencies": {
     "casual": "^1.6.2",
     "dotenv": "^7.0.0",

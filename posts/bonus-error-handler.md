@@ -95,7 +95,7 @@ throw new Error('foo bar error')
 return new Error('foo bar error')
 ```
 
-_You can find a complete code example that replicates that reply.send flow at [github.com/Eomm/fastify-discord-bot-demo](https://github.com/Eomm/fastify-discord-bot-demo/tree/master/bonus/error-handling)_
+_You can find a complete code example that replicates that reply.send flow at [github.com/Eomm/blog-posts](https://github.com/Eomm/blog-posts/tree/master/bonus/error-handling)_
 
 
 ## Manage Startup errors

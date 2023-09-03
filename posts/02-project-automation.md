@@ -104,7 +104,7 @@ This list can be easily transformed into a GitHub Action where every step will a
         ...
 ```
 
-Check out [the source code](https://github.com/Eomm/fastify-discord-bot-demo/tree/master/.github/workflows/cd.yml) to see the complete file.
+Check out [the source code](https://github.com/Eomm/blog-posts/tree/master/.github/workflows/cd.yml) to see the complete file.
 
 ## End
 

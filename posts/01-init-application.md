@@ -35,7 +35,7 @@ The target is quite simple: to show to a user its Discord profile. The required 
 - a page to show the profile
 - an error page (because it happens 😔)
 
-The source code of this project is at your disposal on [GitHub](https://github.com/Eomm/fastify-discord-bot-demo).
+The source code of this project is at your disposal on [GitHub](https://github.com/Eomm/blog-posts).
 
 ### Project setup
 
