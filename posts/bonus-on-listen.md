@@ -1,9 +1,11 @@
 # Fastify Introduces the New `onListen` Hook!
 
+## Fastify v4.23.0 is here! 
+
 Fastify [v4.23.0](https://github.com/fastify/fastify/releases/tag/v4.23.0) has just been released, featuring a brand-new [`onListen`](https://github.com/fastify/fastify/pull/4899) Application hook. In this article, we'll explore what it is and how you can leverage it in your Fastify applications.
 
 
-## Understanding Fastify Hooks
+## Understanding Fastify hooks
 
 Fastify's hooks are a fundamental aspect of its design. Hooks are functions that get called at specific points in a component's lifecycle. They allow you to inject custom functionality at these crucial moments, thus altering the component's behavior.
 
@@ -18,7 +20,7 @@ Each hook type serves a distinct purpose and comes with its own API.
 Before diving into the new `onListen` hook, let's briefly overview Fastify's hooks.
 
 
-## Application Hooks
+## Application hooks
 
 Application hooks allow you to customize how your Fastify application initializes and closes.
 These hooks play a crucial role in starting and stopping the application gracefully.
@@ -43,7 +45,7 @@ These hooks are handy for performing cleanup tasks before shutting down the appl
 
 You can find more details about these hooks in my [Fastify book 📙](https://backend.cafe/the-fastify-book-is-out)!
 
-### The New `onListen` Hook
+### The new `onListen` hook
 
 With the release of Fastify [v4.23.0](https://github.com/fastify/fastify/releases/tag/v4.23.0), we introduce the sixth application hook: `onListen`.
 This hook is called when the application is ready, and the server is actively listening to incoming requests.
@@ -84,13 +86,13 @@ This hook was added in response to community requests to perform tasks that requ
 The power of the `onListen` hook lies in its ability to load data asynchronously without blocking or delaying the application startup. It's perfect for loading non-mandatory data for your routes. If you need to load data that's essential for a decorator and must be available before the application starts, consider using the `onReady` hook instead.
 
 
-## Request/Reply Hooks
+## Request/Reply hooks
 
-While we won't delve into Request/Reply hooks in this article, you can find comprehensive information in the [Fastify documentation](https://fastify.dev/docs/latest/Reference/Hooks/#requestreply-hooks) or in the detailed [Fastify book 📙](https://backend.cafe/the-fastify-book-is-out) in chapter 4!
+While we won't delve into Request/Reply hooks in this article, you can find comprehensive information in the [Fastify documentation](https://fastify.dev/docs/latest/Reference/Hooks/#requestreply-hooks) or in chapter 4 of the detailed [Fastify book 📙](https://backend.cafe/the-fastify-book-is-out)!
 
 
 ## Summary
 
-In this article, we've introduced the new `onListen` hook, explained how it works, and highlighted its use cases. Fastify continues to evolve in response to the community's needs, and this hook is a prime example of that.
+In this article, we've introduced the new `onListen` hook, explained how it works and highlighted its use cases. Fastify continues to evolve in response to the community's needs, and this hook is a prime example of that.
 
 If you found this article helpful, please leave a comment, share it with others, and follow me on [Twitter](https://twitter.com/ManuEomm) for more updates!
