@@ -1,6 +1,6 @@
 # Fastify Introduces the New `onListen` Hook!
 
-Fastify v4.XXXXXX.0 has just been released, featuring a brand-new [`onListen`](https://github.com/fastify/fastify/pull/4899) Application hook. In this article, we'll explore what it is and how you can leverage it in your Fastify applications.
+Fastify [v4.23.0](https://github.com/fastify/fastify/releases/tag/v4.23.0) has just been released, featuring a brand-new [`onListen`](https://github.com/fastify/fastify/pull/4899) Application hook. In this article, we'll explore what it is and how you can leverage it in your Fastify applications.
 
 
 ## Understanding Fastify Hooks
@@ -45,7 +45,7 @@ You can find more details about these hooks in my [Fastify book 📙](https://ba
 
 ### The New `onListen` Hook
 
-With the release of Fastify v4.XXXXXX.0, we introduce the sixth application hook: `onListen`.
+With the release of Fastify [v4.23.0](https://github.com/fastify/fastify/releases/tag/v4.23.0), we introduce the sixth application hook: `onListen`.
 This hook is called when the application is ready, and the server is actively listening to incoming requests.
 
 The API for the `onListen` hook is consistent with other application hooks, supporting both async/await and callback styles:
