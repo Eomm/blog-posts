@@ -40,6 +40,8 @@ Here you will find the source code and the commit history!
 1. [Unlock the Power of Runtime Log Level Control](https://backend.cafe/unlock-the-power-of-runtime-log-level-control) - [📝](./posts/bonus-log-controller.md)
 1. [Validate the Fastify input with Joi](https://backend.cafe/validate-the-fastify-input-with-joi) - [📝](./posts/bonus-fastify-joi.md)
 1. [Streaming PostgreSQL data with Fastify](https://backend.cafe/streaming-postgresql-data-with-fastify) - [📝](./posts/bonus-pg-stream.md)
+1. [Fastify has a new Application Hook!](https://backend.cafe/fastify-has-a-new-application-hook) - [📝](./posts/bonus-on-listen.md)
+
 
 
 > This repository was called `fastify-discord-bot-demo` before and it used to contain a discord app.
