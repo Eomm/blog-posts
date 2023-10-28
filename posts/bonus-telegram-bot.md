@@ -209,6 +209,8 @@ I build two complete Telegram bots with Platformatic if you want to see more exa
 - [`telegram-bot-questions`](https://github.com/Eomm/telegram-bot-questions): a bot to ask questions to your team mates. It integrates with Google Sheets to store the answers and has a step by step guide to implement the bot.
 - [`telegram-bot-give-away`](https://github.com/Eomm/telegram-bot-give-away): a bot to organize a custom give away.
 
+If you want to learn how to deploy your Telegram bot to the cloud, check out the [Platformatic Cloud](https://platformatic.dev/cloud) documentation or leave a comment below and I'll write a new article about it!
+
 The world of chatbot development is at your fingertips, and with each step, you're one step closer to mastering it. Happy coding! 🤖💬
 
 If you enjoyed this article, comment, share and follow me on [Twitter](https://twitter.com/ManuEomm)!
