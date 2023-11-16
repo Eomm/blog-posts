@@ -1,0 +1,22 @@
+{
+  "name": "stackoverflow",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Manuel Spigolon <behemoth89@gmail.com> (https://github.com/Eomm)",
+  "license": "MIT",
+  "dependencies": {
+    "@fastify/auth": "^3.0.2",
+    "fastify": "^4.22.2",
+    "fastify-plugin": "^4.5.1"
+  },
+  "devDependencies": {
+    "sinon": "^15.2.0",
+    "standard": "^17.1.0",
+    "tap": "^16.3.8"
+  }
+}
