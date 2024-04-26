@@ -5,9 +5,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "pg:start": "docker run -d --rm --name demo-pg -p 5432:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=postgres postgres:15 postgres -c \"wal_level=logical\"",
-    "pg:stop": "docker stop demo-pg",
-    "pg:logs": "docker logs demo-pg -f",
+    "pg:start": "docker run -d --rm --name demo-postgres -p 5432:5432 -e POSTGRES_PASSWORD=foopsw postgres:16 postgres -c \"wal_level=logical\"",
+    "pg:stop": "docker stop demo-postgres",
+    "pg:logs": "docker logs demo-postgres -f",
+    "pg:console": "docker exec -it demo-postgres psql -U postgres",
     "lint": "standard",
     "lint:fix": "standard --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
