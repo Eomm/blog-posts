@@ -41,8 +41,8 @@ Here you will find the source code and the commit history!
 1. [Validate the Fastify input with Joi](https://backend.cafe/validate-the-fastify-input-with-joi) - [📝](./posts/bonus-fastify-joi.md)
 1. [Streaming PostgreSQL data with Fastify](https://backend.cafe/streaming-postgresql-data-with-fastify) - [📝](./posts/bonus-pg-stream.md)
 1. [Fastify has a new Application Hook!](https://backend.cafe/fastify-has-a-new-application-hook) - [📝](./posts/bonus-on-listen.md)
-1. [Create a Telegram Bot with Fastify from Scratch](https://backend.cafe//create-a-telegram-bot-with-fastify-from-scratch) - [📝](./posts/bonus-telegram-bot.md)
-
+1. [Create a Telegram Bot with Fastify from Scratch](https://backend.cafe/create-a-telegram-bot-with-fastify-from-scratch) - [📝](./posts/bonus-telegram-bot.md)
+1. [Real-Time Data Replication in Postgres and Node.js]() - [📝](./posts/bonus-postgres-logical-replication.md)
 
 
 > This repository was called `fastify-discord-bot-demo` before and it used to contain a discord app.
