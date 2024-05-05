@@ -3,7 +3,16 @@
 
 In today's fast-paced digital landscape, businesses rely heavily on data to drive decision-making processes.
 Real-time data replication has emerged as a critical capability for organizations seeking to stay ahead of the curve, enabling them to synchronize data across multiple databases seamlessly.  
-In this blog post, we'll explore the power of Postgres replication management, to understand how to do a real-time data replication in Postgres with Node.js.
+To make a few practical examples, real-time data replication is essential for scenarios such as:
+
+- Keeping different databases in sync, which is a typical scenario when a company acquires another company and needs to merge the data.
+- Relying on a database to trigger events in other systems; for example, when a new user is created in the database, a welcome email is sent without modifying existing code or introducing new architecture components like message queues.
+- Keeping an application's in-memory cache in sync with the database to improve the performance of read queries.
+- Of course, for high availability and disaster recovery scenarios.
+
+As you can see, real-time data replication is a powerful tool that can be used in various scenarios to improve the performance, reliability, and scalability of your applications.
+
+In this blog post, we'll explore the power of Postgres replication management, to understand how to do a real-time data replication in Postgres with Node.js.  
 _You will need to run some Docker commands to set up a Postgres instance with logical replication enabled, but it is a copy-paste operation._
 
 ## Introduction to Postgres Replication Management
