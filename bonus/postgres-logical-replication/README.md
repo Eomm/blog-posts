@@ -257,7 +257,7 @@ is just a feature of the `postgres` module that allows us to filter the changes 
 The main driver is and will always be the Postgres publication we created earlier with the `setup-consumer.js` script.
 
 So far we did not create the Replication Slot, but the `postgres` module will do it for us by calling
-the [`CREATE_REPLICATION_SLOT`](https://www.postgresql.org/docs/16/protocol-replication.html#PROTOCOL-REPLICATION-CREATE-REPLICATION-SLOT) command creating a TEMPORARY slot.
+the [`CREATE_REPLICATION_SLOT`](https://www.postgresql.org/docs/16/protocol-replication.html#PROTOCOL-REPLICATION-CREATE-REPLICATION-SLOT) command creating a [`TEMPORARY`](https://github.com/porsager/postgres/blob/cc688c642fc98c4338523d3e281e03bf0c3417b8/src/subscribe.js#L85) slot.
 Every subscription needs a replication slot to track the changes that they are consuming.
 
 Note that the Replication Slot MUST be deleted or consumed by the client, otherwise, the WAL file
