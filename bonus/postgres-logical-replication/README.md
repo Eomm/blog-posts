@@ -144,7 +144,7 @@ To run this code the `node producer.js` command is enough.
 
 ### Creating a data consumer
 
-The data consumer is the other side of the replication process. It can be another Postgres instance, or even a different a different database engine. Postgres allows us to replicate the data seemelessly across different versions of the Postgres database just by configuring them accordingly (not the topic of this blog post, but there are good [video tutorials](https://www.youtube.com/watch?v=3Z4Hhh5EnLA) for this use case).
+The data consumer is the other side of the replication process. It can be another Postgres instance, or even a different a different database engine. Postgres allows us to replicate the data seamlessly across different versions of the Postgres database just by configuring them accordingly (not the topic of this blog post, but there are good [video tutorials](https://www.youtube.com/watch?v=3Z4Hhh5EnLA) for this use case).
 
 Our use case is to replicate the data to a Node.js application! This application will connect to the Postgres database and listen for changes in the `foo` table using the logical replication mechanism.
 
