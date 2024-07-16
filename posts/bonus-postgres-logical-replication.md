@@ -4,17 +4,17 @@ Read it here: [`bonus/postgres-logical-replication/README.md`](../bonus/postgres
 
 # Resume Data Replication in Postgres and Node.js
 
-This article is a continuation of the previous article on [Real-Time Data Replication in Postgres and Node.js](https://backend.cafe/real-time-data-replication-in-postgres-and-nodejs). So before reading this article, I recommend that you read the previous article first.
+This article is a continuation of [Real-time data Replication in Postgres and Node.js](https://backend.cafe/real-time-data-replication-in-postgres-and-nodejs). Before reading this article, I recommend you read the previous one because it provides essential context to the points I cover.
 
-In our previous article, we discussed how to replicate data from a Postgres database to a Node.js application in real time using logical replication. However, if the Node.js application crashes or stops for some reason, the replication will cease, and we risk losing the data that our system produces in the meantime via another microservice or application.
+In our previous article, we discussed how to replicate data from a Postgres database to a Node.js application in real-time using logical replication. However, if the Node.js application crashes or stops for some reason, the replication will cease, and we risk losing the data that our system produces in the meantime via another microservice or application.
 
-Today, we will discuss how to resume replication from the last point where the Node.js application stopped
+In this article, I discuss how to resume replication from the last point where the Node.js application stopped
 by using a persistent replication slot in the Postgres database. This ensures that our application doesn't lose events produced by other microservices or applications during downtime.
 
 
-## Creating a Replication Slot
+## Creating a replication slot
 
-To resume replication, we need to create a replication slot in the Postgres database. As mentioned in the previous article, a replication slot is a logical entity that keeps track of changes happening in the database and sends them to the subscriber. The `postgres` package that we used in the previous article automatically created a replication slot for us, but it was not persistent, it was a [`TEMPORARY`](https://www.postgresql.org/docs/16/view-pg-replication-slots.html) replication slot that was removed when the subscriber disconnected.
+To resume replication, we need to create a replication slot in the Postgres database. A replication slot is a logical entity that keeps track of changes happening in the database and sends them to the subscriber. The `postgres` package we used in the previous article automatically created a replication slot for us, but it was not persistent, it was a [`TEMPORARY`](https://www.postgresql.org/docs/16/view-pg-replication-slots.html) replication slot that was removed when the subscriber disconnected.
 
 Since we want to resume replication from the last point where the Node.js application was stopped, we need to create a persistent replication slot. Let's create one in a new `setup-replication.js` file:
 
@@ -41,27 +41,27 @@ async function createReplicationSlotIfNotExists (slotName) {
 }
 ```
 
-We are using the [`pg_replication_slots`](https://www.postgresql.org/docs/16/view-pg-replication-slots.html) view to check whether a replication slot with the given name already exists. If it doesn't exist, we create a new replication slot using the [`pg_create_logical_replication_slot`](https://www.postgresql.org/docs/16/functions-admin.html#FUNCTIONS-REPLICATION) function.
+We are using the [`pg_replication_slots`](https://www.postgresql.org/docs/16/view-pg-replication-slots.html) view to check whether a replication slot with the given name already exists. If it doesn't exist then we create a new replication slot using the [`pg_create_logical_replication_slot`](https://www.postgresql.org/docs/16/functions-admin.html#FUNCTIONS-REPLICATION) function.
 
 Note that we specified the [`pgoutput` plugin](https://www.postgresql.org/docs/16/protocol-logical-replication.html) in the function to decode the changes in the replication slot. This is the default plugin for logical replication, and it ships with Postgres.
-Be aware that there are other plugins like:
-- [`test_decoding` plugin](https://www.postgresql.org/docs/16/test-decoding.html) the simplest plugin that ships with Postgres to start building your own custom plugin.
+Be aware that there are other plugins, such as:
+- [`test_decoding` plugin](https://www.postgresql.org/docs/16/test-decoding.html) is the simplest plugin that ships with Postgres to start building your own custom plugin.
 - [`wal2json`](https://packages.ubuntu.com/noble/postgresql-16-wal2json), which must be installed separately in the Postgres database, allowing you to use them in the `pg_create_logical_replication_slot` function.
 
 Note that each plugin has its own advantages and disadvantages, so choose the one that best fits your use case.
-The biggest difference if you try to use `test_decoding` versus `pgoutput` is that former does not accept a publication name
+The biggest difference if you try to use `test_decoding` versus `pgoutput` is that the former does not accept a publication name
 as a parameter while the [latter does](https://github.com/postgres/postgres/blob/3c469a939cf1cc95b136653e7c6e27e472dc0472/src/backend/replication/pgoutput/pgoutput.c#L449-L452). This means that you can use `pgoutput` to filter the changes you want to replicate, while `test_decoding` will replicate all changes in the database without filtering them!
 
 Now, run the `setup-replication.js` file to create a replication slot!
 
-## Configuring the Consumer
+## Configuring the consumer
 
-In the previous article, we already created the `setup-consumer.js` that creates the Publications that
-our application is interested in. So, we can reuse the same file and just run it if we haven't already.
+In the previous article, we already created the `setup-consumer.js` that creates the publications that
+our application is interested in. So, we can reuse the same file and just run it — if we haven't already.
 
-As reminder: start the Postgres server and create the `foo` database, first.
+As a reminder: you will first need to start the Postgres server and create the `foo` database.
 
-## Resuming the Replication
+## Resuming the replication
 
 We are ready to create a new `consumer-resume.js` file that will resume replication from the last point where the Node.js application was stopped, so let's jump into it:
 
@@ -117,7 +117,7 @@ The code can be explained as follows:
 3. We are creating a new `PgoutputPlugin` instance and passing it to the `subscribe` method to establish a connection with the replication slot.
 
 To start the application, run the `node consumer-resume.js` file, and it will begin receiving changes from the replication slot. If we did all the steps correctly, you can start the `node producer.js` file that we
-written in the previous article to produce changes in the database and see the changes in the consumer application.
+wrote in the previous article to produce changes in the database and see the changes in the consumer application.
 
 If you stop the consumer application by pressing `Ctrl+C`, the replication will stop, and the slot will not move forward. However, if you start the `consumer-resume.js` application again, it will resume replication from the last point where it was stopped! 🎉
 
@@ -139,9 +139,11 @@ Moreover, we can see that the output shows only the changes from the `foo_odd` a
 ## Conclusion
 
 In this article, we discussed how to resume replication from the last point where the Node.js application was stopped.
+
 We created a persistent replication slot in the Postgres database and used the `pg-logical-replication` package to demonstrate resuming replication. This ensures that our application doesn't lose data produced by other microservices or applications during downtime.
-Doing so, we did not change the `producer.js` file, which means that the producer can continue to produce changes in the database without any issues and the previous Publications setup is still valid: we just configured manually the
-Replication Slot and the new Consumer.
+
+In doing so, we did not change the `producer.js` file, which means that the producer can continue to produce changes in the database without any issues and the previous Publications setup is still valid: we just configured manually the
+replication slot and the new consumer.
 
 Remember, the replication slot retains changes in the database until the slot is dropped or the changes are acknowledged by the subscriber. If not managed properly, this can lead to high disk usage because Postgres will keep the changes in the WAL logs indefinitely instead of removing them.
 
