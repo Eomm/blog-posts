@@ -2,7 +2,7 @@
 
 Read it here: [`bonus/postgres-logical-replication/README.md`](../bonus/postgres-logical-replication/README.md)
 
-# Resume Data Replication in Postgres and Node.js
+# Resume data replication in Postgres and Node.js
 
 This article is a continuation of [Real-time data Replication in Postgres and Node.js](https://backend.cafe/real-time-data-replication-in-postgres-and-nodejs). Before reading this article, I recommend you read the previous one because it provides essential context to the points I cover.
 
