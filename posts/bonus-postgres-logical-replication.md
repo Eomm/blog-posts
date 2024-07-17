@@ -4,6 +4,8 @@ Read it here: [`bonus/postgres-logical-replication/README.md`](../bonus/postgres
 
 # Resume data replication in Postgres and Node.js
 
+## How to resume replication from the point where the Node.js application was stopped
+
 This article is a continuation of [Real-time data Replication in Postgres and Node.js](https://backend.cafe/real-time-data-replication-in-postgres-and-nodejs). Before reading this article, I recommend you read the previous one because it provides essential context to the points I cover.
 
 In our previous article, we discussed how to replicate data from a Postgres database to a Node.js application in real-time using logical replication. However, if the Node.js application crashes or stops for some reason, the replication will cease, and we risk losing the data that our system produces in the meantime via another microservice or application.
