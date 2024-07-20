@@ -18,6 +18,7 @@
   "license": "MIT",
   "dependencies": {
     "pg": "^8.11.3",
+    "pg-logical-replication": "^2.0.3",
     "postgres": "^3.4.4"
   },
   "devDependencies": {
