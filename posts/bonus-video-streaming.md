@@ -1,0 +1,1 @@
+# How to handle video streaming segments
