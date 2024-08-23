@@ -110,7 +110,7 @@ Now the browser knows how much of the video it has received, and it can request 
 Range: bytes=1000001-
 ```
 
-Note that the `Range` header is typically used to request byte-ranges, but it can also be used to implement a pagination-like system where the range is a slice of a list of items—such as a range of users, because the specification allows custom units!
+Note that the `Range` header is typically used to request byte-ranges, but it can also be used to implement a pagination-like system where the range is a slice of a list of items — such as a range of users — because the specification allows custom units!
 This was an [interesting topic on StackOverflow](https://stackoverflow.com/q/21765555/3309466), and I am mentioning it because it can be an interesting exercise for the mind to compare and contrast different ideas between developers!
 
 **Errors:**
@@ -120,7 +120,7 @@ This was an [interesting topic on StackOverflow](https://stackoverflow.com/q/217
 - "admits" should be "allows" for better word choice.
 - "confront" should be "contrast" for clarity in the context of comparing ideas.
 
-### Implementing the `/video-streaming` Route
+### Implementing the `/video-streaming` route
 
 Let’s add the `/video-streaming` route to our Fastify application to handle these range requests.
 
