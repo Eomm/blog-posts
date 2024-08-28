@@ -195,7 +195,7 @@ The HTML `<video>` tag in our `index.html` file automatically handles range requ
 
 This mechanism ensures smooth playback and efficient use of bandwidth, as only the necessary parts of the video are loaded and played.
 
-By implementing this route, we’ve enabled our server to stream large video files efficiently, providing users with the ability to navigate through the video timeline seamlessly:
+By implementing this route, we’ve enabled our server to stream large video files efficiently, providing users with the ability to navigate through the video timeline seamlessly.
 
 ![Video example](./fastify-video-streaming.gif)
 
