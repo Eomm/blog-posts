@@ -1,4 +1,5 @@
 # How to implement video streaming with Fastify
+
 ## Enabling a smooth playback that gives users an interactive video experience
 
 In April 2021, [I tweeted](https://x.com/ManuEomm/status/1385694984880406528) about a quick experiment where I streamed a large GoPro video using Fastify.
