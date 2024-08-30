@@ -44,6 +44,7 @@ Here you will find the source code and the commit history!
 1. [Create a Telegram Bot with Fastify from Scratch](https://backend.cafe/create-a-telegram-bot-with-fastify-from-scratch) - [📝](./posts/bonus-telegram-bot.md)
 1. [Real-Time Data Replication in Postgres and Node.js](https://backend.cafe/real-time-data-replication-in-postgres-and-nodejs) - [📝](./posts/bonus-postgres-logical-replication.md)
 1. [Resume Data Replication in Postgres and Node.js](https://backend.cafe/resume-data-replication-in-postgres-and-nodejs) - [📝](./posts/bonus-postgres-logical-replication.md)
+1. [How to implement video streaming with Fastify](https://backend.cafe/how-to-implement-video-streaming-with-fastify) - [📝](./posts/bonus-video-streaming.md)
 
 
 > This repository was called `fastify-discord-bot-demo` before and it used to contain a discord app.
