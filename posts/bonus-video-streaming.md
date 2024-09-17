@@ -152,7 +152,7 @@ app.get('/video-streaming', async (request, reply) => {
   // Define the size of the chunk to send
   const chunkSize = 1 * 1e6 // 1MB
   const { start } = singleRange
-  const end = Math.min(start + chunkSize, videoSize)
+  const end = Math.min(start + chunkSize, videoSize - 1)
   const contentLength = end - start + 1
 
   // Set the appropriate headers for range requests
