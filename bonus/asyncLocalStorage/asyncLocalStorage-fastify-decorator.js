@@ -2,17 +2,13 @@ import Fastify from 'fastify';
 
 const app = Fastify({ logger: true });
 
-const tracker = new WeakMap();
+app.decorateRequest('logicStepValue', null)
 app.decorateRequest('logicStep', {
   getter () {
-    if (tracker.has(this)) {
-      return tracker.get(this);
-    }
-    tracker.set(this, []);
-    return tracker.get(this);
+    this.logicStepValue ??= [];
+    return this.logicStepValue;;
   },
 })
-
 
 app.get('/', async function longHandler (req, reply) {
   const debugBusiness = req.logicStep;

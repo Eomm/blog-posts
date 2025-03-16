@@ -8,11 +8,13 @@ So, I checked it out and, here I am, writing a post about it to share what is it
 
 Managing state across asynchronous operations has always been a challenge in Node.js.
 Traditional methods like passing context objects through function parameters or using global variables is the
-easiest way to share data across functions, but they can quickly become unmanageable, especially in large applications with deeply nested asynchronous calls and it transforms the code into an untestable application.
+easiest way to share data across functions, but they can quickly become unmanageable, especially in
+large applications with deeply nested asynchronous calls and it transforms the code into an untestable application.
 
 This is where [**AsyncLocalStorage**](https://nodejs.org/api/async_context.html#class-asynclocalstorage), a core module introduced in Node.js 13, comes in handy.  
 It provides a way to store and retrieve data that persists through an asynchronous execution context.
-Unlike global variables, which are shared across all requests, `AsyncLocalStorage` allows developers to maintain **request-scoped data**, meaning each incoming request gets **its own isolated storage**.
+Unlike global variables, which are shared across all requests, `AsyncLocalStorage` allows developers
+to maintain **request-scoped data**, meaning each incoming request gets **its own isolated storage**.
 
 This feature seems to overlap with the [Fastify's Decorators](https://fastify.dev/docs/latest/Reference/Decorators/),
 but it's not the same... Let's see why!
@@ -150,27 +152,29 @@ Cool, right? But there is a catch!
 If you want to add some **reference types objects** (Arrays and JSON Objects) to the Request or Reply object,
 you will have to be careful!
 **Because the reference types are shared across all the requests, and if you modify them in one request, you will modify them in all the requests!**
+
 This can lead to unexpected behavior and bugs that are hard to track down, so this approach has been
 discouraged by the Fastify team in the [v5 release](https://fastify.dev/docs/latest/Guides/Migration-Guide-V5/#removed-support-from-reference-types-in-decorators).
 
 That said, it is still possible to use the Fastify Request and Reply decorators to store reference types objects,
-but it bacomes a bit more complex and error-prone. This is an example that shows how a temporary map is needed to store the reference types objects:
+but it bacomes a bit more complex and error-prone.
+
+This is an example that shows how you need 2 decorators to store the reference types objects and
+initialize them with a lazy loading approach:
 
 ```javascript
-const tracker = new WeakMap();
-app.decorateRequest("logicStep", {
-  getter() {
-    if (tracker.has(this)) {
-      return tracker.get(this);
-    }
-    tracker.set(this, []);
-    return tracker.get(this);
+app.decorateRequest('logicStepValue', null)
+app.decorateRequest('logicStep', {
+  getter () {
+    this.logicStepValue ??= [];
+    return this.logicStepValue;;
   },
-});
+})
 ```
 
 This is where the `@fastify/request-context` plugin comes in handy.
-It provides a structured way to store and retrieve request-specific data **without the risk of sharing data across requests**!
+It provides a structured way to store and retrieve request-specific
+data **without the risk of sharing data across requests**!
 
 ## Summary
 
