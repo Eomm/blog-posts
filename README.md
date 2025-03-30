@@ -46,6 +46,7 @@ Here you will find the source code and the commit history!
 1. [Resume Data Replication in Postgres and Node.js](https://backend.cafe/resume-data-replication-in-postgres-and-nodejs) - [📝](./posts/bonus-postgres-logical-replication.md)
 1. [How to implement video streaming with Fastify](https://backend.cafe/how-to-implement-video-streaming-with-fastify) - [📝](./posts/bonus-video-streaming.md)
 1. [Managing Request-Scoped Data in Fastify](https://backend.cafe/managing-request-scoped-data-in-fastify) - [📝](./posts/bonus-AsyncLocalStorage.md)
+1. [Handling HTTP Timeouts in Fastify](https://backend.cafe/handling-http-timeouts-in-fastify) - [📝](./posts/bonus-timeouts.md)
 
 
 > This repository was called `fastify-discord-bot-demo` before and it used to contain a discord app.
