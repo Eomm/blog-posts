@@ -72,6 +72,10 @@ sequenceDiagram
     end
 ```
 
+```
+<img width="413" alt="image" src="https://github.com/user-attachments/assets/57ab7be6-41a5-4de4-9210-dd93fc224466" />
+```
+
 In the diagram, the timeouts are represented with a clock icon ⏰.  
 So, let's review them all _(note that the default values are Fastify defaults, not the Node.js ones)_:
 
