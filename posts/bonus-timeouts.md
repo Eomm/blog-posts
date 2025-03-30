@@ -1,25 +1,25 @@
-# Timeouts
+# Handling HTTP Timeouts in Fastify
 
-The hardest part of my job is thinking like a malicious user... or like an AI in its early stages of writing HTTP servers!
-This exercise is not easy, because I love my clients' HTTP requests and I'm sure they love my server!
-But it is not always the case.. for this reason, we must be prepared to handle unexpected situations.
+The hardest part of my job is thinking like a malicious user... or like an AI in its early stages of writing HTTP servers!  
+This exercise is not easy because I love my clients' HTTP requests, and I'm sure they love my server!  
+But that is not always the case... for this reason, we must be prepared to handle unexpected situations.
 
-In this article we will see all the options available in Fastify to handle timeouts!
-A bad client implementation, or a malicious user, could kill your server if we are not careful!
+In this article, we will explore all the options available in Fastify to handle timeouts!  
+A poorly implemented client or a malicious user could kill your server if we are not careful!
 
 ## How many timeouts do I need?
 
-Before listing all the timeout options available in Fastify, let's take a moment to understand the HTTP request lifecycle
-and to see clearly where we need to set timeouts.
+Before listing all the timeout options available in Fastify, let's take a moment
+to understand the HTTP request lifecycle and identify where we need to set timeouts.
 
-In the following diagram, we can see a simplified HTTP request lifecycle that includes the most important steps.
+In the following diagram, we can see a simplified HTTP request lifecycle that includes the most important steps:
 
-1. Establishing TCP Connection to create a socket
-2. TLS Handshake (if using HTTPS)
-3. At this stage, the socket is open and the server is waiting for the client to send the HTTP request as the protocol requires
-4. The server got the request and is processing it
-5. The server is sending the response to the client
-6. The server is closing the connection or keeping it alive for future requests by using the same socket
+1. Establishing a TCP connection to create a socket.
+2. TLS Handshake (if using HTTPS).
+3. At this stage, the socket is open, and the server is waiting for the client to send the HTTP request as the protocol requires.
+4. The server receives the request and processes it.
+5. The server sends the response to the client.
+6. The server either closes the connection or keeps it alive for future requests using the same socket.
 
 ```mermaid
 sequenceDiagram
@@ -72,58 +72,56 @@ sequenceDiagram
     end
 ```
 
-In the diagram the timeouts are represented with a clock icon ⏰.
-So, let's see them all _(note that the default values are the Fastify defaults, not the Node.js ones)_:
+In the diagram, the timeouts are represented with a clock icon ⏰.  
+So, let's review them all _(note that the default values are Fastify defaults, not the Node.js ones)_:
 
-| Timeout Setting | Description |
-|---|---|
-| `headersTimeout`      | Specifies the number of milliseconds to wait for the complete HTTP headers to be received. If the headers are not received within this period, the connection is terminated. [Default `no-limit`](https://nodejs.org/api/http.html#serverheaderstimeout)
-| `requestTimeout`      | Defines the maximum duration, in milliseconds, to wait for the entire request from the client. If the request body isn't fully received within this time frame, the connection is closed. [Default: `no-limit`](https://fastify.dev/docs/latest/Reference/Server/#requesttimeout).
-| `connectionTimeout` (aka `timeout`) | Sets the socket inactivity timeout in milliseconds. If there's no activity on the socket for the specified duration, the server closes the connection. [Default `no-limit`](https://fastify.dev/docs/latest/Reference/Server/#connectiontimeout)
-| `keepAliveTimeout`    | Determines the time, in milliseconds, to wait for additional requests on a persistent connection (keep-alive). If no new request is received within this period, the server closes the connection. [Default 72 seconds](https://fastify.dev/docs/latest/Reference/Server/#keepalivetimeout)
-| `connectionsCheckingInterval` | Sets the interval value in milliseconds to check for request and headers timeout in incomplete requests. [Default 30000](https://nodejs.org/api/http.html#httpcreateserveroptions-requestlistener)
-<!-- | `maxRequestsPerSocket`| Limits the number of requests a single socket can handle before it's closed. Once this limit is reached, the server stops accepting new requests on that socket and closes it after the ongoing requests are completed. [Default `no-limit`](https://fastify.dev/docs/latest/Reference/Server/#maxrequestspersocket) -->
-<!-- http2SessionTimeout -->
+| Timeout Setting                     | Description                                                                                                                                                                                                                                                                                  |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `headersTimeout`                    | Specifies the number of milliseconds to wait for the complete HTTP headers to be received. If the headers are not received within this period, the connection is terminated. [Default: `no-limit`](https://nodejs.org/api/http.html#serverheaderstimeout)                                    |
+| `requestTimeout`                    | Defines the maximum duration, in milliseconds, to wait for the entire request from the client. If the request body isn't fully received within this time frame, the connection is closed. [Default: `no-limit`](https://fastify.dev/docs/latest/Reference/Server/#requesttimeout).           |
+| `connectionTimeout` (aka `timeout`) | Sets the socket inactivity timeout in milliseconds. If there's no activity on the socket for the specified duration, the server closes the connection. [Default: `no-limit`](https://fastify.dev/docs/latest/Reference/Server/#connectiontimeout)                                            |
+| `keepAliveTimeout`                  | Determines the time, in milliseconds, to wait for additional requests on a persistent connection (keep-alive). If no new request is received within this period, the server closes the connection. [Default: 72 seconds](https://fastify.dev/docs/latest/Reference/Server/#keepalivetimeout) |
+| `connectionsCheckingInterval`       | Sets the interval value, in milliseconds, to check for request and headers timeout in incomplete requests. [Default: 30,000](https://nodejs.org/api/http.html#httpcreateserveroptions-requestlistener)                                                                                       |
 
-Wow, that's a lot of timeouts! But Why do we need all of them?
+Wow, that's a lot of timeouts! But why do we need all of them?
 
-All these timeouts are important to ensure that the server can handle incoming requests efficiently and prevent resource exhaustion.
-Otherwise a malicious user could send a request with a large payload and keep the connection open indefinitely,
+All these timeouts are crucial to ensuring that the server can handle incoming requests efficiently and prevent resource exhaustion.
+Otherwise, a malicious user could send a request with a large payload and keep the connection open indefinitely,
 causing the server to run out of memory or [file descriptors](https://en.wikipedia.org/wiki/File_descriptor)!
 
-For example, the `headersTimeout` is important to ensure that the server doesn't wait indefinitely for the client to send the headers.
-This option is useful to prevent the [Slowris attack](https://www.cloudflare.com/it-it/learning/ddos/ddos-attack-tools/slowloris/),
-where an attacker sends headers very slowly to keep the connection open and exhaust the server's resources.
+For example, `headersTimeout` ensures that the server doesn't wait indefinitely for the client to send the headers.  
+This option helps prevent the [Slowloris attack](https://www.cloudflare.com/it-it/learning/ddos/ddos-attack-tools/slowloris/),
+where an attacker sends headers very slowly to keep the connection open and exhaust server resources.
 
-Now that we know what timeouts are and why we need them, let's see how to set them up in Fastify.
+Now that we understand timeouts and their importance, let's see how to set them up in Fastify.
 
 ## Setting Up Timeouts in Fastify
 
-To set up timeouts in Fastify, we must pass the options when creating the Fastify instance.
-Let's see a **TL;DR** example:
+To configure timeouts in Fastify, we must pass the options when creating the Fastify instance.  
+Here's a **TL;DR** example:
 
 ```javascript
-import fastify from 'fastify'
+import fastify from "fastify";
 
 const app = fastify({
-  // 1 minute: this timeout run while the server is processing the request, so it depends on the business logic
+  // 1 minute: this timeout runs while the server is processing the request, so it depends on the business logic
   connectionTimeout: 60_000,
 
-// 5 minutes: consider using a higher value for large payloads such as file uploads or slow connections
+  // 5 minutes: consider using a higher value for large payloads such as file uploads or slow connections
   requestTimeout: 300_000,
 
-  // 5 seconds: this timeout run while the server is waiting for a new request on the same socket
+  // 5 seconds: this timeout runs while the server is waiting for a new request on the same socket
   keepAliveTimeout: 5_000,
 
   http: {
     // 30 seconds: the client has 30 seconds to send the headers
     headersTimeout: 30_000,
-  }
-})
+  },
+});
 ```
 
-But, how do they behave in practice?  
-For this reason, I created a simple Fastify v5 server and a client to test the timeouts.
+Now, let's test the timeouts!  
+I created a simple Fastify v5 server and a client to test the timeouts.  
 For the sake of simplicity, the code can be found on [GitHub][repo] and is not included in this article.
 
 ## Testing Timeouts
@@ -158,7 +156,7 @@ Cool! Now we can test the timeouts by running a simple command!
 
 ### Test the `headersTimeout`
 
-Straight into the point, let's test the `headersTimeout` by sending a request with a very slow header rate:
+Straight into the point: let's test the `headersTimeout` by sending a request with a very slow header rate.
 
 ```bash
 # Set the header timeout to half a second
@@ -232,12 +230,12 @@ Disconnected from server after 549 ms
 Now, we can run a lot of tests with different timeouts and payloads to see how the server behaves.
 Here is a summary of the tests I ran _(considering the `connectionsCheckingInterval` set to 100 milliseconds)_:
 
-| Test | Client Args | Server Args | Result |
-|---|---|---|---|
-| Slow Headers | `--headerRate 1000` | `--headersTimeout 500` | Timeout Error: because the server will wait for 500ms to receive the headers, but the client will send one header every second. |
-| Slow Payload | `--payloadRate 1000` | `--requestTimeout 5000` | Timeout Error: because the server will wait for 5 seconds to receive the payload, but the client will send one byte every second. |
-| Keep-Alive Connection | `--payloadRate 1 --keepAlive` | `--keepAliveTimeout 4000` | After completing the request, the socker will be ended by the server after 4 seconds. |
-| Slow Server handler | `--headerRate 1` | `--connectionTimeout 10000 --handlerTimeout 60000` | Timeout Error: because the server will wait for 10 seconds to process the whole request, but the server handler will take 60 seconds to process the request. |
+| Test                  | Client Args                   | Server Args                                        | Result                                                                                                                                                       |
+| --------------------- | ----------------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Slow Headers          | `--headerRate 1000`           | `--headersTimeout 500`                             | Timeout Error: because the server will wait for 500ms to receive the headers, but the client will send one header every second.                              |
+| Slow Payload          | `--payloadRate 1000`          | `--requestTimeout 5000`                            | Timeout Error: because the server will wait for 5 seconds to receive the payload, but the client will send one byte every second.                            |
+| Keep-Alive Connection | `--payloadRate 1 --keepAlive` | `--keepAliveTimeout 4000`                          | After completing the request, the socker will be ended by the server after 4 seconds.                                                                        |
+| Slow Server handler   | `--headerRate 1`              | `--connectionTimeout 10000 --handlerTimeout 60000` | Timeout Error: because the server will wait for 10 seconds to process the whole request, but the server handler will take 60 seconds to process the request. |
 
 Now we can see that the server is able to handle the timeouts correctly and
 the client is able to receive the timeout errors.
@@ -246,15 +244,14 @@ Use those scripts to test the timeouts in your own environment and see how they 
 
 ## Summary
 
-In this article, we learned about the different timeouts available in Fastify and how to set them up.
-We also saw how to test them with a simple Fastify server and a custom socket.
-We learned that the timeouts are important to prevent resource exhaustion and to ensure
-that the server can handle incoming requests efficiently.
+In this article, we explored the different timeouts available in Fastify and how to configure them.  
+We also tested them with a simple Fastify server and a custom socket.  
+We learned that timeouts are essential for preventing resource exhaustion and ensuring that  
+the server efficiently handles incoming requests.
 
-Keep in mind that every application is different, but we should never forget to set the timeouts!
+Keep in mind that every application is different, but we should never forget to set timeouts!
 
 If you enjoyed this article, you might like [_"Accelerating Server-Side Development with Fastify"_](https://backend.cafe/the-fastify-book-is-out).  
 Comment, share, and follow me on [X/Twitter](https://twitter.com/ManuEomm)!
-
 
 [repo]: https://github.com/Eomm/blog-posts/tree/HEAD/bonus/timeouts
