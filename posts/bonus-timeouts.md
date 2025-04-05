@@ -108,21 +108,27 @@ Here's a **TL;DR** example:
 import fastify from "fastify";
 
 const app = fastify({
-  // 1 minute: this timeout runs while the server is processing the request, so it depends on the business logic
-  connectionTimeout: 60_000,
+  // 2 minutes: a reasonable timeout for processing requests, balancing performance and user experience
+  connectionTimeout: 120_000,
 
-  // 5 minutes: consider using a higher value for large payloads such as file uploads or slow connections
-  requestTimeout: 300_000,
+  // 1 minute: suitable for most payloads, including moderate file uploads
+  requestTimeout: 60_000,
 
-  // 5 seconds: this timeout runs while the server is waiting for a new request on the same socket
-  keepAliveTimeout: 5_000,
+  // 10 seconds: ensures efficient resource usage for idle connections
+  keepAliveTimeout: 10_000,
 
   http: {
-    // 30 seconds: the client has 30 seconds to send the headers
-    headersTimeout: 30_000,
+    // 15 seconds: prevents slow clients from holding connections too long
+    headersTimeout: 15_000,
   },
 });
 ```
+
+These are general recommendations, and the actual values may vary based on your application and use case.  
+Be sure to think about the following:
+- **Protect the server**: Prevent resource exhaustion by limiting how long connections can remain open or idle.
+- **Enhance client experience**: Provide sufficient time for legitimate requests, even under less-than-ideal network conditions.
+- **Balance performance and security**: Avoid excessively long timeouts that could lead to inefficiency or abuse, while ensuring the server remains responsive.
 
 Now, let's test the timeouts!  
 I created a simple Fastify v5 server and a client to test the timeouts.  
