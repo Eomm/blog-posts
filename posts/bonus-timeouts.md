@@ -205,7 +205,7 @@ Disconnected from server after 14338 ms
 ```
 
 The reason is that Node.js does not check the timeouts so frequently.
-Actually the default `connectionsCheckingInterval` configuration is set to 30 seconds,
+Actually, the default `connectionsCheckingInterval` configuration is set to 30 seconds,
 so the server will check the timeouts every 30 seconds.
 
 This makes sense, because checking all the sockets every few millisecond would be a waste of CPU resources.
