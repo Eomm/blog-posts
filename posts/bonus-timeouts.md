@@ -242,10 +242,10 @@ Here is a summary of the tests I ran _(considering the `connectionsCheckingInter
 
 | Test                  | Client args                   | Server args                                        | Result                                                                                                                                                       |
 | --------------------- | ----------------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Slow Headers          | `--headerRate 1000`           | `--headersTimeout 500`                             | Timeout Error: because the server will wait for 500ms to receive the headers, but the client will send one header every second.                              |
-| Slow Payload          | `--payloadRate 1000`          | `--requestTimeout 5000`                            | Timeout Error: because the server will wait for 5 seconds to receive the payload, but the client will send one byte every second.                            |
-| Keep-Alive Connection | `--payloadRate 1 --keepAlive` | `--keepAliveTimeout 4000`                          | After completing the request, the socker will be ended by the server after 4 seconds.                                                                        |
-| Slow Server handler   | `--headerRate 1`              | `--connectionTimeout 10000 --handlerTimeout 60000` | Timeout Error: because the server will wait for 10 seconds to process the whole request, but the server handler will take 60 seconds to process the request. |
+| Slow Headers          | `--headerRate 1000`           | `--headersTimeout 500`                             | Timeout error: because the server will wait for 500ms to receive the headers, but the client will send one header every second.                              |
+| Slow Payload          | `--payloadRate 1000`          | `--requestTimeout 5000`                            | Timeout error: because the server will wait for five seconds to receive the payload, but the client will send one byte every second.                            |
+| Keep-Alive Connection | `--payloadRate 1 --keepAlive` | `--keepAliveTimeout 4000`                          | After completing the request, the socker will be ended by the server after four seconds.                                                                        |
+| Slow Server handler   | `--headerRate 1`              | `--connectionTimeout 10000 --handlerTimeout 60000` | Timeout error: because the server will wait for ten seconds to process the whole request, but the server handler will take 60 seconds to process the request. |
 
 Now we can see that the server is able to handle the timeouts correctly and
 the client is able to receive the timeout errors.
