@@ -99,7 +99,7 @@ where an attacker sends headers very slowly to keep the connection open and exha
 
 Now that we understand timeouts and their importance, let's see how to set them up in Fastify.
 
-## Setting Up Timeouts in Fastify
+## Setting up timeouts in Fastify
 
 To configure timeouts in Fastify, we must pass the options when creating the Fastify instance.  
 Here's a **TL;DR** example:
