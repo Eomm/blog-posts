@@ -208,7 +208,7 @@ The reason is that Node.js does not check the timeouts so frequently.
 Actually, the default `connectionsCheckingInterval` configuration is set to 30 seconds,
 so the server will check the timeouts every 30 seconds.
 
-This makes sense, because checking all the sockets every few millisecond would be a waste of CPU resources.
+This makes sense, because checking all the sockets every few milliseconds would be a waste of CPU resources.
 As always, we developers need to find a balance between performance and security.
 
 So, for the sake of this article, let's set the `connectionsCheckingInterval` to 100 milliseconds
