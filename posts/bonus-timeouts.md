@@ -134,7 +134,7 @@ Now, let's test the timeouts!
 I created a simple Fastify v5 server and a client to test the timeouts.  
 For the sake of simplicity, the code can be found on [GitHub][repo] and is not included in this article.
 
-## Testing Timeouts
+## Testing timeouts
 
 If you have downloaded and installed the code from the [GitHub repository][repo],
 we can run the server with Node.js v20+ and the following command and we can set the timeouts
