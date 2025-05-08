@@ -262,6 +262,6 @@ the server efficiently handles incoming requests.
 Keep in mind that every application is different, but we should never forget to set timeouts!
 
 If you enjoyed this article, you might like [_"Accelerating Server-Side Development with Fastify"_](https://backend.cafe/the-fastify-book-is-out).  
-Comment, share, and follow me on [X/Twitter](https://twitter.com/ManuEomm)!
+Comment, share and follow me on [X/Twitter](https://twitter.com/ManuEomm)!
 
 [repo]: https://github.com/Eomm/blog-posts/tree/HEAD/bonus/timeouts
