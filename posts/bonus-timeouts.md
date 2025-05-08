@@ -15,7 +15,7 @@ to understand the HTTP request lifecycle and identify where we need to set timeo
 In the following diagram, we can see a simplified HTTP request lifecycle that includes the most important steps:
 
 1. Establishing a TCP connection to create a socket.
-2. TLS Handshake (if using HTTPS).
+2. TLS handshake (if using HTTPS).
 3. At this stage, the socket is open, and the server is waiting for the client to send the HTTP request as the protocol requires.
 4. The server receives the request and processes it.
 5. The server sends the response to the client.
