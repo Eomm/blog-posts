@@ -240,7 +240,7 @@ Disconnected from server after 549 ms
 Now, we can run a lot of tests with different timeouts and payloads to see how the server behaves.
 Here is a summary of the tests I ran _(considering the `connectionsCheckingInterval` set to 100 milliseconds)_:
 
-| Test                  | Client Args                   | Server Args                                        | Result                                                                                                                                                       |
+| Test                  | Client args                   | Server args                                        | Result                                                                                                                                                       |
 | --------------------- | ----------------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Slow Headers          | `--headerRate 1000`           | `--headersTimeout 500`                             | Timeout Error: because the server will wait for 500ms to receive the headers, but the client will send one header every second.                              |
 | Slow Payload          | `--payloadRate 1000`          | `--requestTimeout 5000`                            | Timeout Error: because the server will wait for 5 seconds to receive the payload, but the client will send one byte every second.                            |
