@@ -166,7 +166,7 @@ Cool! Now we can test the timeouts by running a simple command!
 
 ### Test the `headersTimeout`
 
-Straight into the point: let's test the `headersTimeout` by sending a request with a very slow header rate.
+Straight to the point: let's test the `headersTimeout` by sending a request with a very slow header rate.
 
 ```bash
 # Set the header timeout to half a second
