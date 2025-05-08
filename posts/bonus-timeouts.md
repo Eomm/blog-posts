@@ -212,7 +212,7 @@ This makes sense, because checking all the sockets every few milliseconds would 
 As always, we developers need to find a balance between performance and security.
 
 So, for the sake of this article, let's set the `connectionsCheckingInterval` to 100 milliseconds
-to appreciate the timeouts in real time, or if you would like to see a real Slowloris attack in action
+to appreciate the timeouts in real time, or if you would like to see a real Slowloris attack in action,
 set the `headerRate` to 60 seconds!
 
 ```bash
