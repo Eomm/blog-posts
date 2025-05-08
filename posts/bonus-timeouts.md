@@ -1,5 +1,7 @@
 # Handling HTTP timeouts in Fastify
 
+## CAN WE PLEASE ADD A FIRST SUBHEADING HERE THAT FOLLOWS ON FROM THE TITLE AND LET'S THE READER KNOW WHAT TO EXPECT FROM YOUR ARTICLE — see this article for an example https://nearform.com/digital-community/open-vs-closed-navigating-the-critical-llm-decision-for-enterprise-ai/
+
 The hardest part of my job is thinking like a malicious user... or like an AI in its early stages of writing HTTP servers!  
 This exercise is not easy because I love my clients' HTTP requests, and I'm sure they love my server!  
 But that is not always the case... for this reason, we must be prepared to handle unexpected situations.
