@@ -137,7 +137,7 @@ For the sake of simplicity, the code can be found on [GitHub][repo] and is not i
 ## Testing timeouts
 
 If you have downloaded and installed the code from the [GitHub repository][repo],
-we can run the server with Node.js v20+ and the following command and we can set the timeouts
+we can run the server with Node.js v20+ and the following command, and we can set the timeouts
 via optional arguments:
 
 ```bash
