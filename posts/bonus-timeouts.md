@@ -247,7 +247,7 @@ Here is a summary of the tests I ran _(considering the `connectionsCheckingInter
 | Keep-Alive Connection | `--payloadRate 1 --keepAlive` | `--keepAliveTimeout 4000`                          | After completing the request, the socker will be ended by the server after four seconds.                                                                        |
 | Slow Server handler   | `--headerRate 1`              | `--connectionTimeout 10000 --handlerTimeout 60000` | Timeout error: because the server will wait for ten seconds to process the whole request, but the server handler will take 60 seconds to process the request. |
 
-Now we can see that the server is able to handle the timeouts correctly and
+Now we can see that the server is able to handle the timeouts correctly and,
 the client is able to receive the timeout errors.
 
 Use those scripts to test the timeouts in your own environment and see how they behave.
