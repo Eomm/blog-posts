@@ -1,6 +1,6 @@
 # Handling HTTP timeouts in Fastify
 
-## Don’t Let a Slow Client Crash Your Server: Protect Fastify with Smart Timeout Strategies
+## We share smart strategies for ensuring a slow client doesn’t crash your server
 
 The hardest part of my job is thinking like a malicious user... or like an AI in its early stages of writing HTTP servers!  
 This exercise is not easy because I love my clients' HTTP requests, and I'm sure they love my server!  
