@@ -1,0 +1,15 @@
+{
+  "name": "timeouts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Manuel Spigolon <manuel.spigolon@nearform.com> (https://github.com/Eomm)",
+  "license": "MIT",
+  "description": "",
+  "dependencies": {
+    "fastify": "^5.2.2"
+  }
+}
