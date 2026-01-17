@@ -4,16 +4,21 @@ Did you see the "Verified" badge on some GitHub commits and wonder how to get it
 
 ![verified badge](./assets/gpg-verified.png)
 
-Well, this badge indicates that the commit was signed with a GPG key, which helps verify the authenticity of the commit.
-This helps prevent tampering and ensures that the commit was made by the rightful author.
+Well,GitHub shows the ‘Verified’ badge when a commit has a valid signature from a trusted key (GPG, SSH, S/MIME, or GitHub’s own).
+In this article we’ll focus on the GPG path: generating a key pair, registering the public key with GitHub,
+matching the key’s email to your GitHub account, and configuring `git` to sign your commits so GitHub can verify them.
 
+A signature proves the commit came from someone who controls a specific private key,
+instead of just "whatever machine happened to use your name and email" in the `git` config.
 For example, a dummy attack could be to commit code on a Pull Request on behalf of another developer,
 by using their name and email in the commit metadata to trick maintainers into thinking the commit is legitimate
 and merging it without proper review.
 
-In fact, by simply changing the git config user name and email, you can impersonate anyone:
+In fact, by simply changing the `git` config user name and email, you can impersonate anyone:
 
 ![fake author and committer](./assets/gpg-unverified.png)
+
+With the "Verified" badge, you will get trust for your contributions and it defends against impersonation.
 
 So, would you like to learn how to sign your git commits with GPG?
 Let's get started!
@@ -60,6 +65,8 @@ located in the GPG home directory (usually `~/.gnupg/`):
 
 ```bash
 echo "pinentry-program /usr/local/bin/pinentry-mac" >> ~/.gnupg/gpg-agent.conf
+# Restart gpg-agent to apply the changes
+gpgconf --kill gpg-agent
 ```
 
 > 💡 The `~/.gnupg/gpg-agent.conf` file may include the `default-cache-ttl` and `max-cache-ttl` settings to control how long the passphrase is cached in memory
@@ -77,7 +84,7 @@ gpg --full-generate-key
 
 This will prompt you to select some options for your key pair; let's go through them briefly:
 
-- **Key type**: You can choose the default option (`ECC (sign and encrypt)`) by pressing Enter.
+- **Key type**: You can choose the default option by pressing Enter.
   Select the option based on the supported algorithms of your environment. In our case, ECC is a good choice
   because GitHub supports it
 - **Elliptic curve**: You can choose the default option (`Curve 25519`) by pressing Enter
@@ -111,7 +118,7 @@ In this example, the GPG key ID is `CACEF4B5F2457FA1`, take note of it because w
 To verify that GPG signing works, we can just sign a test message:
 
 ```bash
-gpg --default-key CACEF4B5F2457FA1 --sign --armor <<< "test"
+echo "test" | gpg --default-key CACEF4B5F2457FA1 --sign --armor
 ```
 
 This should prompt you for your passphrase (handled by `pinentry`) and output a signed message block like this:
