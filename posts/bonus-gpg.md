@@ -5,15 +5,15 @@ Did you see the "Verified" badge on some GitHub commits and wonder how to get it
 ![verified badge](./assets/gpg-verified.png)
 
 Well, this badge indicates that the commit was signed with a GPG key, which helps verify the authenticity of the commit.
-This help prevent tampering and ensures that the commit was made by the rightful author.
+This helps prevent tampering and ensures that the commit was made by the rightful author.
 
 For example, a dummy attack could be to commit code on a Pull Request on behalf of another developer,
 by using their name and email in the commit metadata to trick maintainers into thinking the commit is legitimate
 and merging it without proper review.
 
-In fact, by simply changing the git config user name and email, you can fake anyone:
+In fact, by simply changing the git config user name and email, you can impersonate anyone:
 
-![fake author and commiter](./assets/gpg-unverified.png)
+![fake author and committer](./assets/gpg-unverified.png)
 
 So, would you like to learn how to sign your git commits with GPG?
 Let's get started!
@@ -34,7 +34,7 @@ and exposes a socket-based API so GPG and other tools don’t repeatedly access 
 In practice, GPG delegates all sensitive key usage to `gpg-agent`, which reduces passphrase prompts,
 centralizes key protection, and limits how often private keys are decrypted.
 
-That sounds complicated, but don't worry; when it will be configured it will work seamlessly in the background!
+That sounds complicated, but don't worry; once it is configured, it will work seamlessly in the background!
 
 If you are using macOS, the easiest way to install GPG is by using [Homebrew](https://brew.sh/):
 
@@ -49,7 +49,7 @@ which is a collection of simple user interface dialogs used by GPG and `gpg-agen
 prompt users for sensitive information, such as passphrases or PINs.
 It ensures that sensitive data is entered in a secure manner, preventing exposure to other applications or potential keyloggers.
 
-To intall it, you can follow the official website or use your again a system package manager:
+To install it, you can follow the official website or use your system package manager again:
 
 ```bash
 brew install pinentry-mac
@@ -75,7 +75,7 @@ Creating a GPG key pair can be done using the following command:
 gpg --full-generate-key
 ```
 
-This will prompt you to select some options for your key pair, let's go through them briefly:
+This will prompt you to select some options for your key pair; let's go through them briefly:
 
 - **Key type**: You can choose the default option (`ECC (sign and encrypt)`) by pressing Enter.
   Select the option based on the supported algorithms of your environment. In our case, ECC is a good choice
@@ -136,7 +136,7 @@ First, export your public GPG key using the following command:
 gpg --armor --export CACEF4B5F2457FA1
 ```
 
-It will output something like this:
+This will output something like this:
 
 ```plaintext
 -----BEGIN PGP PUBLIC KEY BLOCK-----
@@ -150,7 +150,7 @@ and go to your GitHub account settings at:
 
 - Navigate to **Settings** > **SSH and GPG keys** > **New GPG key**
 
-Or just go at this URL [https://github.com/settings/gpg/new](https://github.com/settings/gpg/new).
+Or just go to this URL [https://github.com/settings/gpg/new](https://github.com/settings/gpg/new).
 
 Paste your public GPG key into the "Key" field and click on the "Add GPG key" button to save it.
 Now GitHub will be able to verify your signed commits.
