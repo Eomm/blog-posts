@@ -14,6 +14,11 @@ app.get('/', async (req, reply) => {
         reply.raw.setHeader('Content-Type', 'text/html; charset=utf-8')
         stream.pipe(reply.raw)
       },
+      onShellError (err) {
+        reply.raw.statusCode = 500
+        reply.raw.end('<!doctype html><p>Something went wrong</p>')
+        console.error(err)
+      },
       onError (err) {
         reply.raw.statusCode = 500
         console.error(err)

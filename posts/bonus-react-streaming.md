@@ -54,6 +54,11 @@ app.get('/', async (req, reply) => {
         reply.raw.setHeader('Content-Type', 'text/html; charset=utf-8')
         stream.pipe(reply.raw)
       },
+      onShellError (err) {
+        reply.raw.statusCode = 500
+        reply.raw.end('<!doctype html><p>Something went wrong</p>')
+        console.error(err)
+      },
       onError (err) {
         reply.raw.statusCode = 500
         console.error(err)
@@ -73,7 +78,9 @@ Let's break down what's happening:
 
 3. **`onShellReady`** fires when the initial HTML shell is ready to be sent. At this point, we set the `Content-Type` header and pipe the stream into `reply.raw` — the underlying Node.js response.
 
-4. **`onError`** handles any rendering errors by setting a 500 status code.
+4. **`onShellError`** fires if the initial shell fails to render — before any HTML has been sent to the client. Since the response hasn't started yet, we can still set a proper status code and send a fallback HTML page. This is the right place to handle fatal rendering failures.
+
+5. **`onError`** handles errors that occur _after_ the shell has been sent and streaming has begun. At that point, headers and status code are already flushed, so we can only log the error.
 
 Start the server:
 
