@@ -1,0 +1,19 @@
+{
+  "name": "react-streaming",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Manuel Spigolon <behemoth89@gmail.com> (https://github.com/Eomm)",
+  "license": "MIT",
+  "dependencies": {
+    "fastify": "^5.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}
