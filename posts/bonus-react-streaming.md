@@ -2,7 +2,7 @@
 
 ## How to stream React components to the browser using Fastify and reply.hijack()
 
-React 18 introduced `renderToPipeableStream`, a powerful API for streaming server-rendered HTML to the browser.
+React 18+ introduced `renderToPipeableStream`, a powerful API for streaming server-rendered HTML to the browser.
 Instead of waiting for the entire page to render before sending it to the client, you can start sending HTML as soon as it's ready.
 
 In this article, we'll build a minimal Fastify server that streams a React component to the browser using Node.js streams.
@@ -56,11 +56,11 @@ app.get('/', async (req, reply) => {
       },
       onShellError (err) {
         reply.raw.statusCode = 500
+        reply.raw.setHeader('Content-Type', 'text/html; charset=utf-8')
         reply.raw.end('<!doctype html><p>Something went wrong</p>')
         console.error(err)
       },
       onError (err) {
-        reply.raw.statusCode = 500
         console.error(err)
       }
     }
