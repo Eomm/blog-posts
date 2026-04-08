@@ -1,0 +1,14 @@
+{
+  "name": "bitmap-groupby",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Bitmap-based groupBy vs naive approach benchmark",
+  "scripts": {
+    "naive": "node naive.mjs",
+    "bitmap": "node bitmap.mjs",
+    "bench": "node benchmark.mjs"
+  },
+  "dependencies": {
+    "mitata": "^1.0.34"
+  }
+}
