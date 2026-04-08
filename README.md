@@ -49,6 +49,7 @@ Here you will find the source code and the commit history!
 1. [Handling HTTP Timeouts in Fastify](https://backend.cafe/handling-http-timeouts-in-fastify) - [📝](./posts/bonus-timeouts.md)
 1. [Signing Git Commits with GPG](https://backend.cafe/signing-git-commits-with-gpg) - [📝](./posts/bonus-gpg.md)
 1. [React Server-Side Streaming with Fastify](https://backend.cafe/react-server-side-streaming-with-fastify) - [📝](./posts/bonus-react-streaming.md)
+1. [A bitmap is not an image format only](./posts/bonus-bitmap.md) - [📝](./posts/bonus-bitmap.md)
 
 
 > This repository was called `fastify-discord-bot-demo` before and it used to contain a discord app.
