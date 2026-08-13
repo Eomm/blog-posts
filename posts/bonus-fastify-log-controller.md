@@ -1,14 +1,13 @@
-# Take Control of Fastify's Automatic Logs
+# Your health check is writing a million log lines a month
 
-## Every log line Fastify writes for you is now yours to customize
+## Take control of every log line Fastify writes for you
 
 A few days ago I reviewed a [Fastify pull request](https://github.com/fastify/fastify/pull/6928) that added a new route option, `requestLogLevel`.
-The motivation was one every backend developer recognizes: the health check endpoint is called every few seconds, and every single call produces two `info` log lines that nobody will ever read, and that you pay for.
+The motivation was one every backend developer recognizes: your orchestrator calls `/health` every 5 seconds, which is 17.280 requests a day, and Fastify logs two lines for each one.
+That is **more than 1.000.000 log lines a month**, and every single one of them says that everything is fine. You are storing them, indexing them, and paying for them.
 
 It is a real problem. But that pull request did not need to touch Fastify's core, because Fastify already ships two ways to solve it.
 The author had not spotted either one, and honestly that is fair: one of them is a plugin trick that is easy to forget, and the other is a fairly recent addition.
-
-So let's look at both.
 
 > **Note**
 > The `logController` option is available since **Fastify v5.10.0**, no alpha or release candidate needed.
@@ -100,9 +99,13 @@ const app = Fastify({
 
 That is the whole API. The full method signatures, the constructor options and the exact defaults are documented in the [`logController` section of the Fastify docs](https://fastify.dev/docs/latest/Reference/Server/#logcontroller), which is worth a read before you override anything.
 
-Now let's build three things with it.
+Now let's build three things with it:
 
-## A different log level per route
+- a health check that stays quiet while every other route keeps logging
+- a single access log line, carrying exactly the fields your dashboard wants
+- a sampler that logs one successful request out of ten, and every failure
+
+## Silence one route, keep the rest
 
 This is the use case from the pull request, done without patching Fastify: I want the health check's automatic logs at `debug` so an `info` logger drops them, while the rest of the application stays at `info`.
 
@@ -175,7 +178,7 @@ The output is the same three `/orders` lines as before:
 
 Same result as the silenced plugin, but now the difference matters: the handler's own `request.log.info` still works everywhere, failures still get logged, and flipping the application logger to `debug` brings the health checks back for as long as you need them. You demoted Fastify's automatic logs without gagging your own.
 
-## One single access log line
+## Two lines become one
 
 Two lines per request is a strange default once you are shipping logs to a paid service. The `incoming request` line only tells you that a request started, and the `request completed` line does not repeat the method and the URL, so neither is useful on its own.
 
@@ -226,7 +229,7 @@ One request, one line, every field you asked for:
 {"level":30,"reqId":"req-1","method":"GET","url":"/orders/42","route":"/orders/:id","status":200,"ms":2,"tenant":"acme","msg":"access"}
 ```
 
-## Sample the successes, keep all the failures
+## Log 1 request out of 10, and every single failure
 
 Here is my favourite one, because it is the kind of thing that usually needs a dedicated plugin.
 
@@ -299,7 +302,7 @@ That is `defaultErrorLog`, a **different** method of the controller, the one Fas
 
 ## Trade-offs
 
-The `logController` is a single instance for the whole server, it is not encapsulated per plugin like `logLevel` is. So per-route behaviour has to be derived from the request, as in the first example, and not from where the route was registered. The two techniques compose nicely, though: a silenced plugin for the routes you never want to hear from, a controller for everything that needs judgement.
+The `logController` is a single instance for the whole server, it is not encapsulated per plugin like `logLevel` is. So per-route behaviour has to be derived from the request, as in the `/health` example above, and not from where the route was registered. The two techniques compose nicely, though: a silenced plugin for the routes you never want to hear from, a controller for everything that needs judgement.
 
 These methods also sit on the hot path of every single request. Keep them cheap: read a property, pick a level, log. This is not the place for an `await` or a JSON round trip.
 
