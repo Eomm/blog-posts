@@ -1,0 +1,19 @@
+{
+  "name": "log-controller-bonus",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "level": "node 01-per-route-level.mjs",
+    "access": "node 02-one-line-access-log.mjs",
+    "sampling": "node 03-sampling.mjs",
+    "silence": "node 00-quick-silence.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "fastify": "^5.12.0"
+  }
+}
