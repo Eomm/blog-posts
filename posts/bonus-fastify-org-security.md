@@ -14,7 +14,7 @@ going to ship you something nasty, on purpose or by accident. Fastify is downloa
 millions of developers and companies every month, which puts me on the other side of that
 deal, and being on that side means the question above needs a real answer.
 
-During the last year, thanks to
+Over the past year, thanks to
 [our involvement in GitHub's OSS Fund](https://github.com/open-source/github-secure-open-source-fund),
 the Fastify team went through the whole organization and started closing the doors that
 an attacker could use to ship a malicious release with our name on it.
@@ -39,26 +39,26 @@ never having a credential that can publish `fastify` sitting in a workflow envir
 
 That choice moves the whole problem onto the humans, which is where the real work starts.
 An organization with dozens of maintainers has a natural entropy problem: people join,
-people move on, and nobody remembers to remove the npm access of a contributor who
+people move on, and nobody remembers to remove npm access for a contributor who
 stopped writing code two years ago. Every one of those forgotten accounts is a valid
 publishing credential sitting in a browser somewhere.
 
 So we wrote [`fastify/org-admin`](https://github.com/fastify/org-admin): a set of Node.js
 scripts that manage the membership lifecycle of the organization. It can:
 
-- onboard a new member into the right GitHub teams;
-- offboard a member, removing them from active teams, adding them to the `emeritus`
-  team and cleaning up their npm team access;
-- list inactive members by looking at their contribution history over a configurable
-  period, so we can ask them if they are still around and their account is still safe and sound;
-- sync npm organization teams with the GitHub repository topics, classifying packages
+- Onboard a new member into the right GitHub teams.
+- Offboard a member, removing them from active teams, adding them to the `emeritus`
+  team and cleaning up their npm team access.
+- List inactive members by looking at their contribution history over a configurable
+  period, so we can ask them if they are still around and their account is still safe and sound.
+- Sync npm organization teams with the GitHub repository topics, classifying packages
   as core, libraries, plugins or deprecated.
 
 Two details matter more than the features:
 
 1. **Every command supports `--dryRun`.** Access management scripts are exactly the kind
    of code where a typo removes fifty people from a team. You want to read the plan
-   before executing it:
+   before executing it.
    The `sync-npm-org` command goes one step further: instead of touching the registry, it
    writes an `npm-org-sync.sh` file with the `npm access` commands it would run, so a
    second pair of eyes can review it before anything is applied.
@@ -73,16 +73,16 @@ The result is that "who can publish `fastify`?" is now a question with a reprodu
 answer.
 
 But good news: now that the ecosystem has grown a bit, npm has added a feature that makes this even easier
-for us and enables (manual) release with the [npm trusted publisher feature](https://github.com/fastify/fastify/issues/2748#issuecomment-5379074223),
+for us and enables manual releases with the [npm trusted publisher feature](https://github.com/fastify/fastify/issues/2748#issuecomment-5379074223),
 so you will be able to verify where a tarball came from, with the human still in the loop.
-_Cooming soon_
+_Coming soon_
 
 ## 2. Your CI is the shortest path to a malicious release
 
 If I wanted to publish a compromised version of a popular package, I wouldn't try to
 find a bug in the library. I would look at its GitHub Actions workflows.
 
-We removed the workflows using `pull_request_target` from the main repositories. That
+We removed the workflows that used `pull_request_target` from the main repositories. That
 trigger runs with the permissions of the base repository, secrets included, and the usual
 mistake is to combine it with a checkout of the contributor's branch:
 
@@ -127,6 +127,12 @@ that the action's owner (or whoever compromises them) can move under your feet:
 - uses: some-org/some-action@a1b2c3d4e5f60718293a4b5c6d7e8f9012345678 # v4.1.0
 ```
 
+We did not stop at third-party actions: we pinned GitHub's own first-party actions and
+our [`fastify/workflows`](https://github.com/fastify/workflows) reusable workflows too,
+[like in this pull request](https://github.com/fastify/fastify/pull/6853). It may look
+paranoid, but it protects us even if one of GitHub's own actions, or our own shared
+workflows repository, gets compromised.
+
 Pinning by hand once is easy, keeping the pins current is the part people give up on.
 Dependabot understands SHA pins and will open the bump pull requests for you, updating
 both the SHA and the version comment.
@@ -147,7 +153,7 @@ ignore-scripts=true
 ```
 
 An `npm install` in a Fastify repository, on a maintainer's machine or in a CI
-job, does not execute the lifecycle scripts of the dependency tree anymore. Our test
+job, no longer executes the lifecycle scripts of the dependency tree. Our test
 suites never needed those hooks, so the cost is zero and a compromised transitive
 dependency does not get a free shell out of it.
 
@@ -207,7 +213,7 @@ If you only do one of them this week, do the third: `ignore-scripts` takes five 
 and it is the one that would have stopped Shai-Hulud on your machine.
 
 If you maintain a popular package, the rest is an afternoon of boring work. Do it
-before you need it 🙏
+before you need it. 🙏
 
 If you enjoyed this article, you might like [_"Accelerating Server-Side Development with Fastify"_](https://backend.cafe/the-fastify-book-is-out).
 Comment, share and follow me on [X/Twitter](https://twitter.com/ManuEomm)!
