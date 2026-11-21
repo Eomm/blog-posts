@@ -10,7 +10,7 @@ Maybe you have custom transports, a shared logging library, or a dashboard that 
 The good news is that Fastify accepts any logger you give it.
 The less good news is that "accepts" and "works like pino" are two very different things 😅
 
-So, would you like to see what really happens when you swap pino for winston? Let's find out together, and let's fix every issue along the way, without touching your existing winston code.
+So, would you like to see what happens when you swap pino for winston? Let's find out together, and let's fix every issue along the way, without touching your existing winston code.
 
 ## The minimal setup
 
@@ -59,12 +59,12 @@ app.get("/boom", () => {
 await app.listen({ port: 3000 });
 ```
 
-Pay attention to the numbers: in winston, a **lower** number means **more severe**. Pino does the opposite, `trace` is `10` and `fatal` is `60`.
+In winston, a lower number means more severe. Pino does the opposite, `trace` is `10` and `fatal` is `60`.
 So `trace` must get the highest number, otherwise setting `level: 'debug'` would hide all your debug lines and print the trace ones.
 
-Note that `request.log` is a winston child logger now, so in our handler we call it the winston way: message first, metadata second.
+`request.log` is a winston child logger now, so in our handler we call it the winston way: message first, metadata second.
 
-The server starts, and the logs are in JSON. Done? Not really. Let's run a single request and look at the output.
+The server starts, and the logs are in JSON. Let's run a single request and look at the output.
 
 ## What goes wrong
 
@@ -84,12 +84,10 @@ And here is the winston setup above, for the same request (the first and last li
 {"level":"info","message":{"res":{"log":{},"raw":{"_closed":false,"_contentLength":17,"_defaultKeepAlive":true,...
 ```
 
-Our own line is perfect, but the two lines that Fastify writes for us are a mess.
-Wow, what happened here? There are four different problems hidden in these lines.
+Our own line is perfect, but the two lines that Fastify writes for us are a mess, and they hide four different problems.
 
 ### 1. The arguments order is reversed
 
-This is the key difference between the two loggers.
 Pino's signature is `log.info(mergingObject, message)`, while winston's signature is `log.info(message, meta)`.
 
 Fastify is built around pino, so every log line it writes for you uses the pino order.
@@ -106,14 +104,14 @@ reply.log.info(
 You can extend this class and override each method to change the level, the payload or even drop a line. I wrote all about it in [_"Your health check is writing a million log lines a month"_](https://backend.cafe/million-log-lines-a-month), so keep it in mind, we will need it later.
 
 Winston receives an object as the message and a string as extra metadata, so it stores the object in the `message` field and drops the string.
-The result is that the `incoming request` and `request completed` messages are **gone**.
+So the `incoming request` and `request completed` messages are lost.
 
 ### 2. The serializers are not applied
 
-Have you noticed how small pino's `req` field is? That is because Fastify registers pino [serializers](https://fastify.dev/docs/latest/Reference/Logging/#log-serializers) for the `req`, `res` and `err` keys, which pick just a few useful fields.
+Pino's `req` field is small because Fastify registers pino [serializers](https://fastify.dev/docs/latest/Reference/Logging/#log-serializers) for the `req`, `res` and `err` keys, which pick a few useful fields.
 
 Fastify adds them by calling `logger.child({}, { serializers })`. Winston's `child()` accepts only the first argument, the default metadata, so the serializers are silently ignored.
-Winston then serializes the **whole** Fastify `Request` and `Reply` objects, including the raw Node.js socket.
+Winston then serializes the whole Fastify `Request` and `Reply` objects, including the raw Node.js socket.
 
 I measured it on my machine (macOS, Node.js v24, Fastify v5, winston v3.19.0), with one `curl` request and the server startup lines excluded:
 
@@ -122,7 +120,7 @@ I measured it on my machine (macOS, Node.js v24, Fastify v5, winston v3.19.0), w
 | pino (`logger: true`) | 3     | 529    |
 | winston, naive setup  | 3     | 14.985 |
 
-That is about **28 times more bytes** for the same request. If your log management platform bills you by volume, you will notice it at the end of the month 💸
+That is about 28 times more bytes for the same request. If your log management platform bills you by volume, you will notice it at the end of the month.
 
 ### 3. The errors are empty
 
@@ -149,7 +147,7 @@ That sounds like a lot of issues, but don't worry, we can fix all of them with t
 1. a custom `LogController` that writes Fastify's log lines with the winston signature and with small `req`, `res` and `err` objects
 2. a Fastify `childLoggerFactory` that applies the route log level
 
-We could go the other way around and teach winston to understand pino calls, but think about who is reading this article: you already have winston code, formats and dashboards. The fix should adapt Fastify to your logger, not your logger to Fastify.
+We could go the other way around and teach winston to understand pino calls, but you already have winston code, formats and dashboards, so the fix should adapt Fastify to your logger.
 
 > **Note**
 > The `logController` option is available since **Fastify v5.10.0**.
@@ -218,7 +216,7 @@ export class WinstonLogController extends LogController {
 }
 ```
 
-Let's break down what's happening:
+The controller does three things:
 
 1. Every method calls `this.isLogDisabled(request)` first. When you override a method you replace the default gate too, so we keep it to respect the `disableRequestLogging` option
 2. The message is the first argument and the metadata is the second one, so winston stores them where they belong
@@ -260,7 +258,7 @@ export function childLoggerFactory(logger, bindings, opts) {
 
 Winston's `child()` itself works by creating a new object on top of the parent with a custom `write` method, so we use the same trick: we wrap the child and drop every line that is less severe than the route level. The `levels` object is the same one we passed to `winston.createLogger()`, and `Symbol.for("level")` is the key where winston stores the level name of each line.
 
-Note that the root `level` still applies, because winston's transports filter the lines too. So with this implementation a route can only be **quieter** than the root logger, not more verbose. For example, a `debug` route under an `info` root logger still prints only `info` and above.
+The root `level` still applies, because winston's transports filter the lines too. So with this implementation a route can only be quieter than the root logger. For example, a `debug` route under an `info` root logger still prints only `info` and above.
 
 ### Putting it all together
 
@@ -307,7 +305,7 @@ await app.listen({ port: 3000 });
 ```
 
 The `createWinstonLogger()` function is a plain `winston.createLogger()` call with our `levels` and the `timestamp()` and `json()` formats, nothing Fastify specific.
-Here we are also using one of winston's best features: transports. Every line goes to the console, and the `error` lines go to the `error.log` file as well.
+The example also uses winston's transports, so every line goes to the console and the `error` lines go to the `error.log` file as well.
 
 Let's call `/hello` again:
 
@@ -346,7 +344,7 @@ The companion project includes a few `node:test` tests that check all of these b
 
 ## Pino vs winston in Fastify
 
-Let's recap the key differences you have to keep in mind:
+Here are all the differences side by side:
 
 |                                         | pino                                | winston                                   |
 | --------------------------------------- | ----------------------------------- | ----------------------------------------- |
@@ -360,9 +358,9 @@ Let's recap the key differences you have to keep in mind:
 | Message key                             | `msg`                               | `message`                                 |
 | Level format                            | number (`30`)                       | string (`"info"`)                         |
 
-The last two rows matter if you have dashboards or alerts built on top of your current logs: the output shape changes, so check your queries before switching.
+If you have dashboards or alerts built on top of your current logs, check the last two rows: the output shape changes, so update your queries before switching.
 
-One more thing: even with `loggerInstance`, Fastify still loads pino internally. Winston replaces the logger you call, not the dependency.
+Even with `loggerInstance`, Fastify still loads pino internally, so pino stays in your dependency tree and winston only replaces the logger you call.
 
 So, should you use winston with Fastify? It depends 😄
 If you are starting a new project, stick with pino: it is the default, Fastify's logging features are designed around it, and you get all of them for free.
@@ -374,10 +372,8 @@ Plugging winston into Fastify takes one line, but making it behave correctly tak
 
 - use the `loggerInstance` option and define the `fatal` and `trace` levels, with `trace` as the highest number
 - remember that Fastify writes its own log lines with the pino signature, `(obj, msg)`, while winston expects `(msg, meta)`
-- extend the `LogController` to rewrite those lines the winston way, with small `req`, `res` and `err` objects, otherwise your logs explode in size and your errors are empty
+- extend the `LogController` to rewrite those lines the winston way, with small `req`, `res` and `err` objects, otherwise your logs grow about 28 times in size and your errors are empty
 - use `childLoggerFactory` if you rely on the route `logLevel` option
-
-Your winston code, formats and transports stay exactly as they are.
 
 All the runnable examples live in the [`bonus/winston-logger`](https://github.com/Eomm/blog-posts/tree/HEAD/bonus/winston-logger) directory of this repository.
 
