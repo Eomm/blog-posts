@@ -1,0 +1,23 @@
+{
+  "name": "winston-logger",
+  "version": "1.0.0",
+  "description": "Use winston as Fastify logger",
+  "main": "02-winston.mjs",
+  "scripts": {
+    "test": "node --test && standard",
+    "pino": "node 00-pino.mjs",
+    "naive": "node 01-naive.mjs",
+    "start": "node 02-winston.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "fastify": "^5.12.8",
+    "winston": "^3.19.0"
+  },
+  "devDependencies": {
+    "standard": "^17.1.2"
+  }
+}
