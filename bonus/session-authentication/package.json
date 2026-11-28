@@ -1,0 +1,26 @@
+{
+  "name": "session-authentication",
+  "version": "1.0.0",
+  "description": "Secure session authentication with Fastify",
+  "main": "server.mjs",
+  "scripts": {
+    "test": "node --test && standard",
+    "start": "node server.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@fastify/cookie": "^11.1.5",
+    "@fastify/csrf-protection": "^8.0.2",
+    "@fastify/formbody": "^9.0.2",
+    "@fastify/helmet": "^13.2.0",
+    "@fastify/rate-limit": "^11.3.0",
+    "@fastify/session": "^11.2.1",
+    "fastify": "^5.12.8"
+  },
+  "devDependencies": {
+    "standard": "^17.1.2"
+  }
+}
